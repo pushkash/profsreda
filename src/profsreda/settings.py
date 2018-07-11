@@ -97,7 +97,7 @@ DATABASES = {
         'NAME': 'profsreda',
         'USER' : 'prof_user',
         'PASSWORD' : "profXsreda2018",
-        'HOST' : 'pushka.postgres.pythonanywhere-services.com',
+        'HOST' : 'pushka-827.postgres.pythonanywhere-services.com',
         'PORT' : '10667',
     }
 }
