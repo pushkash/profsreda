@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+    <!-- About -->
+    <div id="about" class="section">
+
+        <!-- container -->
+        <div class="container">
+
+            <!-- row -->
+
+            {% for obj in objects_list %}
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 course">
+                        <div class="section-header text-center">
+                            <h2>Квест {{ obj.layer.name }}</h2>
+                            <p class="lead">{{ obj.layer.description|safe }}</p>
+                            <div class="progress">
+                                                    <div class="progress-bar disabled"
+                                                         role="progressbar"
+                                                         aria-valuenow="{{ 0 }}"
+                                                         aria-valuemin="0"
+                                                         aria-valuemax="100"
+                                                         style="width:{{ 0 }}%">
+                                                    </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <hr/>
+                        </div>
+                        {% for q,r in obj.rqlist %}
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="card">
+
+                                    <a href="/tests/{{ q.pk }}/" class="course-img">
+                                        <img src="{% static 'img/course02.jpg' %}" alt="">
+                                        <i class="course-link-icon fa fa-link"></i>
+                                        <span class="course-category">{{ q.name }}</span>
+                                    </a>
+
+                                    <div class="course">
+                                        <div class="course-details">
+                                            {% if not r %}
+                                                <div>
+                                                    <p>Последняя попытка:</p>
+                                                    <span>Нет</span>
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar disabled"
+                                                         role="progressbar"
+                                                         aria-valuenow="{{ 0 }}"
+                                                         aria-valuemin="0"
+                                                         aria-valuemax="100"
+                                                         style="width:{{ 0 }}%">
+                                                    </div>
+                                                </div>
+
+                                            {% else %}
+                                                <div>
+                                                    <p>Последняя попытка:</p>
+                                                    <span>{{ r.created }}</span>
+                                                </div>
+
+                                                <div class="progress">
+                                                    <div class="progress-bar"
+                                                         role="progressbar"
+                                                         aria-valuenow="{{ r.progress }}"
+                                                         aria-valuemin="0"
+                                                         aria-valuemax="100"
+                                                         style="width:{{ r.progress }}%">
+                                                        {{ r.progress }}%
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <hr/>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}

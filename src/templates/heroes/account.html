@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% load account %}
+{% static "" as baseUrl %}
+
+{% user_display user %}
+
+{% block content %}
+
+
+    <div class="wrapper container">
+        <div class="row">
+
+        <div class="col-md-12">
+        <div class="section-header text-center">
+            <h2>Сундук</h2>
+        </div>
+        </div>
+
+
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-3">
+                <div class="media">
+
+                    <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
+                        <img src="{% static slots.slot1 %}"
+                         class="media-object img-responsive full-width">
+                    </div>
+
+                    <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
+                    <img src="{% static slots.slot2 %}"
+                         class="media-object img-responsive full-width">
+                    </div>
+
+                    <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
+                        <img src="{% static slots.slot3 %}"
+                         class="media-object img-responsive full-width">
+                    </div>
+
+                    <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
+                        <img src="{% static slots.slot4 %}"
+                         class="media-object img-responsive full-width">
+                    </div>
+
+                    <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
+                    <img src="{% static slots.slot5 %}"
+                         class="media-object img-responsive full-width">
+                    </div>
+                </div>
+
+                <a href="/profile/random/">
+                <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px;">
+                    Случайный выбор
+                </button>
+                </a>
+
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+
+            <div class="col-md-6">
+                <div>
+                    <div class="section-header text-center" style="margin-top: 15px;">
+                        <p class="lead">Предметы в наличии</p>
+                    </div>
+                        {% for item in items %}
+                        <div class="col-md-3">
+                            <div class="card">
+                            <a href="/accounts/profile/item/{{ item.pk }}">
+                            <img class="media-object img-responsive full-width"
+                                 style="
+                                    border-radius: 4px;
+                                    border: deepskyblue 1px solid"
+                                 src={% static item.icon %}
+                            >
+                            </a>
+                            <div class="card-text">
+                                <p style="
+                                text-align: center;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                -o-text-overflow: ellipsis;
+                                line-height: 1.5em;
+                                height: 3em;
+
+                                ">
+                                    {{ item.name }}</p>
+                            </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

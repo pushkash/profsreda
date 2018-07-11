@@ -1,0 +1,24 @@
+version: '2'
+services:
+  db:
+    image: postgres:10
+    container_name: database
+    ports:
+      - "5432:5432"
+    volumes:
+      - /opt/profsreda/data:/var/lib/postgresql/data
+      - /opt/profsreda/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+
+  profsreda:
+    image: samigullin/profsreda:5
+    container_name: profsreda
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 10; done; /src/utils/start.sh'
+    environment:
+      - DB_USER:'prof_user'
+      - DB_PASSWORD:'profXsreda2018'
+      - DB_NAME:'profsreda'
+      - MODE:'dev'
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

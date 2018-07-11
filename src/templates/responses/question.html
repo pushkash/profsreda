@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+        <!-- container -->
+        <div class="container">
+
+            <!-- row -->
+            <div class="row">
+
+                <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
+                    <div class="text-center">
+                        <h2>Тест {{ questionnaire.name }}</h2>
+                        <hr style="
+                            background-color: red;
+                            color: red;
+                            border-top: red solid 1px;"/>
+                    </div>
+                    <div>
+
+
+                        <div class="media">
+                        <div style="margin-left: {{ progress }}%; max-width: 200px;">
+                        <!--<div id="walk-container">
+                            <div id="walk"></div>
+                        </div> -->
+
+
+
+                        {% if step_img == 1 %}
+
+
+
+                          <img class="media-object"
+                                src="{% static 'img/game/sprite/1-1.png' %}"
+                                style="height: 150px; margin-left: -42px;"
+                            >
+                        {% elif step_img == 2 %}
+                            <img class="media-object"
+                                 src="{% static 'img/game/sprite/1-2.png' %}"
+                                 style="height: 150px; margin-left: -42px;"
+                            >
+                        {% elif step_img == 3 %}
+                            <img class="media-object"
+                                 src="{% static 'img/game/sprite/2-1.png' %}"
+                                 style="height: 150px; margin-left: -42px;"
+                            >
+                        {% elif step_img == 4 %}
+                            <img class="media-object"
+                                 src="{% static 'img/game/sprite/2-2.png' %}"
+                                 style="height: 150px; margin-left: -42px;"
+                            >
+                        {% elif step_img == 5 %}
+                            <img class="media-object"
+                                 src="{% static 'img/game/sprite/2-3.png' %}"
+                                 style="height: 150px; margin-left: -42px;"
+                            >
+                        {% elif step_img == 6 %}
+                            <img class="media-object"
+                                 src="{% static 'img/game/sprite/2-4.png' %}"
+                                 style="height: 150px; margin-left: -42px;"
+                            >
+                        {% elif step_img == 7 %}
+                            <img class="media-object"
+                                 src="{% static 'img/game/sprite/3-1.png' %}"
+                                 style="height: 150px; margin-left: -42px;"
+                            >
+                        {% elif step_img == 8 %}
+                            <img class="media-object"
+                                 src="{% static 'img/game/sprite/3-2.png' %}"
+                                 style="height: 150px; margin-left: -42px;"
+                            >
+                        {% elif step_img == 9 %}
+                            <img class="media-object"
+                                 src="{% static 'img/game/sprite/4.png' %}"
+                                 style="height: 150px; margin-left: -42px;"
+                            >
+
+                        {% endif %}
+                        </div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}"
+                                aria-valuemin="0" aria-valuemax="100" style="width:{{ progress }}%">
+                                {{ progress }}%
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                          <p><b>Вопрос {{ current }} из {{ last }} &nbsp;</b></p>
+
+                        <p>
+                            {{ question }}</p>
+                    </div>
+
+                    <div class="col-md-12">
+                        <form action="/tests/{{ questionnaire.pk }}/{{ next }}/" method="post" >
+                            {{ form | crispy }}
+                            {% csrf_token %}
+                            <!--<input type='submit' class="main-button" value="Следующий">-->
+                        </form>
+                    </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+{% endblock %}

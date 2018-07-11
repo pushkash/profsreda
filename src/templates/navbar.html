@@ -1,0 +1,43 @@
+{% load static %}
+<!-- Header -->
+		<header id="header" class="nav">
+			<div class="container">
+
+				<div class="navbar-header">
+					<!-- Logo -->
+					<div class="navbar-brand">
+						<a class="logo" href="/">
+							<img src="{% static 'img/logo.png' %}" alt="logo">
+						</a>
+					</div>
+					<!-- /Logo -->
+
+					<!-- Mobile toggle -->
+					<button class="navbar-toggle">
+						<span></span>
+					</button>
+					<!-- /Mobile toggle -->
+				</div>
+
+				<!-- Navigation -->
+				<nav id="nav">
+					<ul class="main-menu nav navbar-nav navbar-right">
+						<li><a href="/">Главная</a></li>
+                        {% if user.is_authenticated %}
+
+                            <li><a href="/tests/">Тесты</a></li>
+                            <li><a href="/profile/">Сундук</a></li>
+                            <li><a href="/accounts/logout/">Выход</a></li>
+
+                        {% else %}
+
+                            <li><a href="/accounts/login/">Вход</a></li>
+						    <li><a href="/accounts/signup/">Регистрация</a></li>
+
+                        {% endif %}
+					</ul>
+				</nav>
+				<!-- /Navigation -->
+
+			</div>
+		</header>

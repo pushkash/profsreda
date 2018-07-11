@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    {% if error %}
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
+                <div class="text-center">
+                    <h2>Результаты теста <br/> {{ questionnaire.name }} не удалось загрузить</h2>
+                    <a href="/tests/">
+                        <button class="main-button">Другие тесты</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+
+
+        {% if no_item == False %}
+
+            <div id="overlay"
+                 style="position: fixed;
+             display: block;
+             width: 100%;
+             height: 100%;
+             top: 0;
+             left: 0;
+             right: 0;
+             bottom: 0;
+             background-color: rgba(0,0,0,0.5);
+             z-index: 300;
+             cursor: pointer;">
+
+
+                <div class="text-center"
+                     style="margin-top: 5%;">
+
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-4"
+                             style="background: white; padding: 20px; border-radius: 6px;">
+                            <div class="card">
+                                <h2>Вы получили предмет!</h2>
+                                <img class="media-object img-responsive"
+                                     style="
+                                    border-radius: 4px;
+                                    max-height: 350px;
+                                    max-width: 350px;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                    border: deepskyblue 1px solid;"
+                                     src={% static item_icon %}
+                                >
+                                <div class="card-text">
+                                    <p style="
+                                text-align: center;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                -o-text-overflow: ellipsis;
+                                line-height: 1.5em;
+                                height: 3em;
+
+                                ">
+                                        {{ item_name }}</p>
+
+                                </div>
+                                <button class="main-button" onclick="off()">Хорошо</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function on() {
+                    document.getElementById("overlay").style.display = "block";
+                }
+
+                function off() {
+                    document.getElementById("overlay").style.display = "none";
+                }
+            </script>
+
+        {% endif %}
+
+        <!-- container -->
+        <div class="container">
+
+            <!-- row -->
+            <div class="row">
+
+                <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
+                    <div class="text-center">
+                        <h2>Результаты теста <br/> {{ questionnaire.name }}</h2>
+                        <hr style="
+                            background-color: red;
+                            color: red;
+                            border-top: red solid 1px;"/>
+                    </div>
+                    <div>
+                        <div>
+
+                            {% if questionnaire.pk == 1 %}
+                                <h5>Уровень коммуникационных способностей: {{ com_level }}</h5>
+                                <div class="progress">
+                                    <div class="progress-bar"
+                                         role="progressbar"
+                                         aria-valuenow="{{ com_score }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                         style="width:{{ com_score }}%">
+                                        {{ com_score }}%
+                                    </div>
+                                </div>
+                                <p>{{ question }}</p>
+
+                                <h5>Уровень организационных способностей: {{ org_level }}</h5>
+
+                                <div class="progress">
+                                    <div class="progress-bar"
+                                         role="progressbar"
+                                         aria-valuenow="{{ org_score }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                         style="width:{{ org_score }}%">
+                                        {{ org_score }}%
+                                    </div>
+                                </div>
+                                <p>{{ question }}</p>
+
+
+                            {% elif questionnaire.pk == 2 %}
+                                <h4>Доминирующая модальность: &nbsp;&nbsp; {{ category|safe }}</h4>
+
+                                <!-- относительно профессий -->
+                                <h5 style="color: red; margin-top: 30px; margin-bottom: 8px;">Про модальность</h5>
+                                <p>{{ main_description|safe }}</p>
+
+                                <h5 style="color: red; margin-top: 30px; margin-bottom: 8px;">Выбор профессии</h5>
+                                <p>{{ descr1|safe }}</p>
+
+                                <h5 style="color: red; margin-top: 30px; margin-bottom: 8px;">Что характерно</h5>
+                                <p>{{ descr2|safe }}</p>
+
+                            {% endif %}
+                            <a href="/tests/">
+                                <button class="main-button" autofocus>Другие тесты</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}
