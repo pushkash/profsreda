@@ -93,12 +93,12 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'profsreda',
         'USER' : 'prof_user',
         'PASSWORD' : "profXsreda2018",
-        'HOST' : 'db',
-        'PORT' : '5432',
+        'HOST' : 'pushka-827.postgres.pythonanywhere-services.com',
+        'PORT' : '10827',
     }
 }
 
@@ -152,6 +152,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+#STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 
 SITE_ID = 1
 
@@ -191,4 +193,3 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
