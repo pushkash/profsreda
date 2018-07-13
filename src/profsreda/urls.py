@@ -34,4 +34,5 @@ urlpatterns = [
     path('tests/<int:questionnaire>/<int:question>/', response_view.question_view),
     path('tests/<int:questionnaire>/', response_view.start_response_view),
     path('tests/', test_view.QuestionnaireListView.as_view()),
+    path("questionnaire/", include("questionnaire.urls"))
 ]

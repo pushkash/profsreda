@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = '*^&z58vxvb6qr8(*2emxud-)rv-rb!1(%@uqbti=3u9mrn18(l'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -42,12 +40,12 @@ INSTALLED_APPS = [
     'questionnaire',
     'questionnaire_responses',
 
-    #3rd party
+    # 3rd party
     'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    #'allauth.socialaccount.providers.vk',
+    # 'allauth.socialaccount.providers.vk',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'profsreda.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -93,15 +90,14 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'profsreda',
-        'USER' : 'prof_user',
-        'PASSWORD' : "profXsreda2018",
-        'HOST' : 'pushka-827.postgres.pythonanywhere-services.com',
-        'PORT' : '10827',
+        'USER': 'prof_user',
+        'PASSWORD': "profXsreda2018",
+        'HOST': '5.200.35.96',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -129,7 +125,6 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -143,7 +138,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -152,7 +146,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-#STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 SITE_ID = 1
@@ -160,7 +154,7 @@ SITE_ID = 1
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -186,7 +180,6 @@ if MODE == 'prod':
 
     ACCOUNT_EMAIL_VERIFICATION = "mandatory"
     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
-
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True

@@ -10,7 +10,6 @@ class Questionnaire(models.Model):
     description = models.TextField(
         verbose_name="Описание"
     )
-
     answers_type = models.ForeignKey(
         'AnswerType',
         on_delete=models.PROTECT,
@@ -25,9 +24,37 @@ class Questionnaire(models.Model):
     def __str__(self):
         return self.name
 
+    def dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "questions": self.questions(),
+        }
+
     def questions(self):
-        if self.pk:
-            return Question.objects.filter(questionnaire=self.pk)
+        if self.id:
+            questions = []
+            for question in Question.objects.filter(questionnaire=self.id):
+                questions.append({
+                    "sort_id": question.sort_id,
+                    "text": question.text,
+                    "answers": [
+                        {
+                            "value": 0,
+                            "transcript": "Нет",
+                            "weight": 1,
+                            "category": "Тип 1"
+                        },
+                        {
+                            "value": 1,
+                            "transcript": "Да",
+                            "weight": 1,
+                            "category": "Тип 2"
+                        },
+                    ],
+                })
+            return questions
         else:
             return None
 
