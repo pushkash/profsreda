@@ -89,13 +89,21 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # }
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'profsreda',
+    #     'USER': 'prof_user',
+    #     'PASSWORD': "profXsreda2018",
+    #     'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
+    #     'PORT': '10827',
+    # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'profsreda',
-        'USER': 'prof_user',
-        'PASSWORD': "profXsreda2018",
-        'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
-        'PORT': '10827',
+        'USER' : 'prof_user',
+        'PASSWORD' : "profXsreda2018",
+        'HOST' : '127.0.0.1', #'pushka-827.postgres.pythonanywhere-services.com'
+        'PORT' : '5432',
     }
 }
 
