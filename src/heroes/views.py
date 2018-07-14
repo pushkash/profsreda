@@ -12,7 +12,7 @@ def home(request):
     return render(request, template_name='heroes/main.html')
 
 
-def test(request):
+def customProfileCreation(request):
 
     if request.method == "GET":
         form = CustomUserCreationForm()
