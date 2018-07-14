@@ -32,7 +32,7 @@ def customProfileCreation(request):
             profile = Profile.objects.create(user=user)
             profile.user = user
             profile.sex = sex
-            #profile.grade = grade
+            profile.grade = grade
             slots = json.dumps(
                 {
                     "slot{}".format(x):
