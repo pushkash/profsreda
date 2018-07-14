@@ -2,7 +2,7 @@ import json
 from random import shuffle
 from django.shortcuts import render, redirect
 from heroes.models import ItemUser, Profile, Item
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, UpdateUserProfile
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -138,3 +138,11 @@ def profile_item(request, item_pk):
     except Exception as e:
         print(e.args[0])
         return profile(request)
+
+def update_user_profile(request):
+    if request.method == "GET":
+        form = UpdateUserProfile(request.user)
+        return render(request,
+                      context=locals(),
+                      template_name='update_user_profile.html')
+

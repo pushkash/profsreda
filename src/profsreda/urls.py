@@ -35,5 +35,6 @@ urlpatterns = [
     path('tests/<int:questionnaire>/', response_view.start_response_view),
     path('tests/', test_view.QuestionnaireListView.as_view()),
     path("questionnaire/", include("questionnaire.urls")),
-    path('signup/', hero_view.customProfileCreation, name="signup")
+    path('signup/', hero_view.customProfileCreation, name="signup"),
+    path('accounts/profile/update', hero_view.update_user_profile, name="update_profile")
 ]

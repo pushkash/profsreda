@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+
+{% block content %}
+
+	<div id="about" class="section">
+<!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2>Редактирование профиля</h2>
+
+                <form class="signup" id="signup_form" method="post" action="{% url 'account_profile' %}">
+                    <!--account_signup-->
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+
+                    <button type="submit" class="main-button icon-button">Сохранить</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+        </div>
+
+{% endblock %}
