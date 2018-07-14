@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+        <!-- container -->
+        <div class="container">
+
+            <!-- row -->
+            <div class="row test">
+
+                <div class="test-header">
+                    <div class="text-center">
+                        <h2>Тест OZV {{ questionnaire.name }}</h2>
+                    </div>
+                </div>
+                <div class='test-body'>
+                    <div class='test-progress'>
+                    </div>
+
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}

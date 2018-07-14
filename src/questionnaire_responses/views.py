@@ -199,5 +199,5 @@ def question_view(request, questionnaire, question, resp_obj=None):
             'sprite': int(progress - progress/(progress**2+1)),
             'step_img': step_img
         },
-    template_name='responses/question.html'
+    template_name='responses/tester.html'
     )
