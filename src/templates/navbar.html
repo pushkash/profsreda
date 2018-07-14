@@ -6,9 +6,17 @@
 				<div class="navbar-header">
 					<!-- Logo -->
 					<div class="navbar-brand">
-						<a class="logo" href="/">
+						{% comment %} <a class="logo" href="/">
 							<img src="{% static 'img/logo.png' %}" alt="logo">
-						</a>
+						</a> {% endcomment %}
+
+						<div class="logo-wrapper"> 
+							<a href="/">
+								<div class="logo2">
+									профсреда
+								</div> 
+							</a> 
+						</div> 
 					</div>
 					<!-- /Logo -->
 
@@ -26,7 +34,7 @@
                         {% if user.is_authenticated %}
 
                             <li><a href="/tests/">Тесты</a></li>
-                            <li><a href="/profile/">Сундук</a></li>
+                            <li><a href="/profile/">Инвентарь</a></li>
                             <li><a href="/accounts/logout/">Выход</a></li>
 
                         {% else %}
