@@ -16,7 +16,7 @@ def test(request):
 
     if request.method == "GET":
         form = CustomUserCreationForm()
-        return render(request, "custom_signup.html", {"form": form})
+        return render(request, "signup.html", {"form": form})
 
     elif request.method == "POST":
         form = CustomUserCreationForm(request.POST)
