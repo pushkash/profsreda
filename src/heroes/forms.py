@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class CustomUserCreationForm(forms.Form):
 
-    GRADES = [(x, x) for x in range(1, 12)]
+    GRADES = [(str(x), x) for x in range(1, 12)]
 
     email = forms.EmailField()
 

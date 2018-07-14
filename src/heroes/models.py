@@ -32,6 +32,11 @@ class Profile(models.Model):
         null=True,
         blank=True
     )
+    # grade = models.CharField(
+    #     max_length=2,
+    #     null=True,
+    #     blank=True
+    # )
     sex = models.CharField(
         max_length=1,
         choices=SEX,
