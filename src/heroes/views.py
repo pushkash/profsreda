@@ -57,6 +57,13 @@ def profile(request):
     hero_profile = Profile.objects.get(user=request.user)
     slots = json.loads(hero_profile.slots)
 
+    if hero_profile.sex == "F":
+        sex = "женский"
+    elif hero_profile.sex == "M":
+        sex = "мужской"
+    else:
+        sex = "неуказан"
+
     return render(request,
                   context=locals(),
                   template_name='heroes/account.html')

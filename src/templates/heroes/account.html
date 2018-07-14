@@ -18,9 +18,9 @@
         </div>
 
 
-            <div class="col-md-1">
+            <!--<div class="col-md-1">
                 &nbsp;
-            </div>
+            </div>-->
             <div class="col-md-3">
                 <div class="media">
 
@@ -57,9 +57,31 @@
                 </a>
 
             </div>
-            <div class="col-md-1">
+            <!--<div class="col-md-1">
                 &nbsp;
+            </div>-->
+
+            <!-- Информация о профиле -->
+            <div class="col-md-3">
+
+                <div class="section-header" style="margin-top: 15px;">
+                    <p class="lead">Ваша информация</p>
+                </div>
+
+                <div>
+                    <p>Пол: {{ sex }}</p>
+                    <p>Класс: {{ hero_profile.grade }}</p>
+                </div>
+
+                <br>
+
+                <a href="/">
+                    <button class="btn btn-danger" type="submit">Изменить</button>
+                </a>
+
             </div>
+
+
 
             <div class="col-md-6">
                 <div>
