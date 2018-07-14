@@ -1,5 +1,6 @@
 from .models import Profile
 from django.contrib.auth.forms import UserCreationForm
+
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -52,4 +53,48 @@ class CustomUserCreationForm(forms.Form):
         grade = self.cleaned_data["grade"]
         password1 = self.cleaned_data['password1']
         password2 = self.cleaned_data['password2']
+
+
+class UpdateUserProfile(forms.Form):
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(UpdateUserProfile, self).__init__(*args, **kwargs)
+
+
+    GRADES = [(str(x), x) for x in range(1, 12)]
+
+    sex = forms.ChoiceField(widget=forms.RadioSelect, choices=Profile.SEX, label="Укажите пол")
+
+    grade = forms.ChoiceField(widget=forms.Select, choices=GRADES, label="Укажите класс")
+
+    current_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль")
+
+    new_password = forms.CharField(widget=forms.PasswordInput, label="Введите новый пароль")
+
+    confirm_new_password = forms.CharField(widget=forms.PasswordInput, label="Подтвердите новый пароль")
+
+    class Meta:
+        model = User
+        fields = ("sex", "grade", "current_password", "new_password", "confirm_new_password")
+
+
+    def clean_password(self):
+        current_password = self.cleaned_data["current_password"]
+        new_password = self.cleaned_data["new_password"]
+        confirm_new_password = self.cleaned_data["confirm_new_password"]
+
+        if current_password != User.objects.get(id=self.user.id):
+            raise forms.ValidationError("Указан неправильный текущий пароль")
+
+        if new_password != confirm_new_password:
+            raise forms.ValidationError('Новый пароль не совпадает')
+
+    def save(self):
+        sex = self.cleaned_data['sex']
+        grade = self.cleaned_data['grade']
+        current_password = self.cleaned_data['current_password']
+        new_password = self.cleaned_data["new_password"]
+        confirm_new_password = self.cleaned_data["confirm_new_password"]
+
 
