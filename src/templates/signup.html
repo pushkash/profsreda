@@ -16,7 +16,7 @@
             <div class="col-md-6">
                 <h2>{% trans "Sign Up" %}</h2>
 
-                <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+                <p>{% blocktrans %}Уже зарегистрированы? <a href="/accounts/login">Войдите</a>.{% endblocktrans %}</p>
 
                 <form class="signup" id="signup_form" method="post" action="{% url 'signup' %}">
                     <!--account_signup-->
