@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" >
 
     <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base-style.css' %}"/>
     <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"/>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -50,11 +51,12 @@
 
 </head>
 <body>
-    <div>
+    <div class='page-wrapper'>
         {% include 'navbar.html' %}
-
-        {% block content %}
-        {% endblock %}
+        <div class='page-content'>
+            {% block content %}
+            {% endblock %}
+        </div>
 
         {% include 'footer.html' %}
     </div>
