@@ -97,8 +97,8 @@ DATABASES = {
         'NAME': 'profsreda',
         'USER' : 'prof_user',
         'PASSWORD' : "profXsreda2018",
-        'HOST' : 'pushka-827.postgres.pythonanywhere-services.com',
-        'PORT' : '10827',
+        'HOST' : 'localhost',
+        'PORT' : '5432',
     }
 }
 
@@ -123,6 +123,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
     'django.contrib.auth.backends.ModelBackend',
 
     # `allauth` specific authentication methods, such as login by e-mail
