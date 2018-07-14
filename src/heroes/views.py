@@ -46,7 +46,7 @@ def customProfileCreation(request):
             return redirect("account_profile")
 
         else:
-            return HttpResponse(500)
+            return render(request, "signup.html", {"form": form})
 
 
 def profile(request):
