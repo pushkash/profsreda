@@ -91,7 +91,10 @@ class UpdateUserProfile(forms.Form):
         new_password = self.cleaned_data["new_password"]
         confirm_new_password = self.cleaned_data["confirm_new_password"]
 
-        if new_password and confirm_new_password and new_password != confirm_new_password:
+        if (new_password and not confirm_new_password) or (not new_password and confirm_new_password):
+            raise forms.ValidationError("Новый пароль не указан")
+
+        if (new_password and confirm_new_password) and new_password != confirm_new_password:
             raise forms.ValidationError('Новый пароль не совпадает')
 
         return new_password
