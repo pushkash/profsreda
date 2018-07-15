@@ -6,7 +6,7 @@
         <div class="container">
 
             <!-- row -->
-            <div class="row test">
+            <div class="test">
 
                 <div class="test-header">
                     <div class="text-center">
@@ -14,21 +14,64 @@
                     </div>
                 </div>
                 <div class='test-body'>
-                    <div class='test-progress'>
+                    <div id='test-loader' hidden>
                     </div>
 
-                    <div class='test-question'>
+
+                    <div class='test-start text-center' hidden>
+                        <div class='test-description test-text'>
+                            {{ questionnaire.description }}
+                        </div>
+
+                        <div class='test-start-button'>
+                            <div id='start-button' class='main-button'>Начать тест</div>
+                            <div id='restart-button' class='main-button'>Продолжить тест</div>
+                            <div id='continue-button' class='main-button'>Пройти тест заново</div>
+                        </div>
                     </div>
 
-                    <div class='test-answers'>
-                        <div id='answer-buttons'></div>
+
+                    <div id='test-view' class='test-in-progress' >
+                        <div id='test-progress'>
+                        <span>Вопрос:</span>
+                        <span>1</span>
+                        из
+                        <span>10</span>
+                        </div>
+
+                        <div id='test-question' class='test-text'>
+                        {{ questionnaire.description }}
+                        </div>
+
+                        <div class='test-answers text-center'>
+                            <div id='answer-buttons'>
+                                <button class='btn btn-default btn-lg'>Да</button>
+                                <button class='btn btn-default btn-lg'>Нет</button>                                 
+                            </div>
+                        </div>
                     </div>
 
+
+                    <div id='test-error' hidden> 
+                        <div class='test-error-icon'></div>
+                        <div class='test-error-text'></div>
+                        <div class='test-reload-btn'></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <script>
+        <script type="text/javascript">
+
+        document.addEventListener("DOMContentLoaded", (e) => { 
+            
+            let tc = new TestController(1);
+            tc.startTest()
+
+
+        });
+           
+
     
         </script>
 {% endblock %}

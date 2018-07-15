@@ -57,6 +57,20 @@ body {
 /* Tester page */
 /* ------ */
 
+.test-body {
+	/* display: flex; */
+	padding-top: 20px
+}
+
+.test-body > div {
+	/* position: absolute;
+    top: 50%;
+	transform: translateY(-50%); */
+	max-width: 800px;
+	margin: auto;
+	
+}
+
 .test-header {
 	padding: 10pt;
 	border-bottom: 1pt solid #f23333
@@ -65,3 +79,31 @@ body {
 .page-content > div {
 	height: 100%;
 }
+
+.test-start {
+	padding-top: 30px;
+}
+
+.test-body > div > div{
+	margin-bottom: 30px;
+}
+
+.test-text {
+	display: inline-block;
+	
+	text-align: left;
+	line-height: 2;
+}
+
+.main-button {
+	cursor: pointer;
+}
+
+#test-view button {
+	min-width: 96px;
+	background: #eee;
+	font-weight: bold;
+	display: inline-block;
+	margin-bottom: 8px
+}
+
