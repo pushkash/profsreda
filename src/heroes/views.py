@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
+from django.template.loader import render_to_string, get_template
+from django.template import Context
 import random
 
 def home(request):
@@ -27,7 +29,9 @@ def customProfileCreation(request):
             sex = form.cleaned_data['sex']
             grade = form.cleaned_data['grade']
 
+
             user = User.objects.create_user(username, email, form.cleaned_data['password2'])
+
             user.save()
 
             profile = Profile.objects.create(user=user)
@@ -43,13 +47,22 @@ def customProfileCreation(request):
             profile.slots = slots
             profile.save()
 
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+            ctx = {
+                "username": user.username,
+                "site": request.META['HTTP_HOST']
+            }
+            subject = "Регистрация на портале Профсреда"
+            to = user.email
+            message_text = render_to_string('email_template.txt', ctx)
+            message_html = render_to_string("email_template.html", ctx)
+
             # try:
-            send_mail('Регистрация на профсреде', 'ПРЕВЕД', "info.profsreda@gmail.com", ["sm.pushkarev@gmail.com"],
-                      fail_silently=False)
+            send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
+                      fail_silently=False, html_message=message_html)
             # except Exception as e:
             #     print(e)
-
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             return redirect("account_profile")
 
@@ -70,6 +83,7 @@ def profile(request):
         sex = "мужской"
     else:
         sex = "неуказан"
+
 
 
     return render(request,
