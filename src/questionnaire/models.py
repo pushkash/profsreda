@@ -10,6 +10,10 @@ class Questionnaire(models.Model):
     description = models.TextField(
         verbose_name="Описание"
     )
+    image = models.ImageField(
+        upload_to="questionnaires/images/",
+        help_text="Questionnaire image"
+    )
     answers_type = models.ForeignKey(
         'AnswerType',
         on_delete=models.PROTECT,
