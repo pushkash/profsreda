@@ -180,7 +180,7 @@ if MODE == 'prod':
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     DEFAULT_FROM_EMAIL = 'info.profsreda@gmail.com'
 
-    ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+    #ACCOUNT_EMAIL_VERIFICATION = "mandatory"
     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
