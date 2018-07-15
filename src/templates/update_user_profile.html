@@ -2,7 +2,6 @@
 
 {% load i18n %}
 
-
 {% block content %}
 
 	<div id="about" class="section">
@@ -15,15 +14,16 @@
             <div class="col-md-6">
                 <h2>Редактирование профиля</h2>
 
-                <form class="signup" id="signup_form" method="post" action="{% url 'account_profile' %}">
+                <form class="signup" id="signup_form" method="post" action="{% url 'update_profile' %}">
                     <!--account_signup-->
                     {% csrf_token %}
                     {{ form.as_p }}
-                    {% if redirect_field_value %}
+                    <!--{% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                    {% endif %}
+                    {% endif %}-->
 
                     <button type="submit" class="main-button icon-button">Сохранить</button>
+                    <a href="{% url 'account_profile' %}"><button type="button" class="main-button icon-button">Отмена</button></a>
                 </form>
 
             </div>

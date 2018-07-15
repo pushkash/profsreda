@@ -141,8 +141,55 @@ def profile_item(request, item_pk):
 
 def update_user_profile(request):
     if request.method == "GET":
-        form = UpdateUserProfile(request.user)
+        hero_profile = Profile.objects.get(user_id=request.user.id)
+
+        form = UpdateUserProfile(initial={"grade": hero_profile.grade, "sex": hero_profile.sex})
+
         return render(request,
                       context=locals(),
                       template_name='update_user_profile.html')
+
+    elif request.method == "POST":
+        form = UpdateUserProfile(request.POST)
+        user = User.objects.get(id=request.user.id)
+
+        current_password = request.POST.get("current_password")
+
+        if request.POST.get("current_password") != None:
+            if user.check_password(current_password) == False:
+                form.set_current_password_flag()
+
+        if form.is_valid():
+            hero_profile = Profile.objects.get(user_id=request.user.id)
+            sex = form.cleaned_data["sex"]
+            grade = form.cleaned_data["grade"]
+            current_password = form.cleaned_data["current_password"]
+            new_password = form.cleaned_data["new_password"]
+            confirm_new_password = form.cleaned_data["new_password"]
+
+
+            if sex != hero_profile.sex:
+                slots = json.dumps(
+                    {
+                        "slot{}".format(x):
+                            "img/game/avatar/" + sex + "/0{}.png".format(x) for x in range(1, 6)
+                    })
+
+                hero_profile.slots = slots
+                hero_profile.sex = sex
+
+            if grade != hero_profile.grade:
+                hero_profile.grade = grade
+
+            hero_profile.save()
+
+            if current_password and new_password and confirm_new_password:
+                user.set_password(confirm_new_password)
+                user.save()
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+            return redirect("account_profile")
+
+        else:
+            return render(request, template_name="update_user_profile.html", context=locals())
 

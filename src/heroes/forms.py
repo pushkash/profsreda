@@ -57,10 +57,7 @@ class CustomUserCreationForm(forms.Form):
 
 class UpdateUserProfile(forms.Form):
 
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super(UpdateUserProfile, self).__init__(*args, **kwargs)
-
+    current_password_flag = True
 
     GRADES = [(str(x), x) for x in range(1, 12)]
 
@@ -68,27 +65,37 @@ class UpdateUserProfile(forms.Form):
 
     grade = forms.ChoiceField(widget=forms.Select, choices=GRADES, label="Укажите класс")
 
-    current_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль")
+    current_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль", required=False)
 
-    new_password = forms.CharField(widget=forms.PasswordInput, label="Введите новый пароль")
+    new_password = forms.CharField(widget=forms.PasswordInput, label="Введите новый пароль", required=False)
 
-    confirm_new_password = forms.CharField(widget=forms.PasswordInput, label="Подтвердите новый пароль")
+    confirm_new_password = forms.CharField(widget=forms.PasswordInput, label="Подтвердите новый пароль", required=False)
 
     class Meta:
         model = User
         fields = ("sex", "grade", "current_password", "new_password", "confirm_new_password")
 
 
-    def clean_password(self):
+    def set_current_password_flag(self):
+        self.current_password_flag = False
+
+    def clean_current_password(self):
         current_password = self.cleaned_data["current_password"]
+
+        if self.current_password_flag == False:
+            raise forms.ValidationError("Указан неправильный текущий пароль")
+
+        return current_password
+
+    def clean_confirm_new_password(self):
         new_password = self.cleaned_data["new_password"]
         confirm_new_password = self.cleaned_data["confirm_new_password"]
 
-        if current_password != User.objects.get(id=self.user.id):
-            raise forms.ValidationError("Указан неправильный текущий пароль")
-
-        if new_password != confirm_new_password:
+        if new_password and confirm_new_password and new_password != confirm_new_password:
             raise forms.ValidationError('Новый пароль не совпадает')
+
+        return new_password
+
 
     def save(self):
         sex = self.cleaned_data['sex']
