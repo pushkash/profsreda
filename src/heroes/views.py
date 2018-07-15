@@ -6,6 +6,7 @@ from .forms import CustomUserCreationForm, UpdateUserProfile
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.core.mail import send_mail
 import random
 
 def home(request):
@@ -42,6 +43,12 @@ def customProfileCreation(request):
             profile.slots = slots
             profile.save()
 
+            # try:
+            send_mail('Регистрация на профсреде', 'ПРЕВЕД', "info.profsreda@gmail.com", ["sm.pushkarev@gmail.com"],
+                      fail_silently=False)
+            # except Exception as e:
+            #     print(e)
+
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             return redirect("account_profile")
@@ -63,6 +70,7 @@ def profile(request):
         sex = "мужской"
     else:
         sex = "неуказан"
+
 
     return render(request,
                   context=locals(),

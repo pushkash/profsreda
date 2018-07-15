@@ -165,18 +165,26 @@ TEMPLATES = [
 ]
 
 MODE = os.environ.get('MODE')
+MODE = 'prod'
 if MODE == 'dev':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+    EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = 'localhost', 1025, None, None
 
 if MODE == 'prod':
-    EMAIL_HOST_USER = 'profsreda@gmail.com'
-    EMAIL_HOST_PASSWORD = '26kadr_profsreda'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 465
     EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = 'info.profsreda@gmail.com'
+    #EMAIL_HOST_USER = 'sm.pushkarev@gmail.com'
+    EMAIL_HOST_PASSWORD = '26kadr_profsreda'
+    #EMAIL_HOST_PASSWORD = 'zetthhwivrtbgkds'
+    #EMAIL_HOST_PASSWORD = 'k4rLk4rL58'
+    EMAIL_HOST = 'smtp.gmail.com'
+    #EMAIL_PORT = 465
+    EMAIL_PORT = 587
 
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    DEFAULT_FROM_EMAIL = 'profsreda@gmail.com'
+    DEFAULT_FROM_EMAIL = 'info.profsreda@gmail.com'
 
     ACCOUNT_EMAIL_VERIFICATION = "mandatory"
     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
