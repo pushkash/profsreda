@@ -25,7 +25,7 @@ def customProfileCreation(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            username = email.split('@')[0]
+            username = email
             sex = form.cleaned_data['sex']
             grade = form.cleaned_data['grade']
 
