@@ -1,6 +1,5 @@
 from .models import Profile
 from django.contrib.auth.forms import UserCreationForm
-
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -38,6 +37,11 @@ class CustomUserCreationForm(forms.Form):
         # A user was found with this as a username, raise an error.
         raise forms.ValidationError('Этот email уже зарегистрирован')
 
+    def clean_password1(self):
+        password1 = self.cleaned_data['password1']
+        if len(password1) < 8:
+            raise forms.ValidationError('Новый пароль слишком короткий. Он должен содержать минимум 8 символов')
+
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
@@ -67,9 +71,9 @@ class UpdateUserProfile(forms.Form):
 
     current_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль", required=False)
 
-    new_password = forms.CharField(widget=forms.PasswordInput, label="Введите новый пароль", required=False)
+    new_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль", required=False)
 
-    confirm_new_password = forms.CharField(widget=forms.PasswordInput, label="Подтвердите новый пароль", required=False)
+    confirm_new_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль", required=False)
 
     class Meta:
         model = User
@@ -79,25 +83,30 @@ class UpdateUserProfile(forms.Form):
     def set_current_password_flag(self):
         self.current_password_flag = False
 
-    def clean_current_password(self):
+    def clean(self):
         current_password = self.cleaned_data["current_password"]
-
-        if self.current_password_flag == False:
-            raise forms.ValidationError("Указан неправильный текущий пароль")
-
-        return current_password
-
-    def clean_confirm_new_password(self):
         new_password = self.cleaned_data["new_password"]
         confirm_new_password = self.cleaned_data["confirm_new_password"]
 
-        if (new_password and not confirm_new_password) or (not new_password and confirm_new_password):
-            raise forms.ValidationError("Новый пароль не указан")
+        if self.current_password_flag == False:
+            raise forms.ValidationError({"current_password": "Указан неправильный текущий пароль"})
+
+        if not current_password and (new_password or confirm_new_password):
+            raise forms.ValidationError({"current_password": "Не указан текущий пароль"})
+
+        if new_password and not confirm_new_password:
+            raise forms.ValidationError({"confirm_new_password": "Новый пароль не указан"})
+
+        if not new_password and confirm_new_password:
+            raise forms.ValidationError({"new_password": "Новый пароль не указан"})
 
         if (new_password and confirm_new_password) and new_password != confirm_new_password:
-            raise forms.ValidationError('Новый пароль не совпадает')
+            raise forms.ValidationError({"new_password": 'Новый пароль не совпадает'})
 
-        return new_password
+        if len(new_password) < 8:
+            raise forms.ValidationError({"new_password": 'Новый пароль слишком короткий. Он должен содержать минимум 8 символов'})
+
+        return self.cleaned_data
 
 
     def save(self):

@@ -183,12 +183,12 @@ def update_user_profile(request):
 
         if form.is_valid():
             hero_profile = Profile.objects.get(user_id=request.user.id)
+            print(form.cleaned_data)
             sex = form.cleaned_data["sex"]
             grade = form.cleaned_data["grade"]
             current_password = form.cleaned_data["current_password"]
             new_password = form.cleaned_data["new_password"]
             confirm_new_password = form.cleaned_data["new_password"]
-
 
             if sex != hero_profile.sex:
                 slots = json.dumps(
