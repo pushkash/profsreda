@@ -5,14 +5,14 @@ from django.dispatch import receiver
 from questionnaire_responses.models import QuestionnaireResult
 import json
 
-
 class Profile(models.Model):
     SEX = [
-        ("М", "Мужской"),
-        ("Ж", "Женский")
+        ("M", "Мужской"),
+        ("F", "Женский")
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     first_name = models.CharField(
         max_length=400,
         null=True,
@@ -32,6 +32,11 @@ class Profile(models.Model):
         null=True,
         blank=True
     )
+    grade = models.CharField(
+        max_length=2,
+        null=True,
+        blank=True
+    )
     sex = models.CharField(
         max_length=1,
         choices=SEX,
@@ -44,7 +49,7 @@ class Profile(models.Model):
         default=json.dumps(
             {
                 "slot{}".format(x):
-                    "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
+                      "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
             }
         )
     )
@@ -103,16 +108,16 @@ class Profile(models.Model):
         self.slots = json.dumps(slots)
         self.save()
 
+#
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+#
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 
 class Item(models.Model):

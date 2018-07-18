@@ -190,7 +190,7 @@ def question_view(request, questionnaire, question, resp_obj=None):
         request,
         context={
             'questionnaire': Q,
-            'question': q.text,
+            # 'question': q.text,
             'last': last,
             'current': question,
             'next': next,

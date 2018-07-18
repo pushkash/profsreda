@@ -31,6 +31,12 @@ Table OF Contents
 	General
 \*------------------------------------*/
 /* --- typography --- */
+
+@font-face {
+    font-family: logo-font;
+    src: url(../fonts/PTM55FT.ttf);
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
 	font-size: 15px;
@@ -226,20 +232,41 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
     padding: 0;
 }
 
-.navbar-brand .logo {
+/* .navbar-brand .logo {
 	margin-top: 10px;
 	display: inline-block;
 }
 
 .navbar-brand .logo > img {
 	max-height:30px;
-}
+} */
 
 @media only screen and (max-width: 767px) {
 	.navbar-brand {
 		margin-left:15px;
 	}
 } 
+
+
+#header .logo-wrapper div {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.logo-wrapper .logo2 {
+	font-family: logo-font !important;
+	font-size: 1.2em;
+	color:#f23333 !important;
+	font-weight:500;
+}
+
+#footer .logo-wrapper {
+	font-size: 1.4em;
+}
+
+
+
 
 /*------------------------------------*\
 	Navigation

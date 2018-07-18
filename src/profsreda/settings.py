@@ -90,12 +90,12 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'profsreda',
         'USER': 'prof_user',
         'PASSWORD': "profXsreda2018",
-        'HOST': '5.200.35.96',
-        'PORT': '5432',
+        'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
+        'PORT': '10827',
     }
 }
 
