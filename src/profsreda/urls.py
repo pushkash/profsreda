@@ -17,10 +17,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+
 from heroes import views as hero_view
-from questionnaire import views as test_view
-from questionnaire_responses import views as response_view
-from django.conf.urls import include
 
 
 urlpatterns = [
@@ -32,9 +30,6 @@ urlpatterns = [
     path('accounts/profile/', hero_view.profile),
     path('accounts/profile/random/', hero_view.profile_random),
     path('accounts/profile/item/<int:item_pk>/', hero_view.profile_item),
-    path('tests/<int:questionnaire>/result/', response_view.result),
-    path('tests/<int:questionnaire>/<int:question>/', response_view.question_view),
-    path('tests/<int:questionnaire>/', response_view.start_response_view),
-    path('tests/', test_view.QuestionnaireListView.as_view()),
-    path("questionnaire/", include("questionnaire.urls"))
+
+    path("tests/", include("tests.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

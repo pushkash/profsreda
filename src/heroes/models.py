@@ -1,9 +1,9 @@
+import json
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from questionnaire_responses.models import QuestionnaireResult
-import json
 
 
 class Profile(models.Model):
@@ -118,11 +118,6 @@ def save_user_profile(sender, instance, **kwargs):
 class Item(models.Model):
     name = models.CharField(max_length=100)
     icon = models.TextField()
-    variant = models.ForeignKey(
-        QuestionnaireResult,
-        on_delete=models.PROTECT,
-        null=True
-    )
     slot1 = models.TextField(default="", blank=True)
     slot2 = models.TextField(default="", blank=True)
     slot3 = models.TextField(default="", blank=True)
@@ -145,7 +140,7 @@ class Item(models.Model):
 
 class ItemUser(models.Model):
     item = models.ForeignKey(
-        Item,
+        "heroes.Item",
         on_delete=models.PROTECT
     )
     user = models.ForeignKey(
