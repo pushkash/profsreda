@@ -81,6 +81,7 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {                                                      # Production
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
     #     'USER': 'prof_user',
@@ -88,7 +89,7 @@ DATABASES = {
     #     'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
     #     'PORT': '10827',
     # }
-    # 'default': {
+    # 'default': {                                                      # PAW
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
     #     'USER' : 'prof_user',
@@ -97,19 +98,11 @@ DATABASES = {
     #     'PORT' : '5432',
     # }
 
-     'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-   }
-
-
-    
+    'default': {                                                        # Local
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
-#         'PASSWORD': "profXsreda2018",
-#         'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
-#         'PORT': '10827',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
