@@ -1,5 +1,9 @@
+
+
 (function($) {
 	"use strict"
+
+	
 	
 	// Preloader
 	$(window).on('load', function() {
@@ -11,7 +15,7 @@
 		$('#header').toggleClass('nav-collapse')
 	});
 
-	let BASEURL = window.location.origin+window.location.pathname;
+	console.log(BASE_URL)
 
 
 	
@@ -41,7 +45,7 @@ class TestController {
 	}
 
 	getQuestionnaire() {
-		return new PromiseRequest(`../../questionnaire/get_questionnaire/${this.test_id}`).get_json()
+		return new PromiseRequest(`questionnaire/get_questionnaire/${this.test_id}`).get_json()
 		.then( (result) => {
 			this.questions = result.questionnaire.questions
 			console.log(this.questions) 
@@ -58,6 +62,8 @@ class TestController {
 
 	sendAnswer(q_id, a_id) {
 		console.log(`${this.test_id}, ${q_id}, ${a_id}`)
+
+		
 	}
 
 	showQuestion(question_id) {
@@ -83,6 +89,7 @@ class TestController {
 
 class TestView {
 	constructor() {
+		this.progressbar = document.getElementById('test-progress')
 		this.question_container = document.getElementById('test-question');
 		this.answers_container = document.getElementById('answer-buttons');
 	}
@@ -106,23 +113,31 @@ class TestView {
 
 	}
 
+	start_loading() {
+
+	}
+
+	stop_loading() {
+
+	}
+
 
 }
 
 class PromiseRequest {
 	constructor(url) {
 		this.url = url
+		this.BASE_URL = window.location.origin
 	}
 
 	get() {
-		//let target = this
+		let url = this.BASE_URL+this.url
 		return new Promise( (resolve, reject) => {
 			var xobj = new XMLHttpRequest();
 			xobj.overrideMimeType("application/json");
-			xobj.open('GET', this.url, true); 
+			xobj.open('GET', url, true); 
 			xobj.onreadystatechange = function () {
 				if (xobj.readyState == 4 && xobj.status == "200") {
-					console.log('done')
 					resolve(xobj.responseText);
 				}
 			};
@@ -133,5 +148,25 @@ class PromiseRequest {
 	get_json() {
 		return this.get()
 		.then ((result) => JSON.parse(result))
+	}
+
+	push_json( data ) {
+		let url = this.BASE_URL + this.url;
+		let json = JSON.stringify(data);
+		new Promise((resolve, reject) => {
+			let xhr = new XMLHttpRequest();
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+			xhr.onload = function () {
+				let response = JSON.parse(xhr.responseText);
+				if (xhr.readyState == 4 && xhr.status == "201") {
+					resolve(response)
+				} else {
+					reject(response)
+				}
+			}
+			xhr.send(json);
+		})
+		
 	}
 }
