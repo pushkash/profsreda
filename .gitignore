@@ -6,3 +6,4 @@ src/questionnaire/migrations/__pycache__/
 src/questionnaire_responses/migrations/
 src/tests/__pycache__/
 src/tests/migrations/__pycache__/
+.gitignore
