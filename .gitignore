@@ -7,3 +7,5 @@ src/.idea/misc.xml
 src/.idea/src.iml
 src/.idea/workspace.xml
 src/profsreda/settings.py
+.gitignore
+.DS_Store

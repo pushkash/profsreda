@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 
-from tests.models import Test, TestSession, Question, AnswerCategory, Answer
+from tests.models import Test, TestSession, Question, Answer, Response
 
 
 def get_all_tests(request):
@@ -140,22 +140,21 @@ def save_answer(request, test_session_id, question_id):
             question = Question.objects.get(id=question_id)
             # Check if answer for question already exists
             try:
-                current_answer = Answer.objects.get(test_session=test_session,
-                                                    question=question)
+                current_answer = Response.objects.get(test_session=test_session,
+                                                      question=question)
                 return HttpResponse(
                     status=status.HTTP_400_BAD_REQUEST,
                     content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
                     content_type="application/json"
                 )
-            except Answer.DoesNotExist:
-                answer_text = json.loads(request.body.decode("utf-8"))["answer_text"]
+            except Response.DoesNotExist:
+                answer_category_id = json.loads(request.body.decode("utf-8"))["answer_category_id"]
                 # Find answer category with given answer text or return error
                 try:
-                    answer_category = AnswerCategory.objects.get(question=question,
-                                                                 answer_text=answer_text)
-                    answer = Answer.objects.create(test_session=test_session,
-                                                   question=question,
-                                                   answer_text=answer_text)
+                    answer_category = Answer.objects.get(id=answer_category_id)
+                    answer = Response.objects.create(test_session=test_session,
+                                                     question=question,
+                                                     answer_text=answer_category.answer_text)
                     # Change last answered question and save changes
                     test_session.last_answered_question = question
                     test_session.save()
@@ -164,7 +163,7 @@ def save_answer(request, test_session_id, question_id):
                         # TODO: calculate result
                         pass
                     return HttpResponse(status=status.HTTP_200_OK)
-                except AnswerCategory.DoesNotExist:
+                except Answer.DoesNotExist:
                     return HttpResponse(
                         status=status.HTTP_400_BAD_REQUEST,
                         content=json.dumps({"error_message": "Некорректный ответ"}),

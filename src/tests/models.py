@@ -92,38 +92,38 @@ class Question(models.Model):
     def __str__(self):
         return " - ".join([str(self.test), self.text])
 
-    def get_answer_categories(self):
+    def get_answers(self):
         """
-        Returns related answer-category objects
-        :return: QuerySet of related answer-category objects
+        Returns related answer objects
+        :return: QuerySet of related answer objects
         """
-        return AnswerCategory.objects.filter(question=self.id)
+        return Answer.objects.filter(question=self.id)
 
-    def get_answer_category(self, answer_text):
+    def get_answer(self, answer_text):
         """
-        Returns answer-category object with given answer text
-        :param answer_text: key to find answer-category object
-        :return: AnswerCategory with given answer text
+        Returns answer object with given answer text
+        :param answer_text: key to find answer object
+        :return: Answer with given answer text
         """
-        return AnswerCategory.objects.filter(question=self.id,
-                                             answer_text=answer_text)
+        return Answer.objects.filter(question=self.id,
+                                     answer_text=answer_text)
 
     def dict(self):
         """
         Returns all info about question
         :return: dict with all info about question
         """
-        answer_categories = [answer_category.dict() for answer_category in self.get_answer_categories()]
+        answers = [answer.dict() for answer in self.get_answers()]
         question = {
             "id": self.id,
             "text": self.text,
-            "answer_categories": answer_categories
+            "answers": answers
         }
         return question
 
 
-class AnswerCategory(models.Model):
-    answer_text = models.CharField(
+class Answer(models.Model):
+    text = models.CharField(
         max_length=100,
         verbose_name=_("Ответ"),
         help_text=_("Текст ответа")
@@ -146,24 +146,24 @@ class AnswerCategory(models.Model):
     )
 
     class Meta:
-        verbose_name = "Ответ-Категория"
-        verbose_name_plural = "Пары Ответ-Категория"
+        verbose_name = "Ответ"
+        verbose_name_plural = "Ответы"
 
     def __str__(self):
-        return " - ".join([str(self.question), self.answer_text, str(self.category)])
+        return " - ".join([str(self.question), self.text, str(self.category)])
 
     def dict(self):
         """
-        Returns all info about answer-category
-        :return: dict with all info about answer-category
+        Returns all info about answer
+        :return: dict with all info about answer
         """
-        answer_category = {
+        answer = {
             "id": self.id,
-            "answer_text": self.answer_text,
+            "text": self.text,
             "category_id": self.category.id,
             "weight": self.weight
         }
-        return answer_category
+        return answer
 
 
 class Category(models.Model):
@@ -266,20 +266,20 @@ class TestSession(models.Model):
     def __str__(self):
         return " - ".join([str(self.user), str(self.test), "Закончен" if self.is_finished else "Не закончен"])
 
-    def get_answers(self):
+    def get_responses(self):
         """
-        Returns all session answers
-        :return: QuerySet of session answers
+        Returns all session responses
+        :return: QuerySet of session responses
         """
-        return Answer.objects.filter(test_session=self.id)
+        return Response.objects.filter(test_session=self.id)
 
     def check_is_finished(self):
         """
         Checks if test is finished
         :return:
         """
-        # Check if answers count = questions count
-        self.is_finished = Answer.objects.filter(test_session=self).count() == self.test.get_questions().count()
+        # Check if responses count = questions count
+        self.is_finished = Response.objects.filter(test_session=self).count() == self.test.get_questions().count()
         self.save()
         return self.is_finished
 
@@ -295,23 +295,18 @@ class TestSession(models.Model):
         return test_session
 
 
-class Answer(models.Model):
+class Response(models.Model):
     test_session = models.ForeignKey(
         "tests.TestSession",
         on_delete=models.CASCADE,
         verbose_name=_("Тест сессия"),
         help_text=_("Тест сессия, в которую был сделан ответ")
     )
-    question = models.ForeignKey(
-        "tests.Question",
+    answer = models.ForeignKey(
+        "tests.Answer",
         on_delete=models.CASCADE,
-        verbose_name=_("Вопрос"),
-        help_text=_("Вопрос, к которому относится ответ")
-    )
-    answer_text = models.CharField(
-        max_length=100,
-        verbose_name=_("Ответ"),
-        help_text=_("Текст ответа")
+        verbose_name=_("Вариант ответа"),
+        help_text=_("Вариант ответа")
     )
 
     class Meta:
@@ -319,4 +314,4 @@ class Answer(models.Model):
         verbose_name_plural = "Ответы"
 
     def __str__(self):
-        return " - ".join([str(self.test_session), str(self.question), self.answer_text])
+        return " - ".join([str(self.test_session), str(self.answer)])
