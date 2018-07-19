@@ -184,14 +184,43 @@ def save_answer(request, test_session_id, question_id):
 
 
 def get_all_tests_view(request):
+    """
+    Renders test catalog
+    :param request:
+    :return: rendered HTML
+    """
     tests = Test.objects.all()
     return render(request, "responses/tests.html", {"tests": tests})
 
 
 def get_test_view(request, test_id):
+    """
+    Renders test template
+    :param request: request
+    :param test_id: test id to render
+    :return: rendered HTML template
+    """
     try:
         test = Test.objects.get(id=test_id)
         return render(request, "responses/question.html", {"test": test})
+    except Test.DoesNotExist:
+        return HttpResponse(
+            status=status.HTTP_404_NOT_FOUND,
+            content=json.dumps({"error_message": "Теста с таким id не существует"}),
+            content_type="application/json"
+        )
+
+
+def test_overview(request, test_id):
+    """
+    Renders test overview template
+    :param request: http request
+    :param test_id: test id to render overview
+    :return: rendered HTML template
+    """
+    try:
+        test = Test.objects.get(id=test_id)
+        return render(request, "responses/response.html", {"test": test})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
