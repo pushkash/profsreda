@@ -20,11 +20,10 @@
 
                     <div>
                         <p>{{ test.description | safe }}</p>
-
                     </div>
 
                     <div class="text-center">
-                        <form action="/tests/{{ questionnaire.id }}/1/" method="post">
+                        <form action="/tests/views/test_view/{{ test.id }}/" method="post">
                             {{ form | crispy }}
                             {% csrf_token %}
                             <input type="submit" class="main-button" value="Начать" autofocus>
