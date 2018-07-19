@@ -5,4 +5,4 @@ src/profsreda/__pycache__/
 src/questionnaire/migrations/__pycache__/
 src/questionnaire_responses/migrations/
 src/tests/__pycache__/
-src/tests/migrations/
+src/tests/migrations/__pycache__/
