@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'heroes',
-    'questionnaire',
-    'questionnaire_responses',
+    'tests',
 
     # 3rd party
     'crispy_forms',
@@ -81,23 +80,23 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'profsreda',
-        'USER': 'prof_user',
-        'PASSWORD': "profXsreda2018",
-        'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
-        'PORT': '10827',
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'profsreda',
+#         'USER': 'prof_user',
+#         'PASSWORD': "profXsreda2018",
+#         'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
+#         'PORT': '10827',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

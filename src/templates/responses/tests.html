@@ -16,15 +16,15 @@
                     <p class="lead">Узнай свои сильные стороны</p>
                 </div>
 
-                {% for q in questionaries_list %}
+                {% for test in tests %}
                     <div class="col-md-4 col-sm-6 col-xs-6">
-                        <a href="/tests/{{ q.pk }}/" class="course-img">
-                            <img src="{{ q.image.url }}" alt="">
+                        <a href="/tests/views/get_test_view/{{ test.id }}/" class="course-img">
+                            <img src="{{ test.image.url }}" alt="">
                             <i class="course-link-icon fa fa-link"></i>
                         </a>
                         <div class="course">
                             <div class="course-details">
-                                <span class="course-category">Тест {{ q.name }}</span>
+                                <span class="course-category">Тест {{ test.name }}</span>
                             </div>
                         </div>
 
