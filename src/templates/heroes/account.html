@@ -53,7 +53,12 @@
                 </div>
 
                 <script type="text/javascript">
-                    document.write(VK.Share.button({url: 'http://5.200.35.96:8000', title: 'Сегодня я...', image: 'http://127.0.0.1:8080/static/img/logo.png'}, {type: 'round_nocount', text: 'поделиться'}))
+                <!--d.getElementById('vk').innerHTML = VK.Share.button(pr1, pr2);-->
+                <!--VK.Share._base_domain = 'https://vk.com/'-->
+                document.write(VK.Share.button({url: 'http://5.200.35.96:8000', title: 'Профсреда. Портал профиориентации',
+                 image: 'http://pushka.pythonanywhere.com/static/img/whole_avatar_cropped_27.png', noparse: true}, {type: 'round_nocount', text: 'Поделиться'}));
+                <!--document.write(VK.Share.button());-->
+
                 </script>
 
                 <a href="/profile/random/">
@@ -127,4 +132,6 @@
             </div>
         </div>
     </div>
+
+
 {% endblock %}

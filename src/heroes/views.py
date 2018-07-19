@@ -161,6 +161,7 @@ def profile_item(request, item_pk):
         print(e.args[0])
         return profile(request)
 
+
 def update_user_profile(request):
     if request.method == "GET":
         hero_profile = Profile.objects.get(user_id=request.user.id)
