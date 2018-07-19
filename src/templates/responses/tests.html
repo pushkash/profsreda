@@ -3,36 +3,36 @@
 {% block content %}
 
 
-			<!-- container -->
-			<div class="container">
+    <!-- container -->
+    <div class="container">
 
-				<!-- row -->
-				<div class="row">
+        <!-- row -->
+        <div class="row">
 
-					<div class="col-md-10 col-md-offset-1 course">
+            <div class="col-md-10 col-md-offset-1 course">
 
-                        <div class="text-center">
-						    <h2>Тесты</h2>
-						    <p class="lead">Узнай свои сильные стороны</p>
-					    </div>
+                <div class="text-center">
+                    <h2>Тесты</h2>
+                    <p class="lead">Узнай свои сильные стороны</p>
+                </div>
 
-                            {% for q in questionaries_list %}
-                                <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <a href="/tests/{{ q.pk }}/" class="course-img">
-									<img src="{% static 'img/course02.jpg' %}" alt="">
-									<i class="course-link-icon fa fa-link"></i>
-								</a>
-                                <div class="course">
-                                   <div class="course-details">
-									<span class="course-category">Тест {{ q.name }}</span>
-								</div>
-                                </div>
-
-                                </div>
-                            {% endfor %}
+                {% for test in tests %}
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="/tests/views/test_overview/{{ test.id }}/" class="course-img">
+                            <img src="{{ test.image.url }}" alt="">
+                            <i class="course-link-icon fa fa-link"></i>
+                        </a>
+                        <div class="course">
+                            <div class="course-details">
+                                <span class="course-category">Тест {{ test.name }}</span>
                             </div>
                         </div>
+
                     </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}
