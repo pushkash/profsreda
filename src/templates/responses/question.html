@@ -10,7 +10,7 @@
 
                 <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
                     <div class="text-center">
-                        <h2>Тест {{ questionnaire.name }}</h2>
+                        <h2>Тест {{ test.name }}</h2>
                         <hr style="
                             background-color: red;
                             color: red;
@@ -97,7 +97,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <form action="/tests/{{ questionnaire.pk }}/{{ next }}/" method="post" >
+                        <form action="/tests/{{ test.id }}/{{ next }}/" method="post" >
                             {{ form | crispy }}
                             {% csrf_token %}
                             <!--<input type='submit' class="main-button" value="Следующий">-->
