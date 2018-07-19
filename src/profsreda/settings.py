@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'heroes',
-    'questionnaire',
-    'questionnaire_responses',
+    'tests',
 
     # 3rd party
     'crispy_forms',
@@ -63,7 +62,7 @@ ROOT_URLCONF = 'profsreda.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,15 +80,7 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-# }
-
 DATABASES = {
-    # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
     #     'USER': 'prof_user',
@@ -97,15 +88,28 @@ DATABASES = {
     #     'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
     #     'PORT': '10827',
     # }
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'profsreda',
-        'USER' : 'prof_user',
-        'PASSWORD' : "profXsreda2018",
-        'HOST' : '127.0.0.1', #'pushka-827.postgres.pythonanywhere-services.com'
-        'PORT' : '5432',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'profsreda',
+    #     'USER' : 'prof_user',
+    #     'PASSWORD' : "profXsreda2018",
+    #     'HOST' : '127.0.0.1', #'pushka-827.postgres.pythonanywhere-services.com'
+    #     'PORT' : '5432',
+    # }
+
+     'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   }
+
+
+    
 }
+#         'PASSWORD': "profXsreda2018",
+#         'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
+#         'PORT': '10827',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -154,23 +158,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 SITE_ID = 1
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                "django.contrib.auth.context_processors.auth",
-            ]
-        }
-    }
-]
 
 MODE = os.environ.get('MODE')
 if MODE == 'dev':
