@@ -1,2 +1,11 @@
 .vscode/
 **/__pycache__/
+**/profsreda_env/**
+src/.DS_Store
+src/.DS_Store
+src/__init__.py
+src/db.sqlite3
+src/.idea/
+src/.idea/misc.xml
+src/.idea/src.iml
+src/.idea/workspace.xml
