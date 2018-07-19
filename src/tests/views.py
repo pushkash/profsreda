@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework import status
 
 from tests.models import Test, TestSession, Question, AnswerCategory, Answer
@@ -193,7 +194,7 @@ def get_all_tests_view(request):
     return render(request, "responses/tests.html", {"tests": tests})
 
 
-def get_test_view(request, test_id):
+def test_view(request, test_id):
     """
     Renders test template
     :param request: request

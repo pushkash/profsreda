@@ -9,5 +9,5 @@ urlpatterns = [
     path(r"test_session/<int:test_session_id>/save_question_answer/<int:question_id>/", views.save_answer),
     path(r"views/all_tests/", views.get_all_tests_view),
     path(r"views/test_overview/<int:test_id>/", views.test_overview),
-    path(r"views/get_test_view/<int:test_id>/", views.get_test_view)
+    path(r"views/test_view/<int:test_id>/", views.test_view)
 ]
