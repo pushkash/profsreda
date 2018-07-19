@@ -1,0 +1,8 @@
+.vscode/
+src/heroes/__pycache__/
+src/heroes/migrations/__pycache__/
+src/profsreda/__pycache__/
+src/questionnaire/migrations/__pycache__/
+src/questionnaire_responses/migrations/
+src/tests/__pycache__/
+src/tests/migrations/
