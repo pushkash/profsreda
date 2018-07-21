@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ff21e8f4-b170-4e0f-830c-921dfc6f9c26" name="Default" comment="" />
+    <list default="true" id="ff21e8f4-b170-4e0f-830c-921dfc6f9c26" name="Default" comment="Rename models Answer to Response, AnswerCategory to Answer">
+      <change afterPath="$PROJECT_DIR$/tests/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/migrations/0002_auto_20180718_0209.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/migrations/renaming_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/views.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +23,7 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5638371">
+    <splitter split-orientation="horizontal" split-proportion="0.55378973">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="apps.py" pinned="false" current-in-tab="false">
@@ -28,8 +38,8 @@
           <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3801">
-                  <caret line="189" selection-start-line="189" selection-end-line="189" />
+                <state relative-caret-position="210">
+                  <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
                   <folding>
                     <element signature="e#0#11#0" expanded="true" />
                   </folding>
@@ -37,49 +47,25 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="response.html" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/templates/responses/response.html">
+          <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/profsreda/urls.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="698">
-                  <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="question.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/templates/responses/question.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2037">
-                  <caret line="100" column="45" selection-start-line="100" selection-start-column="45" selection-end-line="100" selection-end-column="45" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="tests.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/templates/responses/tests.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="420">
-                  <caret line="20" column="59" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="navbar.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/templates/navbar.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="441">
-                  <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/tests/admin.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="189">
-                  <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+                <state relative-caret-position="525">
+                  <caret line="29" column="1" lean-forward="true" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
                   <folding>
-                    <element signature="e#0#32#0" expanded="true" />
+                    <element signature="e#633#665#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/tests/models.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="215">
+                  <caret line="297" column="10" selection-start-line="297" selection-start-column="10" selection-end-line="297" selection-end-column="10" />
+                  <folding>
+                    <element signature="e#0#43#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -89,37 +75,42 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="renaming_models.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tests/migrations/renaming_models.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="252">
+                  <caret line="12" column="56" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
+                  <folding>
+                    <element signature="e#0#40#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tests/migrations/__init__.py">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
           <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/profsreda/urls.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="105">
-                  <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-                  <folding>
-                    <element signature="e#633#665#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/tests/models.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="5208">
-                  <caret line="250" column="18" selection-start-line="250" selection-start-column="18" selection-end-line="250" selection-end-column="18" />
-                  <folding>
-                    <element signature="e#0#43#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/urls.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="10" column="45" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
+                <state relative-caret-position="273">
+                  <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
                   <folding>
                     <element signature="e#0#28#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="0002_auto_20180718_0209.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/tests/migrations/0002_auto_20180718_0209.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="399">
+                  <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+                  <folding>
+                    <element signature="e#49#89#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -143,6 +134,9 @@
       <find>request.user</find>
     </findStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -151,11 +145,12 @@
         <option value="$PROJECT_DIR$/profsreda/settings.py" />
         <option value="$PROJECT_DIR$/tests/apps.py" />
         <option value="$PROJECT_DIR$/tests/admin.py" />
-        <option value="$PROJECT_DIR$/tests/models.py" />
         <option value="$PROJECT_DIR$/templates/navbar.html" />
-        <option value="$PROJECT_DIR$/tests/views.py" />
         <option value="$PROJECT_DIR$/templates/responses/tests.html" />
         <option value="$PROJECT_DIR$/tests/urls.py" />
+        <option value="$PROJECT_DIR$/tests/views.py" />
+        <option value="$PROJECT_DIR$/tests/models.py" />
+        <option value="$PROJECT_DIR$/tests/migrations/renaming_models.py" />
       </list>
     </option>
   </component>
@@ -176,7 +171,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -208,17 +202,6 @@
             <path>
               <item name="src" type="b2602c69:ProjectViewProjectNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="src" type="b2602c69:ProjectViewProjectNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="responses" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="src" type="b2602c69:ProjectViewProjectNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -231,6 +214,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -293,16 +277,17 @@
     <frame x="1912" y="19" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3297414" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50061125" side_tool="true" weight="0.29418105" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.21228448" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.69935346" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11430318" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49938875" weight="0.28448275" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49938875" weight="0.30387932" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.16870415" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3297414" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -313,7 +298,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3297414" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -322,7 +306,89 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Rename models Answer to Response, AnswerCategory to Answer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rename models Answer to Response, AnswerCategory to Answer" />
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/tests/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3969">
+          <caret line="189" selection-start-line="189" selection-end-line="189" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/responses/question.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2100">
+          <caret line="100" column="45" selection-start-line="100" selection-start-column="45" selection-end-line="100" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/responses/tests.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="20" column="59" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/navbar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/responses/response.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="777">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/profsreda/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding>
+            <element signature="e#633#665#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5250">
+          <caret line="250" column="18" selection-start-line="250" selection-start-column="18" selection-end-line="250" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="45" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
@@ -528,39 +594,9 @@
     <entry file="file://$PROJECT_DIR$/tests/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
-          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/profsreda/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding>
-            <element signature="e#633#665#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5208">
-          <caret line="250" column="18" selection-start-line="250" selection-start-column="18" selection-end-line="250" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3801">
-          <caret line="189" selection-start-line="189" selection-end-line="189" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -568,7 +604,7 @@
     <entry file="file://$PROJECT_DIR$/templates/navbar.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
-          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
@@ -579,27 +615,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="45" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/responses/question.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2037">
+        <state relative-caret-position="2100">
           <caret line="100" column="45" selection-start-line="100" selection-start-column="45" selection-end-line="100" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/responses/response.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="698">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+        <state relative-caret-position="756">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heroes/migrations/0002_auto_20180720_0342.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/migrations/renaming_models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="12" column="56" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/profsreda/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="29" column="1" lean-forward="true" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
+          <folding>
+            <element signature="e#633#665#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/migrations/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/migrations/0002_auto_20180720_0430.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" selection-start-line="2" selection-end-line="10" selection-end-column="5" />
+          <folding>
+            <element signature="e#49#89#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="297" column="10" selection-start-line="297" selection-start-column="10" selection-end-line="297" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/migrations/0002_auto_20180718_0209.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+          <folding>
+            <element signature="e#49#89#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

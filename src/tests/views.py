@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 
-from tests.models import Test, TestSession, Question, AnswerCategory, Answer
+from tests.models import Test, TestSession, Question, AnswerCategory, Response
 
 
 def get_all_tests(request):
@@ -140,22 +140,22 @@ def save_answer(request, test_session_id, question_id):
             question = Question.objects.get(id=question_id)
             # Check if answer for question already exists
             try:
-                current_answer = Answer.objects.get(test_session=test_session,
-                                                    question=question)
+                current_answer = Response.objects.get(test_session=test_session,
+                                                      question=question)
                 return HttpResponse(
                     status=status.HTTP_400_BAD_REQUEST,
                     content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
                     content_type="application/json"
                 )
-            except Answer.DoesNotExist:
+            except Response.DoesNotExist:
                 answer_text = json.loads(request.body.decode("utf-8"))["answer_text"]
                 # Find answer category with given answer text or return error
                 try:
                     answer_category = AnswerCategory.objects.get(question=question,
                                                                  answer_text=answer_text)
-                    answer = Answer.objects.create(test_session=test_session,
-                                                   question=question,
-                                                   answer_text=answer_text)
+                    answer = Response.objects.create(test_session=test_session,
+                                                     question=question,
+                                                     answer_text=answer_text)
                     # Change last answered question and save changes
                     test_session.last_answered_question = question
                     test_session.save()
@@ -219,9 +219,13 @@ def test_overview(request, test_id):
     :param test_id: test id to render overview
     :return: rendered HTML template
     """
+    # TODO: change to user
+    user = User.objects.get(id=1)
     try:
         test = Test.objects.get(id=test_id)
-        return render(request, "responses/response.html", {"test": test})
+        # TODO: check if query is correct
+        test_session = TestSession.objects.filter(test=test).reverse()[0]
+        return render(request, "responses/response.html", {"test": test, "test_session": test_session})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,

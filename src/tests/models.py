@@ -271,7 +271,7 @@ class TestSession(models.Model):
         Returns all session answers
         :return: QuerySet of session answers
         """
-        return Answer.objects.filter(test_session=self.id)
+        return Response.objects.filter(test_session=self.id)
 
     def check_is_finished(self):
         """
@@ -279,7 +279,7 @@ class TestSession(models.Model):
         :return:
         """
         # Check if answers count = questions count
-        self.is_finished = Answer.objects.filter(test_session=self).count() == self.test.get_questions().count()
+        self.is_finished = Response.objects.filter(test_session=self).count() == self.test.get_questions().count()
         self.save()
         return self.is_finished
 
@@ -295,7 +295,7 @@ class TestSession(models.Model):
         return test_session
 
 
-class Answer(models.Model):
+class Response(models.Model):
     test_session = models.ForeignKey(
         "tests.TestSession",
         on_delete=models.CASCADE,
