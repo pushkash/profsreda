@@ -260,12 +260,11 @@ class TestSession(models.Model):
         verbose_name=_("Закончена"),
         help_text=_("Значение, указывающее, закончена ли тест сессия")
     )
-    created = models.DateTimeField(
-        auto_now_add=True,
+    datetime_created = models.DateTimeField(
         verbose_name=_("Время старта"),
         help_text=_("Время, в которое пользователь начал проходить тест")
     )
-    finished = models.DateTimeField(
+    datetime_finished = models.DateTimeField(
         blank=True,
         null=True,
         verbose_name=_("Время завершения"),
