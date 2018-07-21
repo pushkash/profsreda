@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff21e8f4-b170-4e0f-830c-921dfc6f9c26" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/media/items/hat.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,7 +19,7 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.2647059">
+    <splitter split-orientation="horizontal" split-proportion="0.53056234">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="apps.py" pinned="false" current-in-tab="false">
@@ -28,11 +31,23 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tests/views.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="68">
+                  <caret line="202" column="7" selection-start-line="202" selection-start-column="7" selection-end-line="202" selection-end-column="7" />
+                  <folding>
+                    <element signature="e#0#11#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="362">
-                  <caret line="273" column="15" lean-forward="true" selection-start-line="273" selection-start-column="15" selection-end-line="273" selection-end-column="15" />
+                <state relative-caret-position="481">
+                  <caret line="200" lean-forward="true" selection-start-line="200" selection-end-line="200" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -61,11 +76,23 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/tests/views.py">
+          <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/heroes/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="462">
-                  <caret line="112" column="42" lean-forward="true" selection-start-line="112" selection-start-column="42" selection-end-line="112" selection-end-column="42" />
+                <state relative-caret-position="147">
+                  <caret line="124" column="10" selection-start-line="124" selection-start-column="10" selection-end-line="124" selection-end-column="10" />
+                  <folding>
+                    <element signature="e#0#11#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/heroes/views.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1701">
+                  <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
                   <folding>
                     <element signature="e#0#11#0" expanded="true" />
                   </folding>
@@ -89,6 +116,8 @@
       <find>register(test</find>
       <find>information</find>
       <find>request.user</find>
+      <find>datetime</find>
+      <find>timezone</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -103,7 +132,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/profsreda/urls.py" />
-        <option value="$PROJECT_DIR$/heroes/models.py" />
         <option value="$PROJECT_DIR$/profsreda/settings.py" />
         <option value="$PROJECT_DIR$/tests/apps.py" />
         <option value="$PROJECT_DIR$/tests/admin.py" />
@@ -111,8 +139,9 @@
         <option value="$PROJECT_DIR$/templates/responses/tests.html" />
         <option value="$PROJECT_DIR$/tests/migrations/renaming_models.py" />
         <option value="$PROJECT_DIR$/tests/urls.py" />
-        <option value="$PROJECT_DIR$/tests/models.py" />
         <option value="$PROJECT_DIR$/tests/views.py" />
+        <option value="$PROJECT_DIR$/heroes/models.py" />
+        <option value="$PROJECT_DIR$/tests/models.py" />
       </list>
     </option>
   </component>
@@ -155,6 +184,12 @@
               <item name="src" type="b2602c69:ProjectViewProjectNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="media" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="src" type="b2602c69:ProjectViewProjectNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="media" type="462c0819:PsiDirectoryNode" />
+              <item name="items" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="src" type="b2602c69:ProjectViewProjectNode" />
@@ -307,7 +342,28 @@
       <option name="project" value="LOCAL" />
       <updated>1532188211474</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Change create_test_session view to save datetime of instance creation">
+      <created>1532188365465</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1532188365466</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Add datetime_created to Response model. Change save_response view to save datetime of response creation">
+      <created>1532189163856</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1532189163856</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add migration files to git">
+      <created>1532189204817</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1532189204817</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -372,16 +428,12 @@
     <MESSAGE value="Last changes in renaming models" />
     <MESSAGE value="Add created and finished time stamps to TestSession model" />
     <MESSAGE value="Remove auto_now_add from TestSession field datetime_created so it shows in admin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove auto_now_add from TestSession field datetime_created so it shows in admin" />
+    <MESSAGE value="Change create_test_session view to save datetime of instance creation" />
+    <MESSAGE value="Add datetime_created to Response model. Change save_response view to save datetime of response creation" />
+    <MESSAGE value="Add migration files to git" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add migration files to git" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/responses/question.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2100">
-          <caret line="100" column="45" selection-start-line="100" selection-start-column="45" selection-end-line="100" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/responses/tests.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -617,13 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/heroes/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1640">
-          <caret line="142" column="22" selection-start-line="142" selection-start-column="22" selection-end-line="142" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/profsreda/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="287">
@@ -746,8 +791,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="112" column="42" lean-forward="true" selection-start-line="112" selection-start-column="42" selection-end-line="112" selection-end-column="42" />
+        <state relative-caret-position="68">
+          <caret line="202" column="7" selection-start-line="202" selection-start-column="7" selection-end-line="202" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heroes/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1701">
+          <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heroes/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="124" column="10" selection-start-line="124" selection-start-column="10" selection-end-line="124" selection-end-column="10" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -756,8 +821,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="273" column="15" lean-forward="true" selection-start-line="273" selection-start-column="15" selection-end-line="273" selection-end-column="15" />
+        <state relative-caret-position="481">
+          <caret line="200" lean-forward="true" selection-start-line="200" selection-end-line="200" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
