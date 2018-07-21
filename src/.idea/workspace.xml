@@ -4,9 +4,7 @@
     <list default="true" id="ff21e8f4-b170-4e0f-830c-921dfc6f9c26" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,18 +29,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/tests/views.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-                  <folding>
-                    <element signature="e#0#11#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/profsreda/urls.py">
               <provider selected="true" editor-type-id="text-editor">
@@ -58,8 +44,8 @@
           <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="446">
-                  <caret line="137" column="25" lean-forward="true" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
+                <state relative-caret-position="185">
+                  <caret line="303" column="5" selection-start-line="303" selection-start-column="5" selection-end-line="303" selection-end-column="5" />
                   <folding>
                     <element signature="e#0#43#0" expanded="true" />
                   </folding>
@@ -71,7 +57,7 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/migrations/__init__.py">
               <provider selected="true" editor-type-id="text-editor" />
             </entry>
@@ -83,6 +69,18 @@
                   <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
                   <folding>
                     <element signature="e#0#28#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/tests/views.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="210">
+                  <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+                  <folding>
+                    <element signature="e#0#11#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -260,7 +258,21 @@
       <option name="project" value="LOCAL" />
       <updated>1532181448722</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Rename models (look prev. commit) in code">
+      <created>1532181706627</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1532181706627</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Rename Answer meta name">
+      <created>1532181993523</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1532181993523</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -282,8 +294,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49938875" weight="0.28448275" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.49938875" visible="true" weight="0.30387932" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.16870415" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49938875" visible="true" weight="0.30387932" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16870415" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297414" />
@@ -307,19 +319,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Rename models Answer to Response, AnswerCategory to Answer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename models Answer to Response, AnswerCategory to Answer" />
+    <MESSAGE value="Rename models (look prev. commit) in code" />
+    <MESSAGE value="Rename Answer meta name" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rename Answer meta name" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3969">
-          <caret line="189" selection-start-line="189" selection-end-line="189" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/responses/question.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2100">
@@ -631,16 +635,6 @@
     <entry file="file://$PROJECT_DIR$/heroes/migrations/0002_auto_20180720_0342.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/profsreda/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
@@ -694,10 +688,25 @@
     <entry file="file://$PROJECT_DIR$/tests/migrations/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/migrations/0005_auto_20180721_1911.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-189" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="137" column="25" lean-forward="true" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
+        <state relative-caret-position="185">
+          <caret line="303" column="5" selection-start-line="303" selection-start-column="5" selection-end-line="303" selection-end-column="5" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
           </folding>

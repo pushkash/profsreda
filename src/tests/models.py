@@ -302,16 +302,11 @@ class Response(models.Model):
         verbose_name=_("Тест сессия"),
         help_text=_("Тест сессия, в которую был сделан ответ")
     )
-    question = models.ForeignKey(
-        "tests.Question",
+    answer = models.ForeignKey(
+        "tests.Answer",
         on_delete=models.CASCADE,
-        verbose_name=_("Вопрос"),
-        help_text=_("Вопрос, к которому относится ответ")
-    )
-    answer_text = models.CharField(
-        max_length=100,
-        verbose_name=_("Ответ"),
-        help_text=_("Текст ответа")
+        verbose_name=_("Вариант ответа"),
+        help_text=_("Выбранный вариант ответа")
     )
 
     class Meta:
@@ -319,4 +314,4 @@ class Response(models.Model):
         verbose_name_plural = "Ответы"
 
     def __str__(self):
-        return " - ".join([str(self.test_session), str(self.question), self.answer_text])
+        return " - ".join([str(self.test_session), str(self.answer)])
