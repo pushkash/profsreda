@@ -359,3 +359,25 @@ class ResultCategory(models.Model):
 
     def __str__(self):
         return " - ".join([str(self.test_result), str(self.category)])
+
+
+class ResultItem(models.Model):
+    test_result = models.ForeignKey(
+        "tests.TestResult",
+        on_delete=models.CASCADE,
+        verbose_name=_("Результат теста"),
+        help_text=_("Результат теста, за который получена награда")
+    )
+    item = models.ForeignKey(
+        "heroes.Item",
+        on_delete=models.CASCADE,
+        verbose_name=_("Награда"),
+        help_text=_("Награда, полученная за прохождение теста")
+    )
+
+    class Meta:
+        verbose_name = "Полученная награда"
+        verbose_name_plural = "Полученные награды"
+
+    def __str__(self):
+        return " - ".join([str(self.test_result), str(self.item)])
