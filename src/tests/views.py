@@ -49,7 +49,7 @@ def get_test(request, test_id):
 
 def get_test_session(request, test_id):
     """
-    Returns current/new test session for test
+    Returns current test session for test
     :param request: http request
     :param test_id: test for which a test session is requested
     :return: JSON object with current/new test session object
@@ -125,7 +125,7 @@ def create_test_session(request, test_id):
 @csrf_exempt
 def save_response(request, test_session_id, question_id):
     """
-    Saves response
+    Saves response for given question
     :param request: http response
     :param test_session_id: current test session id
     :param question_id: current question_id
@@ -228,7 +228,7 @@ def test_overview(request, test_id):
     user = User.objects.get(id=1)
     try:
         test = Test.objects.get(id=test_id)
-        # Get last TestSession
+        # Get last TestSession for user
         test_session = TestSession.objects.filter(test=test,
                                                   user=user).reverse()[0]
         return render(request, "responses/response.html", {"test": test, "test_session": test_session})
