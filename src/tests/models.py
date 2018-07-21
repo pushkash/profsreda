@@ -1,5 +1,8 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -92,37 +95,37 @@ class Question(models.Model):
     def __str__(self):
         return " - ".join([str(self.test), self.text])
 
-    def get_answer_categories(self):
+    def get_answers(self):
         """
         Returns related answer-category objects
         :return: QuerySet of related answer-category objects
         """
-        return AnswerCategory.objects.filter(question=self.id)
+        return Answer.objects.filter(question=self.id)
 
-    def get_answer_category(self, answer_text):
+    def get_answer(self, answer_text):
         """
         Returns answer-category object with given answer text
         :param answer_text: key to find answer-category object
         :return: AnswerCategory with given answer text
         """
-        return AnswerCategory.objects.filter(question=self.id,
-                                             answer_text=answer_text)
+        return Answer.objects.filter(question=self.id,
+                                     answer_text=answer_text)
 
     def dict(self):
         """
         Returns all info about question
         :return: dict with all info about question
         """
-        answer_categories = [answer_category.dict() for answer_category in self.get_answer_categories()]
+        answer_categories = [answer_category.dict() for answer_category in self.get_answers()]
         question = {
             "id": self.id,
             "text": self.text,
-            "answer_categories": answer_categories
+            "answers": answer_categories
         }
         return question
 
 
-class AnswerCategory(models.Model):
+class Answer(models.Model):
     answer_text = models.CharField(
         max_length=100,
         verbose_name=_("Ответ"),
@@ -132,22 +135,22 @@ class AnswerCategory(models.Model):
         "tests.Question",
         on_delete=models.CASCADE,
         verbose_name=_("Вопрос"),
-        help_text=_("Соответствующий ответу вопрос")
+        help_text=_("Соответствующий варианту ответа вопрос")
     )
     category = models.ForeignKey(
         "tests.Category",
         on_delete=models.CASCADE,
         verbose_name=_("Категория"),
-        help_text=_("Категория, соответствующая ответу")
+        help_text=_("Категория, соответствующая варианту ответа")
     )
     weight = models.PositiveIntegerField(
         verbose_name=_("Коэффициент"),
-        help_text=_("Коэффициент, с которым ответ учитывается при подсчёте результата")
+        help_text=_("Коэффициент, с которым вариант ответа учитывается при подсчёте результата")
     )
 
     class Meta:
-        verbose_name = "Ответ-Категория"
-        verbose_name_plural = "Пары Ответ-Категория"
+        verbose_name = "Вариант ответа"
+        verbose_name_plural = "Варианты ответов"
 
     def __str__(self):
         return " - ".join([str(self.question), self.answer_text, str(self.category)])
@@ -157,13 +160,13 @@ class AnswerCategory(models.Model):
         Returns all info about answer-category
         :return: dict with all info about answer-category
         """
-        answer_category = {
+        answer = {
             "id": self.id,
-            "answer_text": self.answer_text,
+            "text": self.answer_text,
             "category_id": self.category.id,
             "weight": self.weight
         }
-        return answer_category
+        return answer
 
 
 class Category(models.Model):
@@ -190,6 +193,12 @@ class Category(models.Model):
         verbose_name=_("Развернутое описание"),
         help_text=_("Развёрнутое описание категории")
     )
+    item = models.ForeignKey(
+        "heroes.Item",
+        on_delete=models.DO_NOTHING,
+        verbose_name=_("Награда"),
+        help_text=_("Награда за получение категории")
+    )
 
     class Meta:
         verbose_name = "Категория"
@@ -212,7 +221,6 @@ class Category(models.Model):
         return category
 
 
-# TODO: add result categories
 class TestResult(models.Model):
     test_session = models.ForeignKey(
         "tests.TestSession",
@@ -220,16 +228,18 @@ class TestResult(models.Model):
         verbose_name=_("Тест сессия"),
         help_text=_("Тест сессия, которой соответствует результат")
     )
-    item = models.ForeignKey(
-        "heroes.Item",
-        on_delete=models.DO_NOTHING,
-        verbose_name=_("Награда"),
-        help_text=_("Предмет, полученный в награду за прохождение теста")
-    )
 
     class Meta:
         verbose_name = "Результат теста"
         verbose_name_plural = "Результаты тестов"
+
+    def get_test(self):
+        """
+        Returns Test related to TestResult
+        Only for code readability
+        :return: Test object
+        """
+        return self.test_session.test
 
 
 class TestSession(models.Model):
@@ -258,6 +268,16 @@ class TestSession(models.Model):
         verbose_name=_("Закончена"),
         help_text=_("Значение, указывающее, закончена ли тест сессия")
     )
+    datetime_created = models.DateTimeField(
+        verbose_name=_("Время старта"),
+        help_text=_("Время, в которое пользователь начал проходить тест")
+    )
+    datetime_finished = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=_("Время завершения"),
+        help_text=_("Время, в которое пользователь закончил проходить тест")
+    )
 
     class Meta:
         verbose_name = "Тест сессия"
@@ -266,12 +286,12 @@ class TestSession(models.Model):
     def __str__(self):
         return " - ".join([str(self.user), str(self.test), "Закончен" if self.is_finished else "Не закончен"])
 
-    def get_answers(self):
+    def get_responses(self):
         """
-        Returns all session answers
-        :return: QuerySet of session answers
+        Returns all session responses
+        :return: QuerySet of session responses
         """
-        return Answer.objects.filter(test_session=self.id)
+        return Response.objects.filter(test_session=self.id)
 
     def check_is_finished(self):
         """
@@ -279,9 +299,37 @@ class TestSession(models.Model):
         :return:
         """
         # Check if answers count = questions count
-        self.is_finished = Answer.objects.filter(test_session=self).count() == self.test.get_questions().count()
+        self.is_finished = Response.objects.filter(test_session=self).count() == self.test.get_questions().count()
         self.save()
+
         return self.is_finished
+
+    def finish(self):
+        """
+        Creates TestResult, ResultCategory, ResultItem
+        :return:
+        """
+        self.datetime_finished = timezone.now()
+        test_result = TestResult.objects.create(test_session=self)
+
+        for result_category in self.calculate_result_categories():
+            ResultCategory.objects.create(test_result=test_result,
+                                          category=result_category)
+            ResultItem.objects.create(test_result=test_result,
+                                      item=result_category.item)
+
+    def calculate_result_categories(self):
+        """
+        Calculates categories weights
+        :return: list of categories with max weight
+        """
+        categories_weights = {category: 0 for category in Category.objects.filter(test=self.test)}
+        for response in Response.objects.filter(test_session=self):
+            categories_weights[response.answer.category] += response.answer.weight
+        max_weight = max(categories_weights.values())
+
+        result_categories = [category for category, weight in categories_weights.items() if weight == max_weight]
+        return result_categories
 
     def dict(self):
         """
@@ -295,23 +343,22 @@ class TestSession(models.Model):
         return test_session
 
 
-class Answer(models.Model):
+class Response(models.Model):
     test_session = models.ForeignKey(
         "tests.TestSession",
         on_delete=models.CASCADE,
         verbose_name=_("Тест сессия"),
         help_text=_("Тест сессия, в которую был сделан ответ")
     )
-    question = models.ForeignKey(
-        "tests.Question",
+    answer = models.ForeignKey(
+        "tests.Answer",
         on_delete=models.CASCADE,
-        verbose_name=_("Вопрос"),
-        help_text=_("Вопрос, к которому относится ответ")
+        verbose_name=_("Вариант ответа"),
+        help_text=_("Выбранный вариант ответа")
     )
-    answer_text = models.CharField(
-        max_length=100,
-        verbose_name=_("Ответ"),
-        help_text=_("Текст ответа")
+    datetime_created = models.DateTimeField(
+        verbose_name=_("Время ответа"),
+        help_text=_("Время, в которое был сделан ответ")
     )
 
     class Meta:
@@ -319,4 +366,48 @@ class Answer(models.Model):
         verbose_name_plural = "Ответы"
 
     def __str__(self):
-        return " - ".join([str(self.test_session), str(self.question), self.answer_text])
+        return " - ".join([str(self.test_session), str(self.answer)])
+
+
+class ResultCategory(models.Model):
+    test_result = models.ForeignKey(
+        "tests.TestResult",
+        on_delete=models.CASCADE,
+        verbose_name=_("Результат теста"),
+        help_text=_("Результат теста, в котором определена категория")
+    )
+    category = models.ForeignKey(
+        "tests.Category",
+        on_delete=models.CASCADE,
+        verbose_name=_("Категория"),
+        help_text=_("Категория, определённая в тесте")
+    )
+
+    class Meta:
+        verbose_name = "Определённая категория"
+        verbose_name_plural = "Определённые категории"
+
+    def __str__(self):
+        return " - ".join([str(self.test_result), str(self.category)])
+
+
+class ResultItem(models.Model):
+    test_result = models.ForeignKey(
+        "tests.TestResult",
+        on_delete=models.CASCADE,
+        verbose_name=_("Результат теста"),
+        help_text=_("Результат теста, за который получена награда")
+    )
+    item = models.ForeignKey(
+        "heroes.Item",
+        on_delete=models.CASCADE,
+        verbose_name=_("Награда"),
+        help_text=_("Награда, полученная за прохождение теста")
+    )
+
+    class Meta:
+        verbose_name = "Полученная награда"
+        verbose_name_plural = "Полученные награды"
+
+    def __str__(self):
+        return " - ".join([str(self.test_result), str(self.item)])

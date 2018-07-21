@@ -6,5 +6,12 @@ src/.idea/
 src/.idea/misc.xml
 src/.idea/src.iml
 src/.idea/workspace.xml
+<<<<<<< HEAD
 
 
+=======
+src/profsreda/settings.py
+.gitignore
+.DS_Store
+/.idea/
+>>>>>>> demid
