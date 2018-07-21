@@ -9,6 +9,7 @@ admin.site.register(Category)
 admin.site.register(Answer)
 
 admin.site.register(TestSession)
+admin.site.register(TestResult)
 admin.site.register(Response)
 admin.site.register(ResultItem)
 admin.site.register(ResultCategory)

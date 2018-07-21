@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -300,7 +301,27 @@ class TestSession(models.Model):
         # Check if answers count = questions count
         self.is_finished = Response.objects.filter(test_session=self).count() == self.test.get_questions().count()
         self.save()
+
         return self.is_finished
+
+    def finish(self):
+        self.datetime_finished = timezone.now()
+        test_result = TestResult.objects.create(test_session=self)
+
+        for result_category in self.calculate_result():
+            ResultCategory.objects.create(test_result=test_result,
+                                          category=result_category)
+            ResultItem.objects.create(test_result=test_result,
+                                      item=result_category.item)
+
+    def calculate_result(self):
+        categories_weights = {category: 0 for category in Category.objects.filter(test=self.test)}
+        for response in Response.objects.filter(test_session=self):
+            categories_weights[response.answer.category] += response.answer.weight
+        max_weight = max(categories_weights.values())
+
+        result_categories = [category for category, weight in categories_weights.items() if weight == max_weight]
+        return result_categories
 
     def dict(self):
         """
