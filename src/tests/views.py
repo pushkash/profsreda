@@ -224,12 +224,14 @@ def test_overview(request, test_id):
     :param test_id: test id to render overview
     :return: rendered HTML template
     """
-    # TODO: change to user
+    # TODO: change to request.user
     user = User.objects.get(id=1)
     try:
         test = Test.objects.get(id=test_id)
         # TODO: check if query is correct
-        test_session = TestSession.objects.filter(test=test).reverse()[0]
+        # Get last TestSession
+        test_session = TestSession.objects.filter(test=test,
+                                                  user=user).reverse()[0]
         return render(request, "responses/response.html", {"test": test, "test_session": test_session})
     except Test.DoesNotExist:
         return HttpResponse(
