@@ -1,7 +1,7 @@
 import json
 from random import shuffle
 from django.shortcuts import render, redirect
-from heroes.models import ItemUser, Profile, Item
+from heroes.models import ItemUser, Profile, Item, ShareProfileAvatar
 from .forms import CustomUserCreationForm, UpdateUserProfile
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -10,6 +10,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string, get_template
 from django.template import Context
 import random
+from .create_share_image import create_share_image
 
 def home(request):
     return render(request, template_name='heroes/main.html')
@@ -85,6 +86,13 @@ def profile(request):
         sex = "неуказан"
 
 
+    # share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
+    #
+    # share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
+    #
+    # share_avatar_image.save()
+
+    update_share_image(hero_profile, slots)
 
     return render(request,
                   context=locals(),
@@ -216,3 +224,9 @@ def update_user_profile(request):
         else:
             return render(request, template_name="update_user_profile.html", context=locals())
 
+
+
+def update_share_image(hero_profile, slots):
+    share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
+    share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
+    share_avatar_image.save()

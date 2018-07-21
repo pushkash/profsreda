@@ -88,7 +88,7 @@ class UpdateUserProfile(forms.Form):
         new_password = self.cleaned_data["new_password"]
         confirm_new_password = self.cleaned_data["confirm_new_password"]
 
-        if self.current_password_flag == False:
+        if self.current_password_flag == False and (new_password or current_password):
             raise forms.ValidationError({"current_password": "Указан неправильный текущий пароль"})
 
         if not current_password and (new_password or confirm_new_password):
@@ -103,7 +103,7 @@ class UpdateUserProfile(forms.Form):
         if (new_password and confirm_new_password) and new_password != confirm_new_password:
             raise forms.ValidationError({"new_password": 'Новый пароль не совпадает'})
 
-        if len(new_password) < 8:
+        if len(new_password) < 8 and (current_password or confirm_new_password):
             raise forms.ValidationError({"new_password": 'Новый пароль слишком короткий. Он должен содержать минимум 8 символов'})
 
         return self.cleaned_data
