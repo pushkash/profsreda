@@ -220,7 +220,6 @@ class Category(models.Model):
         return category
 
 
-# TODO: add result categories
 class TestResult(models.Model):
     test_session = models.ForeignKey(
         "tests.TestSession",
