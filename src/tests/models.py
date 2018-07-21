@@ -146,8 +146,8 @@ class Answer(models.Model):
     )
 
     class Meta:
-        verbose_name = "Ответ-Категория"
-        verbose_name_plural = "Пары Ответ-Категория"
+        verbose_name = "Вариант ответа"
+        verbose_name_plural = "Варианты ответов"
 
     def __str__(self):
         return " - ".join([str(self.question), self.answer_text, str(self.category)])
