@@ -1,17 +1,7 @@
 .vscode/
 **/__pycache__/
 **/profsreda_env/**
-src/db.sqlite3
-src/.idea/
-src/.idea/misc.xml
-src/.idea/src.iml
-src/.idea/workspace.xml
-<<<<<<< HEAD
-
-
-=======
+**/.idea/
 src/profsreda/settings.py
 .gitignore
 .DS_Store
-/.idea/
->>>>>>> demid
