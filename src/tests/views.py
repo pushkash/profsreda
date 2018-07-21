@@ -1,9 +1,9 @@
 import json
-from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
@@ -108,7 +108,7 @@ def create_test_session(request, test_id):
         except TestSession.DoesNotExist:
             test_session = TestSession.objects.create(user=user,
                                                       test=test,
-                                                      datetime_created=datetime.now())
+                                                      datetime_created=timezone.now())
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
@@ -139,22 +139,23 @@ def save_response(request, test_session_id, question_id):
         # Find question or return error
         try:
             question = Question.objects.get(id=question_id)
-            # Check if response for question already exists
+            # Find answer with given id or return error
             try:
-                current_response = Response.objects.get(test_session=test_session,
-                                                        question=question)
-                return HttpResponse(
-                    status=status.HTTP_400_BAD_REQUEST,
-                    content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
-                    content_type="application/json"
-                )
-            except Response.DoesNotExist:
                 answer_id = json.loads(request.body.decode("utf-8"))["answer_id"]
-                # Find answer with given id or return error
+                answer = Answer.objects.get(id=answer_id)
+                # Check if response for question already exists
                 try:
-                    answer = Answer.objects.get(id=answer_id)
+                    current_response = Response.objects.get(test_session=test_session,
+                                                            answer=answer)
+                    return HttpResponse(
+                        status=status.HTTP_400_BAD_REQUEST,
+                        content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
+                        content_type="application/json"
+                    )
+                except Response.DoesNotExist:
                     response = Response.objects.create(test_session=test_session,
-                                                       answer=answer)
+                                                       answer=answer,
+                                                       datetime_created=timezone.now())
                     # Change last answered question and save changes
                     test_session.last_answered_question = question
                     test_session.save()
@@ -163,12 +164,12 @@ def save_response(request, test_session_id, question_id):
                         # TODO: calculate result
                         pass
                     return HttpResponse(status=status.HTTP_200_OK)
-                except Answer.DoesNotExist:
-                    return HttpResponse(
-                        status=status.HTTP_400_BAD_REQUEST,
-                        content=json.dumps({"error_message": "Вариант ответа с таким id не существует"}),
-                        content_type="application/json"
-                    )
+            except Answer.DoesNotExist:
+                return HttpResponse(
+                    status=status.HTTP_400_BAD_REQUEST,
+                    content=json.dumps({"error_message": "Вариант ответа с таким id не существует"}),
+                    content_type="application/json"
+                )
         except Question.DoesNotExist:
             return HttpResponse(
                 status=status.HTTP_404_NOT_FOUND,

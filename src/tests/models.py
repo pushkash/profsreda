@@ -320,6 +320,10 @@ class Response(models.Model):
         verbose_name=_("Вариант ответа"),
         help_text=_("Выбранный вариант ответа")
     )
+    datetime_created = models.DateTimeField(
+        verbose_name=_("Время ответа"),
+        help_text=_("Время, в которое был сделан ответ")
+    )
 
     class Meta:
         verbose_name = "Ответ"
