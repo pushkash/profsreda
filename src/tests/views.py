@@ -203,7 +203,7 @@ def test_view(request, test_id):
     """
     try:
         test = Test.objects.get(id=test_id)
-        return render(request, "responses/question.html", {"test": test})
+        return render(request, "responses/tester.html", {"test": test})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
@@ -221,7 +221,8 @@ def test_overview(request, test_id):
     """
     try:
         test = Test.objects.get(id=test_id)
-        return render(request, "responses/response.html", {"test": test})
+        test_sesstion = TestSession.objects.filter(test=test)
+        return render(request, "responses/tester.html", {"test": test, "test_session": test_sesstion})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,

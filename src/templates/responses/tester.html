@@ -10,7 +10,7 @@
 
                 <div class="test-header">
                     <div class="text-center">
-                        <h2>Тест {{ questionnaire.name }}</h2>
+                        <h2>Тест OZV {{ test.name }}</h2>
                     </div>
                 </div>
                 <div class='test-body'>
@@ -18,12 +18,12 @@
                     </div>
 
 
-                    <div class='test-start text-center' hidden>
+                    <div class='test-start text-center'>
                         <div class='test-description test-text'>
-                            {{ questionnaire.description }}
+                            {{ tests.description }}
                         </div>
 
-                        <div class='test-start-button'>
+                        <div id='test-start-button'>
                             <div id='start-button' class='main-button'>Начать тест</div>
                             <div id='restart-button' class='main-button'>Продолжить тест</div>
                             <div id='continue-button' class='main-button'>Пройти тест заново</div>
@@ -31,7 +31,7 @@
                     </div>
 
 
-                    <div id='test-view' class='test-in-progress' >
+                    <div id='test-view' class='test-in-progress' hidden>
                         <div id='test-progress'>
                         <span>Вопрос:</span>
                         <span>1</span>
@@ -65,7 +65,17 @@
 
         document.addEventListener("DOMContentLoaded", (e) => { 
             
-            new TestController(1).startTest();
+            let list = document.getElementsByClassName("main-button")
+
+            for (let i = 0; i < list.length; i++) {
+
+                list[i].addEventListener('click', (event) => {
+                    new TestController('{{test.id}}').startTest();                    
+                } )
+            }
+            
+            
+
         });
            
 

@@ -15,8 +15,6 @@
 		$('#header').toggleClass('nav-collapse')
 	});
 
-	console.log(BASE_URL)
-
 
 	
 
@@ -26,6 +24,7 @@
 
 class TestController {
 	constructor(test_id) {
+		console.log(test_id)
 		this.test_id = test_id;
 		this.test = {};
 		this.view = new TestView();
@@ -45,10 +44,9 @@ class TestController {
 	}
 
 	getQuestionnaire() {
-		return new PromiseRequest(`questionnaire/get_questionnaire/${this.test_id}`).get_json()
+		return new PromiseRequest(`/tests/get_test/${this.test_id}/`).get_json()
 		.then( (result) => {
-			this.questions = result.questionnaire.questions
-			console.log(this.questions) 
+			this.questions = result.test.questions
 		})
 	}
 
@@ -128,17 +126,19 @@ class PromiseRequest {
 	constructor(url) {
 		this.url = url
 		this.BASE_URL = window.location.origin
+		
 	}
 
 	get() {
 		let url = this.BASE_URL+this.url
+		
 		return new Promise( (resolve, reject) => {
 			var xobj = new XMLHttpRequest();
 			xobj.overrideMimeType("application/json");
 			xobj.open('GET', url, true); 
 			xobj.onreadystatechange = function () {
 				if (xobj.readyState == 4 && xobj.status == "200") {
-					resolve(xobj.responseText);
+					resolve(xobj.responseText)
 				}
 			};
 			xobj.send(null);  
@@ -147,7 +147,9 @@ class PromiseRequest {
 
 	get_json() {
 		return this.get()
-		.then ((result) => JSON.parse(result))
+		.then ((result) => {
+			return JSON.parse(result)
+		})
 	}
 
 	push_json( data ) {
