@@ -92,14 +92,14 @@ class Question(models.Model):
     def __str__(self):
         return " - ".join([str(self.test), self.text])
 
-    def get_answer_categories(self):
+    def get_answers(self):
         """
         Returns related answer-category objects
         :return: QuerySet of related answer-category objects
         """
         return Answer.objects.filter(question=self.id)
 
-    def get_answer_category(self, answer_text):
+    def get_answer(self, answer_text):
         """
         Returns answer-category object with given answer text
         :param answer_text: key to find answer-category object
@@ -113,11 +113,11 @@ class Question(models.Model):
         Returns all info about question
         :return: dict with all info about question
         """
-        answer_categories = [answer_category.dict() for answer_category in self.get_answer_categories()]
+        answer_categories = [answer_category.dict() for answer_category in self.get_answers()]
         question = {
             "id": self.id,
             "text": self.text,
-            "answer_categories": answer_categories
+            "answers": answer_categories
         }
         return question
 
@@ -132,17 +132,17 @@ class Answer(models.Model):
         "tests.Question",
         on_delete=models.CASCADE,
         verbose_name=_("Вопрос"),
-        help_text=_("Соответствующий ответу вопрос")
+        help_text=_("Соответствующий варианту ответа вопрос")
     )
     category = models.ForeignKey(
         "tests.Category",
         on_delete=models.CASCADE,
         verbose_name=_("Категория"),
-        help_text=_("Категория, соответствующая ответу")
+        help_text=_("Категория, соответствующая варианту ответа")
     )
     weight = models.PositiveIntegerField(
         verbose_name=_("Коэффициент"),
-        help_text=_("Коэффициент, с которым ответ учитывается при подсчёте результата")
+        help_text=_("Коэффициент, с которым вариант ответа учитывается при подсчёте результата")
     )
 
     class Meta:
@@ -157,13 +157,13 @@ class Answer(models.Model):
         Returns all info about answer-category
         :return: dict with all info about answer-category
         """
-        answer_category = {
+        answer = {
             "id": self.id,
-            "answer_text": self.answer_text,
+            "text": self.answer_text,
             "category_id": self.category.id,
             "weight": self.weight
         }
-        return answer_category
+        return answer
 
 
 class Category(models.Model):
@@ -266,10 +266,10 @@ class TestSession(models.Model):
     def __str__(self):
         return " - ".join([str(self.user), str(self.test), "Закончен" if self.is_finished else "Не закончен"])
 
-    def get_answers(self):
+    def get_responses(self):
         """
-        Returns all session answers
-        :return: QuerySet of session answers
+        Returns all session responses
+        :return: QuerySet of session responses
         """
         return Response.objects.filter(test_session=self.id)
 

@@ -121,14 +121,13 @@ def create_test_session(request, test_id):
 
 
 @csrf_exempt
-def save_answer(request, test_session_id, question_id):
+def save_response(request, test_session_id, question_id):
     """
-    Saves answer
+    Saves response
     :param request: http response
     :param test_session_id: current test session id
     :param question_id: current question_id
-    :return: JSON object with error message in case
-             if one of id's or answer text is incorrect
+    :return: JSON object with error message in case if one of id's is incorrect
     """
     # TODO: change to request.user
     user = User.objects.get(id=1)
@@ -138,24 +137,22 @@ def save_answer(request, test_session_id, question_id):
         # Find question or return error
         try:
             question = Question.objects.get(id=question_id)
-            # Check if answer for question already exists
+            # Check if response for question already exists
             try:
-                current_answer = Response.objects.get(test_session=test_session,
-                                                      question=question)
+                current_response = Response.objects.get(test_session=test_session,
+                                                        question=question)
                 return HttpResponse(
                     status=status.HTTP_400_BAD_REQUEST,
                     content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
                     content_type="application/json"
                 )
             except Response.DoesNotExist:
-                answer_text = json.loads(request.body.decode("utf-8"))["answer_text"]
-                # Find answer category with given answer text or return error
+                answer_id = json.loads(request.body.decode("utf-8"))["answer_id"]
+                # Find answer with given id or return error
                 try:
-                    answer_category = Answer.objects.get(question=question,
-                                                         answer_text=answer_text)
-                    answer = Response.objects.create(test_session=test_session,
-                                                     question=question,
-                                                     answer_text=answer_text)
+                    answer = Answer.objects.get(id=answer_id)
+                    response = Response.objects.create(test_session=test_session,
+                                                       answer=answer)
                     # Change last answered question and save changes
                     test_session.last_answered_question = question
                     test_session.save()
@@ -167,7 +164,7 @@ def save_answer(request, test_session_id, question_id):
                 except Answer.DoesNotExist:
                     return HttpResponse(
                         status=status.HTTP_400_BAD_REQUEST,
-                        content=json.dumps({"error_message": "Некорректный ответ"}),
+                        content=json.dumps({"error_message": "Вариант ответа с таким id не существует"}),
                         content_type="application/json"
                     )
         except Question.DoesNotExist:
