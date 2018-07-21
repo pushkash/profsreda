@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 
-from tests.models import Test, TestSession, Question, Answer, Response
+from tests.models import Test, TestSession, Question, Answer, Response, TestResult
 
 
 def get_all_tests(request):
@@ -190,8 +190,12 @@ def get_all_tests_view(request):
     :param request:
     :return: rendered HTML
     """
+    user = User.objects.get(id=1)
     tests = Test.objects.all()
-    return render(request, "responses/tests.html", {"tests": tests})
+    passed_tests = [test_result.get_test() for test_result in TestResult.objects.filter(test_session__user=user)]
+
+    return render(request, "responses/tests.html", {"tests": tests,
+                                                    "passed_tests": passed_tests})
 
 
 def test_view(request, test_id):

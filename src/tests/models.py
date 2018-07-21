@@ -238,6 +238,14 @@ class TestResult(models.Model):
         verbose_name = "Результат теста"
         verbose_name_plural = "Результаты тестов"
 
+    def get_test(self):
+        """
+        Returns Test related to TestResult
+        Only for code readability
+        :return: Test object
+        """
+        return self.test_session.test
+
 
 class TestSession(models.Model):
     user = models.ForeignKey(
