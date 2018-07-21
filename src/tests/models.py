@@ -97,7 +97,7 @@ class Question(models.Model):
         Returns related answer-category objects
         :return: QuerySet of related answer-category objects
         """
-        return AnswerCategory.objects.filter(question=self.id)
+        return Answer.objects.filter(question=self.id)
 
     def get_answer_category(self, answer_text):
         """
@@ -105,8 +105,8 @@ class Question(models.Model):
         :param answer_text: key to find answer-category object
         :return: AnswerCategory with given answer text
         """
-        return AnswerCategory.objects.filter(question=self.id,
-                                             answer_text=answer_text)
+        return Answer.objects.filter(question=self.id,
+                                     answer_text=answer_text)
 
     def dict(self):
         """
@@ -122,7 +122,7 @@ class Question(models.Model):
         return question
 
 
-class AnswerCategory(models.Model):
+class Answer(models.Model):
     answer_text = models.CharField(
         max_length=100,
         verbose_name=_("Ответ"),

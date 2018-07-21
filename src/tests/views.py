@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 
-from tests.models import Test, TestSession, Question, AnswerCategory, Response
+from tests.models import Test, TestSession, Question, Answer, Response
 
 
 def get_all_tests(request):
@@ -151,8 +151,8 @@ def save_answer(request, test_session_id, question_id):
                 answer_text = json.loads(request.body.decode("utf-8"))["answer_text"]
                 # Find answer category with given answer text or return error
                 try:
-                    answer_category = AnswerCategory.objects.get(question=question,
-                                                                 answer_text=answer_text)
+                    answer_category = Answer.objects.get(question=question,
+                                                         answer_text=answer_text)
                     answer = Response.objects.create(test_session=test_session,
                                                      question=question,
                                                      answer_text=answer_text)
@@ -164,7 +164,7 @@ def save_answer(request, test_session_id, question_id):
                         # TODO: calculate result
                         pass
                     return HttpResponse(status=status.HTTP_200_OK)
-                except AnswerCategory.DoesNotExist:
+                except Answer.DoesNotExist:
                     return HttpResponse(
                         status=status.HTTP_400_BAD_REQUEST,
                         content=json.dumps({"error_message": "Некорректный ответ"}),
