@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -257,6 +259,17 @@ class TestSession(models.Model):
         default=False,
         verbose_name=_("Закончена"),
         help_text=_("Значение, указывающее, закончена ли тест сессия")
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("Время старта"),
+        help_text=_("Время, в которое пользователь начал проходить тест")
+    )
+    finished = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=_("Время завершения"),
+        help_text=_("Время, в которое пользователь закончил проходить тест")
     )
 
     class Meta:
