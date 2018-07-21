@@ -337,3 +337,25 @@ class Response(models.Model):
 
     def __str__(self):
         return " - ".join([str(self.test_session), str(self.answer)])
+
+
+class ResultCategory(models.Model):
+    test_result = models.ForeignKey(
+        "tests.TestResult",
+        on_delete=models.CASCADE,
+        verbose_name=_("Результат теста"),
+        help_text=_("Результат теста, в котором определена категория")
+    )
+    category = models.ForeignKey(
+        "tests.Category",
+        on_delete=models.CASCADE,
+        verbose_name=_("Категория"),
+        help_text=_("Категория, определённая в тесте")
+    )
+
+    class Meta:
+        verbose_name = "Определённая категория"
+        verbose_name_plural = "Определённые категории"
+
+    def __str__(self):
+        return " - ".join([str(self.test_result), str(self.category)])

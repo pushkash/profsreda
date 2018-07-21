@@ -10,3 +10,4 @@ admin.site.register(Answer)
 
 admin.site.register(TestSession)
 admin.site.register(Response)
+admin.site.register(ResultCategory)
