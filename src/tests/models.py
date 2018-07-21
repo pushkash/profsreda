@@ -227,12 +227,6 @@ class TestResult(models.Model):
         verbose_name=_("Тест сессия"),
         help_text=_("Тест сессия, которой соответствует результат")
     )
-    item = models.ForeignKey(
-        "heroes.Item",
-        on_delete=models.DO_NOTHING,
-        verbose_name=_("Награда"),
-        help_text=_("Предмет, полученный в награду за прохождение теста")
-    )
 
     class Meta:
         verbose_name = "Результат теста"
