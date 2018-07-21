@@ -228,7 +228,6 @@ def test_overview(request, test_id):
     user = User.objects.get(id=1)
     try:
         test = Test.objects.get(id=test_id)
-        # TODO: check if query is correct
         # Get last TestSession
         test_session = TestSession.objects.filter(test=test,
                                                   user=user).reverse()[0]
