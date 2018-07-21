@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -106,7 +107,8 @@ def create_test_session(request, test_id):
             )
         except TestSession.DoesNotExist:
             test_session = TestSession.objects.create(user=user,
-                                                      test=test)
+                                                      test=test,
+                                                      datetime_created=datetime.now())
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
