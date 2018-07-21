@@ -305,16 +305,24 @@ class TestSession(models.Model):
         return self.is_finished
 
     def finish(self):
+        """
+        Creates TestResult, ResultCategory, ResultItem
+        :return:
+        """
         self.datetime_finished = timezone.now()
         test_result = TestResult.objects.create(test_session=self)
 
-        for result_category in self.calculate_result():
+        for result_category in self.calculate_result_categories():
             ResultCategory.objects.create(test_result=test_result,
                                           category=result_category)
             ResultItem.objects.create(test_result=test_result,
                                       item=result_category.item)
 
-    def calculate_result(self):
+    def calculate_result_categories(self):
+        """
+        Calculates categories weights
+        :return: list of categories with max weight
+        """
         categories_weights = {category: 0 for category in Category.objects.filter(test=self.test)}
         for response in Response.objects.filter(test_session=self):
             categories_weights[response.answer.category] += response.answer.weight

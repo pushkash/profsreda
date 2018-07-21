@@ -161,7 +161,6 @@ def save_response(request, test_session_id, question_id):
                     test_session.save()
 
                     if test_session.check_is_finished():
-                        # TODO: calculate result
                         test_session.finish()
                     return HttpResponse(status=status.HTTP_200_OK)
             except Answer.DoesNotExist:
