@@ -190,6 +190,7 @@ def get_all_tests_view(request):
     :param request:
     :return: rendered HTML
     """
+    # TODO: change to request.user
     user = User.objects.get(id=1)
     tests = Test.objects.all()
     passed_tests = [test_result.get_test() for test_result in TestResult.objects.filter(test_session__user=user)]
