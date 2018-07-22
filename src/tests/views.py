@@ -146,7 +146,7 @@ def save_response(request, test_session_id, question_id):
                 # Check if response for question already exists
                 try:
                     current_response = Response.objects.get(test_session=test_session,
-                                                            answer=answer)
+                                                            answer__question=answer.question)
                     return HttpResponse(
                         status=status.HTTP_400_BAD_REQUEST,
                         content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
