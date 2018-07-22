@@ -310,6 +310,7 @@ class TestSession(models.Model):
         :return:
         """
         self.datetime_finished = timezone.now()
+        self.save()
         test_result = TestResult.objects.create(test_session=self)
 
         for result_category in self.calculate_result_categories():
@@ -338,7 +339,8 @@ class TestSession(models.Model):
         """
         test_session = {
             "id": self.id,
-            "last_answered_question": None if self.last_answered_question is None else self.last_answered_question.dict()
+            "last_answered_question": None if self.last_answered_question is None else self.last_answered_question.dict(),
+            "is_finished": self.is_finished
         }
         return test_session
 

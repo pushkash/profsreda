@@ -61,9 +61,14 @@ def get_test_session(request, test_id):
         test = Test.objects.get(id=test_id)
         # Find unfinished test session or return error
         try:
+<<<<<<< HEAD
             test_session = TestSession.objects.get(user=user,
                                                    test=test,
                                                    is_finished=False)
+=======
+            test_session = TestSession.objects.filter(user=user,
+                                                      test=test).last()
+>>>>>>> demid
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
