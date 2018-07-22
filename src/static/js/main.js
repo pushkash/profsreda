@@ -49,17 +49,25 @@ class TestController {
 			})
 			.catch(e => {
 				// TODO: Обработка разных ошибок - Сейчас всегда создается новая сессия
-				return new PromiseRequest(`/tests/test/${this.test_id}/create_test_session/`).get_json()
-				.then((session) => {
-					this.session = session
-					return r(session)
-				})
-				.catch( error_data => { 
-					console.log('session error')
-					error(error_data)
-				} )
+				if (true) {
+
+				}
+				error(error_data)
 			})
 		})
+	}
+
+	create_new_session() {
+		return new PromiseRequest(`/tests/test/${this.test_id}/create_test_session/`).get_json()
+		.then((session) => {
+			this.session = session
+			return session
+		})
+		.catch( error_data => { 
+			console.log('session error')
+			console.log(error_data)
+			throw error_data;
+		} )
 	}
 
 	getQuestionnaire() {
@@ -79,13 +87,23 @@ class TestController {
 		.then(() => this.checkSession())
 		.then( (session) => {
 			console.log(session)
+			if (!session || session.test_session.is_finished) {
+				console.log('create new session')
+				return this.create_new_session()
+			} else {
+				console.log('return session')
+				return session
+			}
+		})
+		.then(session => {
+			console.log(session)
 			let last_id = null;
 
 			if (session.test_session.last_answered_question) {
 				last_id = session.test_session.last_answered_question.id
 			}
 
-
+			this.view.show_tester();
 			return this.showQuestion(this.findNextQuestion(last_id))
 		})
 		.catch(e => {
@@ -199,6 +217,11 @@ class TestView {
 		this.switch_view('test-view', 'test-error')
 	}
 
+	show_tester() {
+		console.log('show tester')
+		this.switch_view('test-overview', 'test-view')
+	}
+
 	start_loading() {
 
 	}
@@ -245,10 +268,24 @@ class PromiseRequest {
 	get_json() {
 		return this.get()
 		.then (result => {
-			return JSON.parse(result)
+			try {
+				return JSON.parse(result)
+			} catch {
+				console.log('cannot parse json')
+				return {
+					result: result
+				}
+			}
 		})
 		.catch (e => {
-			throw JSON.parse(e)
+			try {
+				throw JSON.parse(e)
+			} catch {
+				console.log('cannot parse json')
+				throw {
+					error: e
+				}
+			}
 		})
 	}
 

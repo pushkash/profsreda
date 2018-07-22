@@ -81,14 +81,14 @@
             
             document.getElementById("start-button").addEventListener('click', (event) => {
                 new TestController('{{test.id}}').startTest();           
-                switch_view('test-overview', 'test-view')         
+                // switch_view('test-overview', 'test-view')         
             } )
 
             
-            function switch_view(view1, view2) {
-                document.getElementById(view1).hidden = true;
-                document.getElementById(view2).hidden = false;
-            }
+            // function switch_view(view1, view2) {
+            //     document.getElementById(view1).hidden = true;
+            //     document.getElementById(view2).hidden = false;
+            // }
 
             document.getElementById("reload-button").addEventListener('click', (event) => {
                 location.reload()
