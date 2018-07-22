@@ -230,24 +230,6 @@ def get_all_tests_view(request):
 
 def test_view(request, test_id):
     """
-    Renders test template
-    :param request: request
-    :param test_id: test id to render
-    :return: rendered HTML template
-    """
-    try:
-        test = Test.objects.get(id=test_id)
-        return render(request, "responses/question.html", {"test": test})
-    except Test.DoesNotExist:
-        return HttpResponse(
-            status=status.HTTP_404_NOT_FOUND,
-            content=json.dumps({"error_message": "Теста с таким id не существует"}),
-            content_type="application/json"
-        )
-
-
-def test_overview(request, test_id):
-    """
     Renders test overview template
     :param request: http request
     :param test_id: test id to render overview
