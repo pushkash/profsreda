@@ -310,6 +310,7 @@ class TestSession(models.Model):
         :return:
         """
         self.datetime_finished = timezone.now()
+        self.save()
         test_result = TestResult.objects.create(test_session=self)
 
         for result_category in self.calculate_result_categories():
