@@ -237,3 +237,19 @@ def test_overview(request, test_id):
             content=json.dumps({"error_message": "Теста с таким id не существует"}),
             content_type="application/json"
         )
+
+
+def result_view(request, test_id):
+    """
+    Renders test result template
+    :param request: http request
+    :param test_id: test id to render test result
+    :return: rendered HTML template
+    """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
+    test = Test.objects.get(id=test_id)
+    test_result = TestResult.objects.filter(test_session__user=user,
+                                            test_session__test=test).last()
+    return render(request, "responses/results.html", {"test": test,
+                                                      "test_result": test_result})
