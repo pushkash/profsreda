@@ -61,8 +61,8 @@ def get_test_session(request, test_id):
         test = Test.objects.get(id=test_id)
         # Find last test session or return error
         try:
-            test_session = TestSession.objects.get(user=user,
-                                                   test=test)
+            test_session = TestSession.objects.filter(user=user,
+                                                      test=test).last()
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),

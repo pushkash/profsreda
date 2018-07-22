@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ff21e8f4-b170-4e0f-830c-921dfc6f9c26" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,7 +15,7 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5641809">
+    <splitter split-orientation="horizontal" split-proportion="0.5445836">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
@@ -35,8 +33,8 @@
           <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="299">
-                  <caret line="147" column="52" selection-start-line="147" selection-start-column="52" selection-end-line="147" selection-end-column="52" />
+                <state relative-caret-position="838">
+                  <caret line="94" column="8" lean-forward="true" selection-start-line="94" selection-start-column="8" selection-end-line="94" selection-end-column="8" />
                   <folding>
                     <element signature="e#0#11#0" expanded="true" />
                   </folding>
@@ -51,8 +49,20 @@
           <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/urls.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="147">
-                  <caret line="8" column="63" selection-start-line="8" selection-start-column="63" selection-end-line="8" selection-end-column="63" />
+                <state relative-caret-position="294">
+                  <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+                  <folding>
+                    <element signature="e#0#28#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/profsreda/settings.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="208">
+                  <caret line="157" lean-forward="true" selection-start-line="157" selection-end-line="157" />
                 </state>
               </provider>
             </entry>
@@ -60,8 +70,8 @@
           <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="798">
-                  <caret line="358" column="44" lean-forward="true" selection-start-line="358" selection-start-column="44" selection-end-line="358" selection-end-column="44" />
+                <state relative-caret-position="355">
+                  <caret line="314" lean-forward="true" selection-start-line="314" selection-end-line="314" />
                   <folding>
                     <element signature="e#0#15#0" expanded="true" />
                   </folding>
@@ -102,17 +112,17 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/profsreda/urls.py" />
-        <option value="$PROJECT_DIR$/profsreda/settings.py" />
         <option value="$PROJECT_DIR$/tests/apps.py" />
         <option value="$PROJECT_DIR$/templates/navbar.html" />
         <option value="$PROJECT_DIR$/templates/responses/tests.html" />
         <option value="$PROJECT_DIR$/tests/migrations/renaming_models.py" />
         <option value="$PROJECT_DIR$/heroes/models.py" />
         <option value="$PROJECT_DIR$/tests/admin.py" />
-        <option value="$PROJECT_DIR$/tests/models.py" />
         <option value="$PROJECT_DIR$/templates/responses/results.html" />
-        <option value="$PROJECT_DIR$/tests/views.py" />
         <option value="$PROJECT_DIR$/tests/urls.py" />
+        <option value="$PROJECT_DIR$/profsreda/settings.py" />
+        <option value="$PROJECT_DIR$/tests/views.py" />
+        <option value="$PROJECT_DIR$/tests/models.py" />
       </list>
     </option>
   </component>
@@ -150,6 +160,11 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="heroes" type="462c0819:PsiDirectoryNode" />
               <item name="migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="src" type="b2602c69:ProjectViewProjectNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="profsreda" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="src" type="b2602c69:ProjectViewProjectNode" />
@@ -436,7 +451,35 @@
       <option name="project" value="LOCAL" />
       <updated>1532264529636</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Change save_response view to check response existence by comparing question, not answer">
+      <created>1532264704041</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1532264704041</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Change get_test_session view to return last test session">
+      <created>1532290900427</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1532290900427</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Add is_finished to TestSession.dict()">
+      <created>1532292534528</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1532292534528</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Add datetime_finished saving whil calculation result">
+      <created>1532292698170</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1532292698170</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TodoView">
@@ -457,9 +500,9 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3297414" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49938875" weight="0.31002086" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49938875" weight="0.30926725" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49938875" weight="0.2650862" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16870415" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1705379" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -492,10 +535,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Change Response model: remove question and answer_text fields, add answer field" />
-    <MESSAGE value="Rename (look prev. commits) all code occurrences" />
-    <MESSAGE value="Last changes in renaming models" />
-    <MESSAGE value="Add created and finished time stamps to TestSession model" />
     <MESSAGE value="Remove auto_now_add from TestSession field datetime_created so it shows in admin" />
     <MESSAGE value="Change create_test_session view to save datetime of instance creation" />
     <MESSAGE value="Add datetime_created to Response model. Change save_response view to save datetime of response creation" />
@@ -517,7 +556,11 @@
     <MESSAGE value="Add result_view view" />
     <MESSAGE value="Create get_test_result view" />
     <MESSAGE value="Refactor test_overview view" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor test_overview view" />
+    <MESSAGE value="Change save_response view to check response existence by comparing question, not answer" />
+    <MESSAGE value="Change get_test_session view to return last test session" />
+    <MESSAGE value="Add is_finished to TestSession.dict()" />
+    <MESSAGE value="Add datetime_finished saving whil calculation result" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add datetime_finished saving whil calculation result" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tests/views.py">
@@ -747,13 +790,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/profsreda/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="54" column="33" lean-forward="true" selection-start-line="54" selection-start-column="33" selection-end-line="54" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/db/models/query.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
@@ -840,6 +876,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/responses/results.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="18" lean-forward="true" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
@@ -850,37 +893,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/responses/results.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="18" lean-forward="true" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="147" column="52" selection-start-line="147" selection-start-column="52" selection-end-line="147" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="358" column="44" lean-forward="true" selection-start-line="358" selection-start-column="44" selection-end-line="358" selection-end-column="44" />
+        <state relative-caret-position="355">
+          <caret line="314" lean-forward="true" selection-start-line="314" selection-end-line="314" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/profsreda/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="157" lean-forward="true" selection-start-line="157" selection-end-line="157" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="8" column="63" selection-start-line="8" selection-start-column="63" selection-end-line="8" selection-end-column="63" />
+        <state relative-caret-position="294">
+          <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="838">
+          <caret line="94" column="8" lean-forward="true" selection-start-line="94" selection-start-column="8" selection-end-line="94" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
