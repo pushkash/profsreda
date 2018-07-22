@@ -81,6 +81,7 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {                                                      # Production
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
     #     'USER': 'prof_user',
@@ -88,7 +89,7 @@ DATABASES = {
     #     'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
     #     'PORT': '10827',
     # }
-    # 'default': {
+    # 'default': {                                                      # PAW
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
     #     'USER' : 'prof_user',
@@ -97,19 +98,11 @@ DATABASES = {
     #     'PORT' : '5432',
     # }
 
-    'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    'default': {                                                        # Local
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-
-
-    
 }
-#         'PASSWORD': "profXsreda2018",
-#         'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
-#         'PORT': '10827',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -167,24 +160,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 SITE_ID = 1
 
 MODE = os.environ.get('MODE')
+
 if MODE == 'dev':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 if MODE == 'prod':
-    EMAIL_HOST_USER = 'profsreda@gmail.com'
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = 'info.profsreda@gmail.com'
     EMAIL_HOST_PASSWORD = '26kadr_profsreda'
     EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 465
-    EMAIL_USE_TLS = True
+    #EMAIL_PORT = 465
+    EMAIL_PORT = 587
 
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    DEFAULT_FROM_EMAIL = 'profsreda@gmail.com'
+    DEFAULT_FROM_EMAIL = 'info.profsreda@gmail.com'
 
-    ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+    #ACCOUNT_EMAIL_VERIFICATION = "mandatory"
     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

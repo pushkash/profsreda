@@ -3,11 +3,12 @@ import json
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 
-from tests.models import Test, TestSession, Question, AnswerCategory, Answer
+from tests.models import Test, TestSession, Question, Answer, Response, TestResult
 
 
 def get_all_tests(request):
@@ -48,7 +49,7 @@ def get_test(request, test_id):
 
 def get_test_session(request, test_id):
     """
-    Returns current/new test session for test
+    Returns current test session for test
     :param request: http request
     :param test_id: test for which a test session is requested
     :return: JSON object with current/new test session object
@@ -60,9 +61,8 @@ def get_test_session(request, test_id):
         test = Test.objects.get(id=test_id)
         # Find unfinished test session or return error
         try:
-            test_session = TestSession.objects.get(user=user,
-                                                   test=test,
-                                                   is_finished=False)
+            test_session = TestSession.objects.filter(user=user,
+                                                      test=test).last()
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
@@ -106,7 +106,8 @@ def create_test_session(request, test_id):
             )
         except TestSession.DoesNotExist:
             test_session = TestSession.objects.create(user=user,
-                                                      test=test)
+                                                      test=test,
+                                                      datetime_created=timezone.now())
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
@@ -121,14 +122,13 @@ def create_test_session(request, test_id):
 
 
 @csrf_exempt
-def save_answer(request, test_session_id, question_id):
+def save_response(request, test_session_id, question_id):
     """
-    Saves answer
+    Saves response for given question
     :param request: http response
     :param test_session_id: current test session id
     :param question_id: current question_id
-    :return: JSON object with error message in case
-             if one of id's or answer text is incorrect
+    :return: JSON object with error message in case if one of id's is incorrect
     """
     # TODO: change to request.user
     user = User.objects.get(id=1)
@@ -138,38 +138,36 @@ def save_answer(request, test_session_id, question_id):
         # Find question or return error
         try:
             question = Question.objects.get(id=question_id)
-            # Check if answer for question already exists
+            # Find answer with given id or return error
             try:
-                current_answer = Answer.objects.get(test_session=test_session,
-                                                    question=question)
-                return HttpResponse(
-                    status=status.HTTP_400_BAD_REQUEST,
-                    content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
-                    content_type="application/json"
-                )
-            except Answer.DoesNotExist:
-                answer_text = json.loads(request.body.decode("utf-8"))["answer_text"]
-                # Find answer category with given answer text or return error
+                answer_id = json.loads(request.body.decode("utf-8"))["answer_id"]
+                answer = Answer.objects.get(id=answer_id)
+                # Check if response for question already exists
                 try:
-                    answer_category = AnswerCategory.objects.get(question=question,
-                                                                 answer_text=answer_text)
-                    answer = Answer.objects.create(test_session=test_session,
-                                                   question=question,
-                                                   answer_text=answer_text)
+                    current_response = Response.objects.get(test_session=test_session,
+                                                            answer__question=answer.question)
+                    return HttpResponse(
+                        status=status.HTTP_403_FORBIDDEN,
+                        content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
+                        content_type="application/json"
+                    )
+                except Response.DoesNotExist:
+                    response = Response.objects.create(test_session=test_session,
+                                                       answer=answer,
+                                                       datetime_created=timezone.now())
                     # Change last answered question and save changes
                     test_session.last_answered_question = question
                     test_session.save()
 
                     if test_session.check_is_finished():
-                        # TODO: calculate result
-                        pass
+                        test_session.finish()
                     return HttpResponse(status=status.HTTP_200_OK)
-                except AnswerCategory.DoesNotExist:
-                    return HttpResponse(
-                        status=status.HTTP_400_BAD_REQUEST,
-                        content=json.dumps({"error_message": "Некорректный ответ"}),
-                        content_type="application/json"
-                    )
+            except Answer.DoesNotExist:
+                return HttpResponse(
+                    status=status.HTTP_404_NOT_FOUND,
+                    content=json.dumps({"error_message": "Вариант ответа с таким id не существует"}),
+                    content_type="application/json"
+                )
         except Question.DoesNotExist:
             return HttpResponse(
                 status=status.HTTP_404_NOT_FOUND,
@@ -184,14 +182,52 @@ def save_answer(request, test_session_id, question_id):
         )
 
 
+def get_test_result(request, test_id):
+    """
+    Returns last TestResult for test with given id
+    :param request: http request
+    :param test_id: Test id to find TestResult
+    :return: JSON object with TestResult info
+    """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
+    try:
+        test = Test.objects.get(id=test_id)
+        test_result = TestResult.objects.filter(test_session__user=user,
+                                                test_session__test=test).last()
+        if test_result is not None:
+            return HttpResponse(
+                status=status.HTTP_200_OK,
+                content=json.dumps({"test_result": test_result.dict()}),
+                content_type="application/json"
+            )
+        else:
+            return HttpResponse(
+                status=status.HTTP_404_NOT_FOUND,
+                content=json.dumps({{"error_message": "Для теста с таким id нет результатов"}}),
+                content_type="application/json"
+            )
+    except Test.DoesNotExist:
+        return HttpResponse(
+            status=status.HTTP_404_NOT_FOUND,
+            content=json.dumps({"error_message": "Теста с таким id не существует"}),
+            content_type="application/json"
+        )
+
+
 def get_all_tests_view(request):
     """
     Renders test catalog
     :param request:
     :return: rendered HTML
     """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
     tests = Test.objects.all()
-    return render(request, "responses/tests.html", {"tests": tests})
+    passed_tests = [test_result.get_test() for test_result in TestResult.objects.filter(test_session__user=user)]
+
+    return render(request, "responses/tests.html", {"tests": tests,
+                                                    "passed_tests": passed_tests})
 
 
 def test_view(request, test_id):
@@ -203,7 +239,7 @@ def test_view(request, test_id):
     """
     try:
         test = Test.objects.get(id=test_id)
-        return render(request, "responses/question.html", {"test": test})
+        return render(request, "responses/tester.html", {"test": test})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
@@ -219,9 +255,14 @@ def test_overview(request, test_id):
     :param test_id: test id to render overview
     :return: rendered HTML template
     """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
     try:
         test = Test.objects.get(id=test_id)
-        return render(request, "responses/response.html", {"test": test})
+        # Get last TestSession for user
+        test_session = TestSession.objects.filter(test=test,
+                                                  user=user).last()
+        return render(request, "responses/tester.html", {"test": test, "test_session": test_session})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
@@ -230,13 +271,17 @@ def test_overview(request, test_id):
         )
 
 
-# def test_view(request, test_id):
-#     try:
-#         test = Test.objects.get(id=test_id)
-#         return render(request, "responses/question.html", {"test": test})
-#     except Test.DoesNotExist:
-#         return HttpResponse(
-#             status=status.HTTP_404_NOT_FOUND,
-#             content=json.dumps({"error_message": "Теста с таким id не существует"}),
-#             content_type="application/json"
-#         )
+def result_view(request, test_id):
+    """
+    Renders test result template
+    :param request: http request
+    :param test_id: test id to render test result
+    :return: rendered HTML template
+    """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
+    test = Test.objects.get(id=test_id)
+    test_result = TestResult.objects.filter(test_session__user=user,
+                                            test_session__test=test).last()
+    return render(request, "responses/results.html", {"test": test,
+                                                      "test_result": test_result})

@@ -583,27 +583,9 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	opacity:0.7;
 }
 
-.course .course-img .course-link-icon {
-	position:absolute;
-	left:50%;
-	top:50%;
-	-webkit-transform: translate(-50% , calc(-50% - 15px));
-	    -ms-transform: translate(-50% , calc(-50% - 15px));
-	        transform: translate(-50% , calc(-50% - 15px));
-	width:40px;
-	height:40px;
-	line-height:40px;
-	text-align:center;
-	border:2px solid #fff;
-	color:#fff;
-	border-radius:50%;
-	opacity:0;
-	z-index:10;
-	-webkit-transition:0.2s all;
-	transition:0.2s all;
-}
 
-.course .course-img:hover .course-link-icon {
+
+.course .course-img:hover .course-floated {
 	-webkit-transform: translate(-50% , -50%);
 	    -ms-transform: translate(-50% , -50%);
 	        transform: translate(-50% , -50%);
@@ -621,22 +603,6 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	border-top: 1px solid #EBEBEB;
 }
 
-.course .course-details .course-price {
-	float: right;
-}
-
-.course .course-details .course-price.course-free {
-	color: green;
-}
-
-.course .course-details .course-price.course-premium {
-	color: red;
-}
-
-#courses .center-btn {
-	text-align:center;
-	margin-top:40px;
-}
 
 /*------------------------------------*\
 	Footer

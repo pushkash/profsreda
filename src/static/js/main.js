@@ -14,14 +14,23 @@
 	$('.navbar-toggle').on('click',function(){
 		$('#header').toggleClass('nav-collapse')
 	});
-
-	console.log(BASE_URL)
-
-
-	
-
-	
 })(jQuery);
+
+function csrfcookie() {
+    var cookieValue = null,
+        name = 'csrftoken';
+    if (document.cookie && document.cookie !== '') {
+		var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+	}
+    return cookieValue;
+};
 
 
 class TestController {
@@ -31,50 +40,136 @@ class TestController {
 		this.view = new TestView();
 	}
 
-	checkState() {
-		let state = {
-			session_id: 12,
-			current: 5,
-			solved: 4,
-			amount: 40
-		}
-		this.state = state
-		return new Promise((r, e) => {
-			return r(state)
+	checkSession() {
+		return new Promise((r, error) => {
+			return new PromiseRequest(`/tests/test/${this.test_id}/get_test_session/`).get_json()
+			.then((session) => {
+				this.session = session
+				return r(session)
+			})
+			.catch(e => {
+				// TODO: Обработка разных ошибок - Сейчас всегда создается новая сессия
+				if (true) {
+
+				}
+				error(error_data)
+			})
 		})
 	}
 
+	create_new_session() {
+		return new PromiseRequest(`/tests/test/${this.test_id}/create_test_session/`).get_json()
+		.then((session) => {
+			this.session = session
+			return session
+		})
+		.catch( error_data => { 
+			console.log('session error')
+			console.log(error_data)
+			throw error_data;
+		} )
+	}
+
 	getQuestionnaire() {
-		return new PromiseRequest(`questionnaire/get_questionnaire/${this.test_id}`).get_json()
+		return new PromiseRequest(`/tests/get_test/${this.test_id}/`).get_json()
 		.then( (result) => {
-			this.questions = result.questionnaire.questions
-			console.log(this.questions) 
+			this.questions = result.test.questions
+			return this.questions
+		})
+		.catch((e) => {
+			console.log('error get_questionarrie')
+			console.log(e)
 		})
 	}
 
 	startTest() {
 		this.getQuestionnaire()
-		.then(() => this.checkState())
-		.then( (state) => {
-			return this.showQuestion(state.current)
+		.then(() => this.checkSession())
+		.then( (session) => {
+			console.log(session)
+			if (!session || session.test_session.is_finished) {
+				console.log('create new session')
+				return this.create_new_session()
+			} else {
+				console.log('return session')
+				return session
+			}
+		})
+		.then(session => {
+			console.log(session)
+			let last_id = null;
+
+			if (session.test_session.last_answered_question) {
+				last_id = session.test_session.last_answered_question.id
+			}
+
+			this.view.show_tester();
+			return this.showQuestion(this.findNextQuestion(last_id))
+		})
+		.catch(e => {
+			handle_error(e)
 		})
 	}
 
-	sendAnswer(q_id, a_id) {
-		console.log(`${this.test_id}, ${q_id}, ${a_id}`)
+	sendResponse(q_id, answer_id) {
+		
+		let response = {
+			answer_id: answer_id
+		}
 
+		new PromiseRequest(`/tests/test_session/${this.session.test_session.id}/save_question_response/${q_id}/`).post_json(response)
+		.catch((error) => {
+			if (error.code == 403) {
+				console.log('handle 403 error')
+			} else {
+				throw error
+			}
+		})
+		.then((data) => {
+			return this.checkSession()
+		})
+		.then((session) => {
+			if (!session.test_session.is_finished)
+				return this.showQuestion(this.findNextQuestion(session.test_session.last_answered_question.id))
+			else {
+				console.log('test is done')
+			}
+		})
+		.catch(error => {
+			this.handle_error(error)
+		})
 		
 	}
 
+	findNextQuestion(prev_id) {
+		let current_index = 0;
+		console.log(prev_id)
+
+		if (prev_id) {
+			// TODO: Написать расчет следующего вопроса
+
+			current_index = this.questions.indexOf(
+				this.questions.filter(e => {
+					return (e.id == prev_id)
+				})[0]
+			)
+
+			current_index += 1
+		} else {
+			current_index = 0
+		}
+		console.log(current_index)
+		return this.questions[current_index].id
+	}
+
 	showQuestion(question_id) {
-		console.log(`show q: ${question_id}`)
 		let question = this.questions.filter((e) => {
-			return (e.sort_id == question_id)
+			return (e.id == question_id)
 		})[0];
 		if (question) {
-			this.view.drawView(question, (...args) => {this.sendAnswer(args[0], args[1])})
+			this.view.drawView(question, (...args) => {this.sendResponse(args[0], args[1])})
 		} else {
-			handle_error('no question')
+			throw(`no question with id ${question_id} found `)
 		}
 	}
 
@@ -83,6 +178,7 @@ class TestController {
 	}
 
 	handle_error(e) {
+		this.view.show_error_view()
 		console.log(e)
 	}
 }
@@ -94,6 +190,14 @@ class TestView {
 		this.answers_container = document.getElementById('answer-buttons');
 	}
 
+	showTestView() {
+
+	}
+
+	update_progres() {
+
+	}
+
 	drawView(data, answer_callback) {
 		this.question_container.innerHTML = data.text
 		console.log(data)
@@ -101,16 +205,21 @@ class TestView {
 		data.answers.forEach(answer => {
 			let btn = document.createElement('button')
 			btn.classList.add('btn', 'btn-default', 'btn-lg')
-			btn.innerHTML = answer.transcript
+			btn.innerHTML = answer.text
 			btn.addEventListener('click', (e) => {
-				answer_callback(data.sort_id, answer.value)
-			} )
+				answer_callback(data.id, answer.id)
+			})
 			this.answers_container.appendChild(btn)
 		});
 	}
 
 	show_error_view() {
+		this.switch_view('test-view', 'test-error')
+	}
 
+	show_tester() {
+		console.log('show tester')
+		this.switch_view('test-overview', 'test-view')
 	}
 
 	start_loading() {
@@ -121,6 +230,11 @@ class TestView {
 
 	}
 
+	switch_view(view1, view2) {
+		document.getElementById(view1).hidden = true;
+		document.getElementById(view2).hidden = false;
+	}
+
 
 }
 
@@ -128,45 +242,83 @@ class PromiseRequest {
 	constructor(url) {
 		this.url = url
 		this.BASE_URL = window.location.origin
+		
 	}
 
 	get() {
 		let url = this.BASE_URL+this.url
 		return new Promise( (resolve, reject) => {
-			var xobj = new XMLHttpRequest();
-			xobj.overrideMimeType("application/json");
-			xobj.open('GET', url, true); 
-			xobj.onreadystatechange = function () {
-				if (xobj.readyState == 4 && xobj.status == "200") {
-					resolve(xobj.responseText);
-				}
+			var xhr = new XMLHttpRequest();
+			xhr.overrideMimeType("application/json");
+			xhr.open('GET', url, true); 
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					if (xhr.status == "200") {
+						resolve(xhr.responseText)
+					} else {
+						console.log(`error: ${url}`)
+						reject(xhr.responseText)
+					}
+				} 
 			};
-			xobj.send(null);  
+			xhr.send(null);  
 		})
 	}
 
 	get_json() {
 		return this.get()
-		.then ((result) => JSON.parse(result))
+		.then (result => {
+			try {
+				return JSON.parse(result)
+			} catch {
+				console.log('cannot parse json')
+				return {
+					result: result
+				}
+			}
+		})
+		.catch (e => {
+			try {
+				throw JSON.parse(e)
+			} catch {
+				console.log('cannot parse json')
+				throw {
+					error: e
+				}
+			}
+		})
 	}
 
-	push_json( data ) {
+	post_json( data ) {
 		let url = this.BASE_URL + this.url;
 		let json = JSON.stringify(data);
-		new Promise((resolve, reject) => {
-			let xhr = new XMLHttpRequest();
-			xhr.open("POST", url, true);
-			xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-			xhr.onload = function () {
-				let response = JSON.parse(xhr.responseText);
-				if (xhr.readyState == 4 && xhr.status == "201") {
-					resolve(response)
-				} else {
-					reject(response)
+		return new Promise((resolve, reject) => {
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", url, true)
+			xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+			xhr.setRequestHeader('X-CSRFToken', csrfcookie());
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4) {
+					if (xhr.status == "200" || xhr.status == "201") {
+						resolve(xhr.responseText)
+					} else {
+						console.log(xhr.responseText)
+						try {
+							reject({
+								code: xhr.status,
+								body: JSON.parse(xhr.responseText)
+							})
+						} catch(e) {
+							reject({
+								code: xhr.status,
+								body: xhr.responseText
+							})
+						}
+					}
 				}
 			}
 			xhr.send(json);
 		})
-		
 	}
 }
+

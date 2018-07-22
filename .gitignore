@@ -1,26 +1,9 @@
-<<<<<<< HEAD
 .vscode/
-src/heroes/__pycache__/
-src/heroes/migrations/__pycache__/
-src/profsreda/__pycache__/
-src/questionnaire/migrations/__pycache__/
-src/questionnaire_responses/migrations/
-src/tests/__pycache__/
-src/tests/migrations/__pycache__/
 .gitignore
-=======
-<<<<<<< HEAD
-**/__pycache__/
-.vscode
-=======
-.vscode/
 **/__pycache__/
 **/profsreda_env/**
-src/db.sqlite3
-src/.idea/
-src/.idea/misc.xml
-src/.idea/src.iml
-src/.idea/workspace.xml
-src/profsreda/settings.py
->>>>>>> demid
->>>>>>> ozv
+**/.idea/
+**/settings.py
+.gitignore
+.DS_Store
+*.pyc

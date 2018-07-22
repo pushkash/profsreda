@@ -54,6 +54,7 @@ class Profile(models.Model):
         )
     )
 
+
     def put_item(self, item_pk):
         item = Item.objects.get(pk=item_pk)
         available_items = ItemUser.objects.filter(user=self.user)
@@ -160,3 +161,10 @@ class ItemUser(models.Model):
 
     def __str__(self):
         return "{} -> {}".format(self.item.name, self.user.email or self.user.username)
+
+
+class ShareProfileAvatar(models.Model):
+
+    user_id = models.PositiveIntegerField(null=False, unique=True)
+
+    avatar_image = models.TextField(default="")
