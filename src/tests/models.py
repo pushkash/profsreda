@@ -265,6 +265,20 @@ class TestSession(models.Model):
         verbose_name=_("Последний отвеченный вопрос"),
         help_text=_("Последний вопрос, на который ответил пользователь")
     )
+    next_question_to_answer = models.ForeignKey(
+        "tests.Question",
+        blank=True,
+        null=True,
+        on_delete=models.DO_NOTHING,
+        verbose_name=_("Следующий вопрос"),
+        help_text=_("Следующий вопрос, на который нужно ответить"),
+        related_name="next_answer"
+    )
+    count_answered_questions = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name=_("Количество отвеченных вопросов"),
+        help_text=_("Количество вопросов, на которые ответил пользователь")
+    )
     is_finished = models.BooleanField(
         default=False,
         verbose_name=_("Закончена"),
