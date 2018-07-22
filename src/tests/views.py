@@ -262,7 +262,7 @@ def test_overview(request, test_id):
         test = Test.objects.get(id=test_id)
         # Get last TestSession for user
         test_session = TestSession.objects.filter(test=test,
-                                                  user=user).reverse()[0]
+                                                  user=user).last()
         return render(request, "responses/response.html", {"test": test, "test_session": test_session})
     except Test.DoesNotExist:
         return HttpResponse(
