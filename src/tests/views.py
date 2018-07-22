@@ -262,13 +262,8 @@ def test_overview(request, test_id):
         test = Test.objects.get(id=test_id)
         # Get last TestSession for user
         test_session = TestSession.objects.filter(test=test,
-<<<<<<< HEAD
-                                                  user=user).reverse()[0]
-        return render(request, "responses/tester.html", {"test": test, "test_session": test_session})
-=======
                                                   user=user).last()
         return render(request, "responses/response.html", {"test": test, "test_session": test_session})
->>>>>>> demid
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
