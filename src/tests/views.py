@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 
-from tests.models import Test, TestSession, Question, Answer, Response, TestResult
+from tests.models import Test, TestSession, Question, Answer, Response, TestResult, ResultCategory, ResultItem
 
 
 def get_all_tests(request):
@@ -263,5 +263,9 @@ def result_view(request, test_id):
     test = Test.objects.get(id=test_id)
     test_result = TestResult.objects.filter(test_session__user=user,
                                             test_session__test=test).last()
+    result_categories = ResultCategory.objects.filter(test_result=test_result)
+    result_items = ResultItem.objects.filter(test_result=test_result)
     return render(request, "responses/results.html", {"test": test,
-                                                      "test_result": test_result})
+                                                      "test_result": test_result,
+                                                      "result_categories": result_categories,
+                                                      "result_items": result_items})
