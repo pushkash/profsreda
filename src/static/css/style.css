@@ -57,18 +57,20 @@ body {
 /* Tester page */
 /* ------ */
 
-.test-body {
-	/* display: flex; */
+#test-body {
+
 	padding-top: 20px
 }
 
-.test-body > div {
-	/* position: absolute;
-    top: 50%;
-	transform: translateY(-50%); */
+#test-body > div {
+
 	max-width: 800px;
 	margin: auto;
 	
+}
+
+#test-body > div > div{
+	margin-bottom: 30px;
 }
 
 .test-header {
@@ -84,9 +86,7 @@ body {
 	padding-top: 30px;
 }
 
-.test-body > div > div{
-	margin-bottom: 30px;
-}
+
 
 .test-text {
 	display: inline-block;

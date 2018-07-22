@@ -148,7 +148,7 @@ def save_response(request, test_session_id, question_id):
                     current_response = Response.objects.get(test_session=test_session,
                                                             answer=answer)
                     return HttpResponse(
-                        status=status.HTTP_400_BAD_REQUEST,
+                        status=status.HTTP_403_FORBIDDEN,
                         content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
                         content_type="application/json"
                     )
@@ -165,7 +165,7 @@ def save_response(request, test_session_id, question_id):
                     return HttpResponse(status=status.HTTP_200_OK)
             except Answer.DoesNotExist:
                 return HttpResponse(
-                    status=status.HTTP_400_BAD_REQUEST,
+                    status=status.HTTP_404_NOT_FOUND,
                     content=json.dumps({"error_message": "Вариант ответа с таким id не существует"}),
                     content_type="application/json"
                 )

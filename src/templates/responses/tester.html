@@ -10,15 +10,15 @@
 
                 <div class="test-header">
                     <div class="text-center">
-                        <h2>Тест OZV {{ test.name }}</h2>
+                        <h2>Тест "{{ test.name }}"</h2>
                     </div>
                 </div>
-                <div class='test-body'>
+                <div id='test-body'>
                     <div id='test-loader' hidden>
                     </div>
 
 
-                    <div class='test-start text-center'>
+                    <div id='test-overview' class='text-center'>
                         <div class='test-description test-text'>
                             {{ test.description }}
                         </div>
@@ -26,7 +26,7 @@
                         <div id='test-start-button'>
                             <div id='start-button' class='main-button'>
                             {% if test_session.id %}
-                                {% if test_session.is_finished %}
+                                {% if test_session.is_finished == True %}
                                     Пройти тест заново
                                 {% else %}
                                     Продолжить тест
@@ -74,9 +74,15 @@
         document.addEventListener("DOMContentLoaded", (e) => { 
             
             document.getElementById("start-button").addEventListener('click', (event) => {
-                new TestController('{{test.id}}').startTest();                    
+                new TestController('{{test.id}}').startTest();           
+                switch_view('test-overview', 'test-view')         
             } )
+
             
+            function switch_view(view1, view2) {
+                document.getElementById(view1).hidden = true;
+                document.getElementById(view2).hidden = false;
+            }
 
         });
            
