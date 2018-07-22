@@ -63,6 +63,9 @@ def get_test_session(request, test_id):
         try:
             test_session = TestSession.objects.filter(user=user,
                                                       test=test).last()
+            if test_session is None:
+                raise TestSession.DoesNotExist
+
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
@@ -105,9 +108,11 @@ def create_test_session(request, test_id):
                 content_type="application/json"
             )
         except TestSession.DoesNotExist:
+            first_question = Question.objects.filter(test=test).first()
             test_session = TestSession.objects.create(user=user,
                                                       test=test,
-                                                      datetime_created=timezone.now())
+                                                      next_question_to_answer=first_question,
+                                                      datetime_created=timezone.now(), )
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
@@ -156,7 +161,9 @@ def save_response(request, test_session_id, question_id):
                                                        answer=answer,
                                                        datetime_created=timezone.now())
                     # Change last answered question and save changes
+                    test_session.count_answered_questions += 1
                     test_session.last_answered_question = question
+                    test_session.next_question_to_answer = Question.objects.get(id=question.id + 1)
                     test_session.save()
 
                     if test_session.check_is_finished():

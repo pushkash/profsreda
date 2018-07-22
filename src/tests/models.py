@@ -315,7 +315,7 @@ class TestSession(models.Model):
         :return:
         """
         # Check if answers count = questions count
-        self.is_finished = Response.objects.filter(test_session=self).count() == self.test.get_questions().count()
+        self.is_finished = self.count_answered_questions == self.test.get_questions().count()
         self.save()
 
         return self.is_finished
@@ -356,6 +356,8 @@ class TestSession(models.Model):
         test_session = {
             "id": self.id,
             "last_answered_question": None if self.last_answered_question is None else self.last_answered_question.dict(),
+            "next_question_to_answer": None if self.next_question_to_answer is None else self.next_question_to_answer.dict(),
+            "count_answered_questions": self.count_answered_questions,
             "is_finished": self.is_finished
         }
         return test_session
