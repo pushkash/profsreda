@@ -99,10 +99,6 @@ class TestController {
 			return this.showQuestion(this.findNextQuestion(session.test_session.last_answered_question.id))
 		})
 		
-
-		// this.checkSession()
-		// .then(session => {console.log(session)})
-
 	}
 
 	findNextQuestion(prev_id) {
@@ -245,19 +241,6 @@ class PromiseRequest {
 			}
 			xhr.send(json);
 		})
-
-		// return new Promise((resolve, reject) => {
-		// 	let xhr = new XMLHttpRequest();
-		// 	xhr.open("POST", url, true);
-		// 	xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-		// 	xhr.onreadystatechange = function () {
-		// 		let response = JSON.parse(xhr.responseText);
-		// 		console.log('changed')
-		
-		// 	}
-		// 	xhr.send(json);
-		// })
-		
 	}
 }
 

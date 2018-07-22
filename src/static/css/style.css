@@ -107,3 +107,7 @@ body {
 	margin-bottom: 8px
 }
 
+.test-error-text {
+	font-size: 1.6em;
+	line-height: 2em;
+}
