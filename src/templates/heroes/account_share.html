@@ -53,7 +53,6 @@
                 </div>
 
 
-                <!--<a href="{% url 'share_avatar' %}" style="display: inline-block;text-decoration: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><span style="position: relative;padding: 0;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><img src="http://vk.com/images/vk32.png"></span></a>-->
                 <table cellspacing="0" cellpadding="0" style="position: relative; cursor: pointer; width: auto; line-height: normal; border: 0; direction: ltr;">
                     <tbody>
                         <tr style="line-height: normal;">
@@ -68,6 +67,7 @@
                         </tr>
                     </tbody>
                 </table>
+
 
                 <a href="/profile/random/">
                 <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px;">
@@ -140,5 +140,14 @@
             </div>
         </div>
     </div>
+
+
+ <script type="text/javascript">
+    document.write(VK.Share.button({url: 'http://profsreda.com', title: 'Профсреда. Портал профиориентации', image: 'http://pushka.pythonanywhere.com/static/img/{{ share_avatar }}', noparse: true}));
+    var tab = document.querySelectorAll('#vkshare0 > tbody')
+    tab[0].style.display = 'none';
+    var a_s = document.querySelectorAll("#vkshare0 > tbody > tr > td:nth-child(2) > a");
+    a_s[0].click();
+</script>
 
 {% endblock %}

@@ -36,5 +36,6 @@ urlpatterns = [
     path('tests/', test_view.QuestionnaireListView.as_view()),
     path("questionnaire/", include("questionnaire.urls")),
     path('signup/', hero_view.customProfileCreation, name="signup"),
-    path('accounts/profile/update/', hero_view.update_user_profile, name="update_profile")
+    path('accounts/profile/update/', hero_view.update_user_profile, name="update_profile"),
+    path('accounts/share_avatar', hero_view.profile_share_avatar, name='share_avatar')
 ]

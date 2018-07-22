@@ -59,11 +59,8 @@ def customProfileCreation(request):
             message_text = render_to_string('email_template.txt', ctx)
             message_html = render_to_string("email_template.html", ctx)
 
-            # try:
             send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
                       fail_silently=False, html_message=message_html)
-            # except Exception as e:
-            #     print(e)
 
             return redirect("account_profile")
 
@@ -84,15 +81,6 @@ def profile(request):
         sex = "мужской"
     else:
         sex = "неуказан"
-
-
-    # share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
-    #
-    # share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
-    #
-    # share_avatar_image.save()
-
-    update_share_image(hero_profile, slots)
 
     return render(request,
                   context=locals(),
@@ -225,8 +213,28 @@ def update_user_profile(request):
             return render(request, template_name="update_user_profile.html", context=locals())
 
 
+def profile_share_avatar(request):
+    items = ItemUser.objects.filter(user=request.user)
+    items = [i.item for i in items]
+    hero_profile = Profile.objects.get(user=request.user)
+    slots = json.loads(hero_profile.slots)
+
+    if hero_profile.sex == "F":
+        sex = "женский"
+    elif hero_profile.sex == "M":
+        sex = "мужской"
+    else:
+        sex = "неуказан"
+
+    share_avatar = update_share_image(hero_profile, slots)
+
+    return render(request,
+                  context=locals(),
+                  template_name='heroes/account_share.html')
+
 
 def update_share_image(hero_profile, slots):
     share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
     share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
     share_avatar_image.save()
+    return share_avatar_image.avatar_image

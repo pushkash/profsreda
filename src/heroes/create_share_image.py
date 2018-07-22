@@ -65,10 +65,11 @@ def create_share_image(slots, image):
     share_img_path = os.path.abspath("static/img/share_avatars")
     blanc_img.save(share_img_path + '/' + image_name)
 
-    try:
-        remove_prev_profile_share_avatar(share_img_path + '/' + image)
-    except Exception as e:
-        pass
+    if image is not None:
+        try:
+            remove_prev_profile_share_avatar(share_img_path + '/' + image)
+        except Exception as e:
+            pass
 
 
     return image_name
