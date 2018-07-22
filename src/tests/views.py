@@ -146,7 +146,7 @@ def save_response(request, test_session_id, question_id):
                 # Check if response for question already exists
                 try:
                     current_response = Response.objects.get(test_session=test_session,
-                                                            answer=answer)
+                                                            answer__question=answer.question)
                     return HttpResponse(
                         status=status.HTTP_403_FORBIDDEN,
                         content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
@@ -179,6 +179,39 @@ def save_response(request, test_session_id, question_id):
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
             content=json.dumps({"error_message": "Тест сессии с таким id не существует"}),
+            content_type="application/json"
+        )
+
+
+def get_test_result(request, test_id):
+    """
+    Returns last TestResult for test with given id
+    :param request: http request
+    :param test_id: Test id to find TestResult
+    :return: JSON object with TestResult info
+    """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
+    try:
+        test = Test.objects.get(id=test_id)
+        test_result = TestResult.objects.filter(test_session__user=user,
+                                                test_session__test=test).last()
+        if test_result is not None:
+            return HttpResponse(
+                status=status.HTTP_200_OK,
+                content=json.dumps({"test_result": test_result.dict()}),
+                content_type="application/json"
+            )
+        else:
+            return HttpResponse(
+                status=status.HTTP_404_NOT_FOUND,
+                content=json.dumps({{"error_message": "Для теста с таким id нет результатов"}}),
+                content_type="application/json"
+            )
+    except Test.DoesNotExist:
+        return HttpResponse(
+            status=status.HTTP_404_NOT_FOUND,
+            content=json.dumps({"error_message": "Теста с таким id не существует"}),
             content_type="application/json"
         )
 
@@ -229,11 +262,32 @@ def test_overview(request, test_id):
         test = Test.objects.get(id=test_id)
         # Get last TestSession for user
         test_session = TestSession.objects.filter(test=test,
+<<<<<<< HEAD
                                                   user=user).reverse()[0]
         return render(request, "responses/tester.html", {"test": test, "test_session": test_session})
+=======
+                                                  user=user).last()
+        return render(request, "responses/response.html", {"test": test, "test_session": test_session})
+>>>>>>> demid
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
             content=json.dumps({"error_message": "Теста с таким id не существует"}),
             content_type="application/json"
         )
+
+
+def result_view(request, test_id):
+    """
+    Renders test result template
+    :param request: http request
+    :param test_id: test id to render test result
+    :return: rendered HTML template
+    """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
+    test = Test.objects.get(id=test_id)
+    test_result = TestResult.objects.filter(test_session__user=user,
+                                            test_session__test=test).last()
+    return render(request, "responses/results.html", {"test": test,
+                                                      "test_result": test_result})
