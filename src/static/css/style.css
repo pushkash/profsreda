@@ -111,3 +111,46 @@ body {
 	font-size: 1.6em;
 	line-height: 2em;
 }
+
+.test-card {
+	border: solid 1px #aaa;
+	margin-bottom: 32px;
+	border-radius: 4px;
+	cursor: default;
+}
+
+.card-btn{
+	padding: 20px;
+} 
+.card-btn > button {
+	width: 100%
+}
+
+.test-details {
+	padding: 0 16px 0 16px
+}
+
+.course .course-img .course-floated {
+	position:absolute;
+	left:50%;
+	top:50%;
+	-webkit-transform: translate(-50% , calc(-50% - 15px));
+	    -ms-transform: translate(-50% , calc(-50% - 15px));
+	        transform: translate(-50% , calc(-50% - 15px));
+	padding: 0 16px 0 16px;
+	height:40px;
+	line-height:36px;
+	text-align:center;
+	border:2px solid #fff;
+	color:#fff;
+	border-radius:20px;
+	opacity:0;
+	z-index:10;
+	-webkit-transition:0.2s all;
+	transition:0.2s all;
+}
+
+.course .course-img .course-floated:hover {
+	background: white;
+	color: red;
+}
