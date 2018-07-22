@@ -30,7 +30,7 @@ urlpatterns = [
     path('accounts/profile/random/', hero_view.profile_random),
     path('accounts/profile/item/<int:item_pk>/', hero_view.profile_item),
     path('accounts/profile/update/', hero_view.update_user_profile, name="update_profile"),
-    path('accounts/share_avatar', hero_view.profile_share_avatar, name='share_avatar')
+    path('accounts/share_avatar', hero_view.profile_share_avatar, name='share_avatar'),
     path('signup/', hero_view.customProfileCreation, name="signup"),
     path("tests/", include("tests.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
