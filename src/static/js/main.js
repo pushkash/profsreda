@@ -45,7 +45,6 @@ class TestController {
 			return new PromiseRequest(`/tests/test/${this.test_id}/get_test_session/`).get_json()
 			.then((session) => {
 				this.session = session
-				console.log(session)
 				return r(session)
 			})
 			.catch(e => {
@@ -53,10 +52,12 @@ class TestController {
 				return new PromiseRequest(`/tests/test/${this.test_id}/create_test_session/`).get_json()
 				.then((session) => {
 					this.session = session
-					console.log(session)
 					return r(session)
 				})
-				.catch( e => { error(e)} )
+				.catch( e => { 
+					console.log('session error')
+					error(e)
+				} )
 			})
 		})
 	}
@@ -65,6 +66,11 @@ class TestController {
 		return new PromiseRequest(`/tests/get_test/${this.test_id}/`).get_json()
 		.then( (result) => {
 			this.questions = result.test.questions
+			return this.questions
+		})
+		.catch((e) => {
+			console.log('error get_questionarrie')
+			console.log(e)
 		})
 	}
 
@@ -72,24 +78,32 @@ class TestController {
 		this.getQuestionnaire()
 		.then(() => this.checkSession())
 		.then( (session) => {
-			return this.showQuestion(this.findNextQuestion(session.test_session.last_answered_question.id))
+			console.log(session)
+			let last_id = null;
+
+			if (session.test_session.last_answered_question) {
+				last_id = session.test_session.last_answered_question.id
+			}
+
+
+			return this.showQuestion(this.findNextQuestion(last_id))
 		})
 		.catch(e => {
 			handle_error(e)
 		})
 	}
 
-	sendResponse(answer_id) {
+	sendResponse(q_id, answer_id) {
 		
 		let response = {
 			answer_id: answer_id
 		}
-		new PromiseRequest(`/tests/test_session/${this.session.test_session.id}/save_question_response/${this.test_id}/`).post_json(response)
+		new PromiseRequest(`/tests/test_session/${this.session.test_session.id}/save_question_response/${q_id}/`).post_json(response)
 		.catch((error) => {
 			if (error.code == 403) {
 				console.log('handle 403 error')
 			} else {
-				throw this.handle_error(error.body)
+				throw error
 			}
 		})
 		.then((data) => {
@@ -98,11 +112,15 @@ class TestController {
 		.then((session) => {
 			return this.showQuestion(this.findNextQuestion(session.test_session.last_answered_question.id))
 		})
+		.catch(error => {
+			this.handle_error(error.body)
+		})
 		
 	}
 
 	findNextQuestion(prev_id) {
 		let current_index = 0;
+		console.log(prev_id)
 
 		if (prev_id) {
 			// TODO: Написать расчет следующего вопроса
@@ -126,7 +144,7 @@ class TestController {
 			return (e.id == question_id)
 		})[0];
 		if (question) {
-			this.view.drawView(question, (...args) => {this.sendResponse(args[0])})
+			this.view.drawView(question, (...args) => {this.sendResponse(args[0], args[1])})
 		} else {
 			throw(`no question with id ${question_id} found `)
 		}
@@ -137,6 +155,7 @@ class TestController {
 	}
 
 	handle_error(e) {
+		this.view.show_error_view()
 		console.log(e)
 	}
 }
@@ -161,14 +180,14 @@ class TestView {
 			btn.classList.add('btn', 'btn-default', 'btn-lg')
 			btn.innerHTML = answer.text
 			btn.addEventListener('click', (e) => {
-				answer_callback(answer.id)
+				answer_callback(data.id, answer.id)
 			} )
 			this.answers_container.appendChild(btn)
 		});
 	}
 
 	show_error_view() {
-
+		this.switch_view('test-view', 'test-error')
 	}
 
 	start_loading() {
@@ -177,6 +196,11 @@ class TestView {
 
 	stop_loading() {
 
+	}
+
+	switch_view(view1, view2) {
+		document.getElementById(view1).hidden = true;
+		document.getElementById(view2).hidden = false;
 	}
 
 
@@ -232,10 +256,18 @@ class PromiseRequest {
 					if (xhr.status == "200" || xhr.status == "201") {
 						resolve(xhr.responseText)
 					} else {
-						reject({
-							code: xhr.status,
-							body: JSON.parse(xhr.responseText)
-						})
+						console.log(xhr.responseText)
+						try {
+							reject({
+								code: xhr.status,
+								body: JSON.parse(xhr.responseText)
+							})
+						} catch(e) {
+							reject({
+								code: xhr.status,
+								body: xhr.responseText
+							})
+						}
 					}
 				}
 			}
