@@ -20,13 +20,21 @@
 
                     <div class='test-start text-center'>
                         <div class='test-description test-text'>
-                            {{ tests.description }}
+                            {{ test.description }}
                         </div>
 
                         <div id='test-start-button'>
-                            <div id='start-button' class='main-button'>Начать тест</div>
-                            <div id='restart-button' class='main-button'>Продолжить тест</div>
-                            <div id='continue-button' class='main-button'>Пройти тест заново</div>
+                            <div id='start-button' class='main-button'>
+                            {% if test_session.id %}
+                                {% if test_session.is_finished %}
+                                    Пройти тест заново
+                                {% else %}
+                                    Продолжить тест
+                                {% endif %}
+                            {% else %}
+                                Начать тест
+                            {% endif %}
+                            </div>
                         </div>
                     </div>
 
@@ -40,7 +48,7 @@
                         </div>
 
                         <div id='test-question' class='test-text'>
-                        {{ questionnaire.description }}
+                            {{ questionnaire.description }}
                         </div>
 
                         <div class='test-answers text-center'>
@@ -65,15 +73,9 @@
 
         document.addEventListener("DOMContentLoaded", (e) => { 
             
-            let list = document.getElementsByClassName("main-button")
-
-            for (let i = 0; i < list.length; i++) {
-
-                list[i].addEventListener('click', (event) => {
-                    new TestController('{{test.id}}').startTest();                    
-                } )
-            }
-            
+            document.getElementById("start-button").addEventListener('click', (event) => {
+                new TestController('{{test.id}}').startTest();                    
+            } )
             
 
         });
