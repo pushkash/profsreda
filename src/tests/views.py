@@ -49,20 +49,21 @@ def get_test(request, test_id):
 
 def get_test_session(request, test_id):
     """
-    Returns last test session for test
+    Returns current test session for test
     :param request: http request
     :param test_id: test for which a test session is requested
-    :return: JSON object with last test session object
+    :return: JSON object with current/new test session object
     """
     # TODO: change to request.user
     user = User.objects.get(id=1)
     # Find test or return error
     try:
         test = Test.objects.get(id=test_id)
-        # Find last test session or return error
+        # Find unfinished test session or return error
         try:
             test_session = TestSession.objects.get(user=user,
-                                                   test=test)
+                                                   test=test,
+                                                   is_finished=False)
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
