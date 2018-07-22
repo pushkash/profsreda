@@ -142,6 +142,18 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
+    def main_dict(self):
+        """
+        Returns main info about Item
+        :return: dict with main info about Item
+        """
+        item = {
+            "id": self.id,
+            "name": self.name,
+            "icon": self.icon
+        }
+        return item
+
 
 class ItemUser(models.Model):
     item = models.ForeignKey(

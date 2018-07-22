@@ -5,6 +5,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from heroes.models import Item
+
 
 class Test(models.Model):
     name = models.CharField(
@@ -392,6 +394,17 @@ class ResultCategory(models.Model):
     def __str__(self):
         return " - ".join([str(self.test_result), str(self.category)])
 
+    def dict(self):
+        """
+        Returns info about ResultCategory
+        :return: dict with info about ResultCategory
+        """
+        result_category = {
+            "id": self.id,
+            "category": self.category.dict()
+        }
+        return result_category
+
 
 class ResultItem(models.Model):
     test_result = models.ForeignKey(
@@ -413,3 +426,14 @@ class ResultItem(models.Model):
 
     def __str__(self):
         return " - ".join([str(self.test_result), str(self.item)])
+
+    def dict(self):
+        """
+        Returns info about ResultItem
+        :return: dict with info about ResultItem
+        """
+        result_item = {
+            "id": self.id,
+            "item": self.item.dict()
+        }
+        return result_item
