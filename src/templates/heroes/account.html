@@ -23,7 +23,7 @@
             <!--<div class="col-md-1">
                 &nbsp;
             </div>-->
-            <div class="col-md-3">
+            <div id='avatar-block' class="col-md-3">
                 <div class="media">
 
                     <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
@@ -81,61 +81,63 @@
                 &nbsp;
             </div>-->
 
-            <!-- Информация о профиле -->
-            <div class="col-md-3">
+            <div id='content-block' class="col-md-9">
 
-                <div class="section-header" style="margin-top: 15px;">
-                    <p class="lead">Ваша информация</p>
-                </div>
+                <!-- Информация о профиле -->
+                <div id='profile-info'>
 
-                <div>
-                    <p>Пол: {{ sex }}</p>
-                    <p>Класс: {{ hero_profile.grade }}</p>
-                </div>
-
-                <br>
-
-                <a href="{% url 'update_profile' %}">
-                    <button id="change" class="btn btn-danger" type="submit">Изменить</button>
-                </a>
-
-            </div>
-
-
-
-            <div class="col-md-6">
-                <div>
-                    <div class="section-header text-center" style="margin-top: 15px;">
-                        <p class="lead">Предметы в наличии</p>
+                    <div class="section-header" style="margin-top: 15px;">
+                        <p class="lead">Ваша информация</p>
                     </div>
-                        {% for item in items %}
-                        <div class="col-md-3">
-                            <div class="card">
-                            <a href="/accounts/profile/item/{{ item.pk }}">
-                            <img class="media-object img-responsive full-width"
-                                 style="
-                                    border-radius: 4px;
-                                    border: deepskyblue 1px solid"
-                                 src={% static item.icon %}
-                            >
-                            </a>
-                            <div class="card-text">
-                                <p style="
-                                text-align: center;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                -o-text-overflow: ellipsis;
-                                line-height: 1.5em;
-                                height: 3em;
 
-                                ">
-                                    {{ item.name }}</p>
-                            </div>
-                            </div>
+                    <div>
+                        <p>Пол: {{ sex }}</p>
+                        <p>Класс: {{ hero_profile.grade }}</p>
+                    </div>
+
+                    <br>
+
+                    <a href="{% url 'update_profile' %}">
+                        <button id="change" class="btn btn-danger" type="submit">Изменить</button>
+                    </a>
+
+                </div>
+
+
+
+                <div id='items-table'>
+                    <div>
+                        <div class="section-header" style="margin-top: 15px;">
+                            <p class="lead">Предметы в наличии</p>
                         </div>
-                        {% endfor %}
-                    </div>
+                            {% for item in items %}
+                            <div class="col-md-3">
+                                <div class="card">
+                                <a href="/accounts/profile/item/{{ item.pk }}">
+                                <img class="media-object img-responsive full-width"
+                                    style="
+                                        border-radius: 4px;
+                                        border: deepskyblue 1px solid"
+                                    src={% static item.icon %}
+                                >
+                                </a>
+                                <div class="card-text">
+                                    <p style="
+                                    text-align: center;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    -o-text-overflow: ellipsis;
+                                    line-height: 1.5em;
+                                    height: 3em;
 
+                                    ">
+                                        {{ item.name }}</p>
+                                </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
