@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% load account %}
+{% load i18n %}
 {% static "" as baseUrl %}
 
 {% user_display user %}
 
 {% block content %}
+
 
 
     <div class="wrapper container">
@@ -18,9 +20,9 @@
         </div>
 
 
-            <div class="col-md-1">
+            <!--<div class="col-md-1">
                 &nbsp;
-            </div>
+            </div>-->
             <div class="col-md-3">
                 <div class="media">
 
@@ -50,16 +52,56 @@
                     </div>
                 </div>
 
+
+                <!--<a href="{% url 'share_avatar' %}" style="display: inline-block;text-decoration: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><span style="position: relative;padding: 0;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><img src="http://vk.com/images/vk32.png"></span></a>-->
+                <table cellspacing="0" cellpadding="0" style="position: relative; cursor: pointer; width: auto; line-height: normal; border: 0; direction: ltr;">
+                    <tbody>
+                        <tr style="line-height: normal;">
+                            <td style="vertical-align: middle;font: 400 12px Arial, Helvetica, sans-serif;letter-spacing: 0.1px;text-shadow: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;">
+                                <a href="{% url 'share_avatar' %}" onmouseup="this._btn=event.button;this.blur();" style="border: 0px; display: block; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 2px 0px 0px 2px; padding: 2px 6px 4px; box-sizing: content-box; color: rgb(255, 255, 255);">
+                                    <div style="background-size: 19px 59px;background-image: url('https://vk.com/images/icons/like_widget_2x.png');height: 8px;width: 14px;margin: 4px 0 3px;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"></div>
+                                </a>
+                            </td>
+                            <td style="vertical-align: middle;font: 400 12px Arial, Helvetica, sans-serif;letter-spacing: 0.1px;text-shadow: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;">
+                                <a href="{% url 'share_avatar' %}" onmouseup="this._btn=event.button;this.blur();" style="color: rgb(255, 255, 255); text-decoration: none; border: 0px; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 0px 2px 2px 0px; font: 400 12px/16px Arial, Helvetica, sans-serif; letter-spacing: 0.1px; text-shadow: none; display: block; padding: 2px 6px 4px 0px; height: 15px; box-sizing: content-box;">Поделиться</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <a href="/profile/random/">
                 <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px;">
                     Случайный выбор
                 </button>
                 </a>
 
+
             </div>
-            <div class="col-md-1">
+            <!--<div class="col-md-1">
                 &nbsp;
+            </div>-->
+
+            <!-- Информация о профиле -->
+            <div class="col-md-3">
+
+                <div class="section-header" style="margin-top: 15px;">
+                    <p class="lead">Ваша информация</p>
+                </div>
+
+                <div>
+                    <p>Пол: {{ sex }}</p>
+                    <p>Класс: {{ hero_profile.grade }}</p>
+                </div>
+
+                <br>
+
+                <a href="{% url 'update_profile' %}">
+                    <button id="change" class="btn btn-danger" type="submit">Изменить</button>
+                </a>
+
             </div>
+
+
 
             <div class="col-md-6">
                 <div>
@@ -98,4 +140,7 @@
             </div>
         </div>
     </div>
+
+{% block script %} {% endblock %}
+
 {% endblock %}

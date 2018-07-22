@@ -5,3 +5,4 @@
 src/profsreda/settings.py
 .gitignore
 .DS_Store
+*.pyc
