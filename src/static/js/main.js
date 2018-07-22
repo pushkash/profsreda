@@ -54,9 +54,9 @@ class TestController {
 					this.session = session
 					return r(session)
 				})
-				.catch( e => { 
+				.catch( error_data => { 
 					console.log('session error')
-					error(e)
+					error(error_data)
 				} )
 			})
 		})
@@ -98,6 +98,7 @@ class TestController {
 		let response = {
 			answer_id: answer_id
 		}
+
 		new PromiseRequest(`/tests/test_session/${this.session.test_session.id}/save_question_response/${q_id}/`).post_json(response)
 		.catch((error) => {
 			if (error.code == 403) {
@@ -110,10 +111,14 @@ class TestController {
 			return this.checkSession()
 		})
 		.then((session) => {
-			return this.showQuestion(this.findNextQuestion(session.test_session.last_answered_question.id))
+			if (!session.test_session.is_finished)
+				return this.showQuestion(this.findNextQuestion(session.test_session.last_answered_question.id))
+			else {
+				console.log('test is done')
+			}
 		})
 		.catch(error => {
-			this.handle_error(error.body)
+			this.handle_error(error)
 		})
 		
 	}
@@ -171,6 +176,10 @@ class TestView {
 
 	}
 
+	update_progres() {
+
+	}
+
 	drawView(data, answer_callback) {
 		this.question_container.innerHTML = data.text
 		console.log(data)
@@ -181,7 +190,7 @@ class TestView {
 			btn.innerHTML = answer.text
 			btn.addEventListener('click', (e) => {
 				answer_callback(data.id, answer.id)
-			} )
+			})
 			this.answers_container.appendChild(btn)
 		});
 	}
