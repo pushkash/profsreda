@@ -224,10 +224,8 @@ def get_all_tests_view(request):
     # TODO: change to request.user
     user = User.objects.get(id=1)
     tests = Test.objects.all()
-    passed_tests = [test_result.get_test() for test_result in TestResult.objects.filter(test_session__user=user)]
 
-    return render(request, "responses/tests.html", {"tests": tests,
-                                                    "passed_tests": passed_tests})
+    return render(request, "responses/tests.html", {"tests": tests})
 
 
 def test_view(request, test_id):
