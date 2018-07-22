@@ -183,6 +183,39 @@ def save_response(request, test_session_id, question_id):
         )
 
 
+def get_test_result(request, test_id):
+    """
+    Returns last TestResult for test with given id
+    :param request: http request
+    :param test_id: Test id to find TestResult
+    :return: JSON object with TestResult info
+    """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
+    try:
+        test = Test.objects.get(id=test_id)
+        test_result = TestResult.objects.filter(test_session__user=user,
+                                                test_session__test=test).last()
+        if test_result is not None:
+            return HttpResponse(
+                status=status.HTTP_200_OK,
+                content=json.dumps({"test_result": test_result.dict()}),
+                content_type="application/json"
+            )
+        else:
+            return HttpResponse(
+                status=status.HTTP_404_NOT_FOUND,
+                content=json.dumps({{"error_message": "Для теста с таким id нет результатов"}}),
+                content_type="application/json"
+            )
+    except Test.DoesNotExist:
+        return HttpResponse(
+            status=status.HTTP_404_NOT_FOUND,
+            content=json.dumps({"error_message": "Теста с таким id не существует"}),
+            content_type="application/json"
+        )
+
+
 def get_all_tests_view(request):
     """
     Renders test catalog
