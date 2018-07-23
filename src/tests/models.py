@@ -1,5 +1,3 @@
-import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -46,6 +44,15 @@ class Test(models.Model):
         """
         return Category.objects.filter(test=self.id)
 
+    def get_user_result(self, user):
+        """
+        Returns last test result for given user
+        :param user: user to find test result
+        :return: last TestResult object for given user
+        """
+        return TestResult.objects.filter(test_session__test=self,
+                                         test_session__user=user).last()
+
     def main_dict(self):
         """
         Returns main info about test
@@ -72,8 +79,9 @@ class Test(models.Model):
             "description": self.description,
             "image_url": self.image.url,
             "questions": questions,
-            "categories": categories
+            "categories": categories,
         }
+
         return test
 
 
@@ -242,6 +250,34 @@ class TestResult(models.Model):
         :return: Test object
         """
         return self.test_session.test
+
+    def get_result_categories(self):
+        """
+        Returns all related ResultCategory objects
+        :return: QuerySet of related ResultCategory
+        """
+        return ResultCategory.objects.filter(test_result=self)
+
+    def get_result_items(self):
+        """
+        Returns all related ResultItem objects
+        :return: QuerySet of related ResultItem
+        """
+        return ResultItem.objects.filter(test_result=self)
+
+    def dict(self):
+        """
+        Returns info about TestResult
+        :return: dict with info about TestResult
+        """
+        result_categories = [rc.dict() for rc in self.get_result_categories()]
+        result_items = [ri.dict() for ri in self.get_result_items()]
+        test_result = {
+            "id": self.id,
+            "categories": result_categories,
+            "items": result_items
+        }
+        return test_result
 
 
 class TestSession(models.Model):
@@ -450,6 +486,6 @@ class ResultItem(models.Model):
         """
         result_item = {
             "id": self.id,
-            "item": self.item.dict()
+            "item": self.item.main_dict()
         }
         return result_item

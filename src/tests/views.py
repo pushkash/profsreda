@@ -163,7 +163,11 @@ def save_response(request, test_session_id, question_id):
                     # Change last answered question and save changes
                     test_session.count_answered_questions += 1
                     test_session.last_answered_question = question
-                    test_session.next_question_to_answer = Question.objects.get(id=question.id + 1)
+                    try:
+                        test_session.next_question_to_answer = Question.objects.get(id=question.id + 1)
+                    except Question.DoesNotExist:
+                        test_session.next_question_to_answer = None
+
                     test_session.save()
 
                     if test_session.check_is_finished():
@@ -231,8 +235,10 @@ def get_all_tests_view(request):
     # TODO: change to request.user
     user = User.objects.get(id=1)
     tests = Test.objects.all()
+    test_results = [test.get_user_result(user) for test in tests]
 
-    return render(request, "responses/tests.html", {"tests": tests})
+    return render(request, "responses/tests.html", {"tests": tests,
+                                                    "test_results": test_results})
 
 
 def test_view(request, test_id):
@@ -249,7 +255,10 @@ def test_view(request, test_id):
         # Get last TestSession for user
         test_session = TestSession.objects.filter(test=test,
                                                   user=user).last()
-        return render(request, "responses/tester.html", {"test": test, "test_session": test_session})
+        test_result = test.get_user_result(user)
+        return render(request, "responses/tester.html", {"test": test,
+                                                           "test_session": test_session,
+                                                           "test_result": test_result})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
@@ -270,8 +279,8 @@ def result_view(request, test_id):
     test = Test.objects.get(id=test_id)
     test_result = TestResult.objects.filter(test_session__user=user,
                                             test_session__test=test).last()
-    result_categories = [rc.dict() for rc in ResultCategory.objects.filter(test_result=test_result)]
-    result_items = [ri.dict() for ri in ResultItem.objects.filter(test_result=test_result)]
+    result_categories = test_result.get_result_categories()
+    result_items = test_result.get_result_items()
     return render(request, "responses/results.html", {"test": test,
                                                       "test_result": test_result,
                                                       "result_categories": result_categories,
