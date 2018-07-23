@@ -9,30 +9,47 @@
         <!-- row -->
         <div class="row">
 
-            <div class="col-md-10 col-md-offset-1 course">
+            <div class="col-md-10 col-md-offset-1 course tests">
 
                 <div class="text-center">
                     <h2>Тесты</h2>
                     <p class="lead">Узнай свои сильные стороны</p>
                 </div>
+                {% for i in "xxxxx" %}
+                    {% for test in tests %}
+                        <div class="col-md-4 col-sm-6 col-xs-6">
+                            <div class="test-card">
+                                <a href="/tests/views/test_view/{{ test.id }}/" class="course-img">
+                                    <img src="{{ test.image.url }}" alt="">
+                                    <span class="course-floated">Начать тест</span>
+                                </a>
+                                <div class="course">
+                                    <div class="test-details">
+                                        <span class="course-category">Тест {{ test.name }}</span>
+                                    </div>
+                                </div>
 
-                {% for test in tests %}
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <a href="/tests/views/test_overview/{{ test.id }}/" class="course-img">
-                            <img src="{{ test.image.url }}" alt="">
-                            <i class="course-link-icon fa fa-link"></i>
-                        </a>
-                        <div class="course">
-                            <div class="course-details">
-                                <span class="course-category">Тест {{ test.name }}</span>
+                                <!--<div class='card-btn text-center'><button class='main-button'>Начать тест</button></div>-->
                             </div>
                         </div>
-
-                    </div>
+                    {% endfor %}
                 {% endfor %}
             </div>
         </div>
     </div>
+
+    <script>
+        let cards = document.getElementsByClassName('test-details')
+        let max_height = 0;
+        for (let i = 0; i < cards.length; i++) {
+            if (max_height < cards[i].clientHeight) max_height = cards[i].clientHeight
+            console.log(cards[i].clientHeight)
+        }
+
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].style.height = max_height + 'px'
+        }
+    </script>
 
 
 {% endblock %}

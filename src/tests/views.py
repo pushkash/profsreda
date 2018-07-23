@@ -49,17 +49,17 @@ def get_test(request, test_id):
 
 def get_test_session(request, test_id):
     """
-    Returns last test session for test
+    Returns current test session for test
     :param request: http request
     :param test_id: test for which a test session is requested
-    :return: JSON object with last test session object
+    :return: JSON object with current/new test session object
     """
     # TODO: change to request.user
     user = User.objects.get(id=1)
     # Find test or return error
     try:
         test = Test.objects.get(id=test_id)
-        # Find last test session or return error
+        # Find unfinished test session or return error
         try:
             test_session = TestSession.objects.filter(user=user,
                                                       test=test).last()
@@ -152,7 +152,7 @@ def save_response(request, test_session_id, question_id):
                     current_response = Response.objects.get(test_session=test_session,
                                                             answer__question=answer.question)
                     return HttpResponse(
-                        status=status.HTTP_400_BAD_REQUEST,
+                        status=status.HTTP_403_FORBIDDEN,
                         content=json.dumps({"error_message": "На этот вопрос уже есть ответ"}),
                         content_type="application/json"
                     )
@@ -175,7 +175,7 @@ def save_response(request, test_session_id, question_id):
                     return HttpResponse(status=status.HTTP_200_OK)
             except Answer.DoesNotExist:
                 return HttpResponse(
-                    status=status.HTTP_400_BAD_REQUEST,
+                    status=status.HTTP_404_NOT_FOUND,
                     content=json.dumps({"error_message": "Вариант ответа с таким id не существует"}),
                     content_type="application/json"
                 )
@@ -206,6 +206,7 @@ def get_test_result(request, test_id):
         test = Test.objects.get(id=test_id)
         test_result = TestResult.objects.filter(test_session__user=user,
                                                 test_session__test=test).last()
+
         if test_result is not None:
             return HttpResponse(
                 status=status.HTTP_200_OK,
@@ -256,7 +257,7 @@ def test_view(request, test_id):
         test_session = TestSession.objects.filter(test=test,
                                                   user=user).last()
         test_result = test.get_user_result(user)
-        return render(request, "responses/response.html", {"test": test,
+        return render(request, "responses/tester.html", {"test": test,
                                                            "test_session": test_session,
                                                            "test_result": test_result})
     except Test.DoesNotExist:

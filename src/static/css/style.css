@@ -57,18 +57,20 @@ body {
 /* Tester page */
 /* ------ */
 
-.test-body {
-	/* display: flex; */
+#test-body {
+
 	padding-top: 20px
 }
 
-.test-body > div {
-	/* position: absolute;
-    top: 50%;
-	transform: translateY(-50%); */
+#test-body > div {
+
 	max-width: 800px;
 	margin: auto;
 	
+}
+
+#test-body > div > div{
+	margin-bottom: 30px;
 }
 
 .test-header {
@@ -84,9 +86,7 @@ body {
 	padding-top: 30px;
 }
 
-.test-body > div > div{
-	margin-bottom: 30px;
-}
+
 
 .test-text {
 	display: inline-block;
@@ -106,4 +106,56 @@ body {
 	display: inline-block;
 	margin-bottom: 8px
 }
+
+.test-error-text {
+	font-size: 1.6em;
+	line-height: 2em;
+}
+
+.test-card {
+	border: solid 1px #aaa;
+	margin-bottom: 32px;
+	border-radius: 4px;
+	cursor: default;
+}
+
+.card-btn{
+	padding: 20px;
+} 
+.card-btn > button {
+	width: 100%
+}
+
+.test-details {
+	padding: 0 16px 0 16px
+}
+
+.course .course-img .course-floated {
+	position:absolute;
+	left:50%;
+	top:50%;
+	-webkit-transform: translate(-50% , calc(-50% - 15px));
+	    -ms-transform: translate(-50% , calc(-50% - 15px));
+	        transform: translate(-50% , calc(-50% - 15px));
+	padding: 0 16px 0 16px;
+	height:40px;
+	line-height:36px;
+	text-align:center;
+	border:2px solid #fff;
+	color:#fff;
+	border-radius:20px;
+	opacity:0;
+	z-index:10;
+	-webkit-transition:0.2s all;
+	transition:0.2s all;
+}
+
+.course .course-img .course-floated:hover {
+	background: white;
+	color: red;
+}
+
+
+
+/* INVENTORY */
 

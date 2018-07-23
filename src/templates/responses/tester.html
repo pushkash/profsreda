@@ -10,28 +10,33 @@
 
                 <div class="test-header">
                     <div class="text-center">
-                        <h2>Тест OZV {{ questionnaire.name }}</h2>
+                        <h2>Тест "{{ test.name }}"</h2>
                     </div>
                 </div>
-                <div class='test-body'>
-                    <div id='test-loader' hidden>
-                    </div>
-
-
-                    <div class='test-start text-center' hidden>
+                <div id='test-body'>
+                    
+                    <div id='test-overview' class='text-center'>
                         <div class='test-description test-text'>
-                            {{ questionnaire.description }}
+                            {{ test.description }}
                         </div>
 
-                        <div class='test-start-button'>
-                            <div id='start-button' class='main-button'>Начать тест</div>
-                            <div id='restart-button' class='main-button'>Продолжить тест</div>
-                            <div id='continue-button' class='main-button'>Пройти тест заново</div>
+                        <div id='test-start-button'>
+                            <div id='start-button' class='main-button'>
+                            {% if test_session.id %}
+                                {% if test_session.is_finished == True %}
+                                    Пройти тест заново
+                                {% else %}
+                                    Продолжить тест
+                                {% endif %}
+                            {% else %}
+                                Начать тест
+                            {% endif %}
+                            </div>
                         </div>
                     </div>
 
 
-                    <div id='test-view' class='test-in-progress' >
+                    <div id='test-view' class='test-in-progress' hidden>
                         <div id='test-progress'>
                         <span>Вопрос:</span>
                         <span>1</span>
@@ -40,7 +45,6 @@
                         </div>
 
                         <div id='test-question' class='test-text'>
-                        {{ questionnaire.description }}
                         </div>
 
                         <div class='test-answers text-center'>
@@ -53,9 +57,19 @@
 
 
                     <div id='test-error' hidden> 
-                        <div class='test-error-icon'></div>
-                        <div class='test-error-text'></div>
-                        <div class='test-reload-btn'></div>
+                        <div class='test-error-icon text-center'>
+                                <img src="data:image/png;base64,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">
+                        </div>
+                        <div class='test-error-text text-center'> 
+                            Ой! Что-то пошло не так! <br> 
+                            Для продолжения прохождения теста перезагрузи страницу
+                        </div>
+                        <div class='test-reload-btn text-center' >
+                                <div id='reload-button' class='main-button'>Перезагрузить</div>
+                        </div>
+                    </div>
+
+                    <div id='test-loader' hidden>
                     </div>
                 </div>
             </div>
@@ -65,9 +79,20 @@
 
         document.addEventListener("DOMContentLoaded", (e) => { 
             
-            let tc = new TestController(1);
-            tc.startTest()
+            document.getElementById("start-button").addEventListener('click', (event) => {
+                new TestController('{{test.id}}').startTest();           
+                // switch_view('test-overview', 'test-view')         
+            } )
 
+            
+            // function switch_view(view1, view2) {
+            //     document.getElementById(view1).hidden = true;
+            //     document.getElementById(view2).hidden = false;
+            // }
+
+            document.getElementById("reload-button").addEventListener('click', (event) => {
+                location.reload()
+            } )
 
         });
            
