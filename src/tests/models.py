@@ -486,6 +486,6 @@ class ResultItem(models.Model):
         """
         result_item = {
             "id": self.id,
-            "item": self.item.dict()
+            "item": self.item.main_dict()
         }
         return result_item

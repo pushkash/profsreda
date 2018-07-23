@@ -163,7 +163,11 @@ def save_response(request, test_session_id, question_id):
                     # Change last answered question and save changes
                     test_session.count_answered_questions += 1
                     test_session.last_answered_question = question
-                    test_session.next_question_to_answer = Question.objects.get(id=question.id + 1)
+                    try:
+                        test_session.next_question_to_answer = Question.objects.get(id=question.id + 1)
+                    except Question.DoesNotExist:
+                        test_session.next_question_to_answer = None
+
                     test_session.save()
 
                     if test_session.check_is_finished():
