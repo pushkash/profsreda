@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 
-from tests.models import Test, TestSession, Question, Answer, Response, TestResult
+from tests.models import Test, TestSession, Question, Answer, Response, TestResult, ResultCategory, ResultItem
 
 
 def get_all_tests(request):
@@ -63,7 +63,6 @@ def get_test_session(request, test_id):
         try:
             test_session = TestSession.objects.filter(user=user,
                                                       test=test).last()
-
             if test_session is None:
                 raise TestSession.DoesNotExist
 
@@ -109,9 +108,11 @@ def create_test_session(request, test_id):
                 content_type="application/json"
             )
         except TestSession.DoesNotExist:
+            first_question = Question.objects.filter(test=test).first()
             test_session = TestSession.objects.create(user=user,
                                                       test=test,
-                                                      datetime_created=timezone.now())
+                                                      next_question_to_answer=first_question,
+                                                      datetime_created=timezone.now(), )
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
@@ -160,7 +161,13 @@ def save_response(request, test_session_id, question_id):
                                                        answer=answer,
                                                        datetime_created=timezone.now())
                     # Change last answered question and save changes
+                    test_session.count_answered_questions += 1
                     test_session.last_answered_question = question
+                    try:
+                        test_session.next_question_to_answer = Question.objects.get(id=question.id + 1)
+                    except Question.DoesNotExist:
+                        test_session.next_question_to_answer = None
+
                     test_session.save()
 
                     if test_session.check_is_finished():
@@ -229,31 +236,13 @@ def get_all_tests_view(request):
     # TODO: change to request.user
     user = User.objects.get(id=1)
     tests = Test.objects.all()
-    passed_tests = [test_result.get_test() for test_result in TestResult.objects.filter(test_session__user=user)]
+    test_results = [test.get_user_result(user) for test in tests]
 
     return render(request, "responses/tests.html", {"tests": tests,
-                                                    "passed_tests": passed_tests})
+                                                    "test_results": test_results})
 
 
 def test_view(request, test_id):
-    """
-    Renders test template
-    :param request: request
-    :param test_id: test id to render
-    :return: rendered HTML template
-    """
-    try:
-        test = Test.objects.get(id=test_id)
-        return render(request, "responses/tester.html", {"test": test})
-    except Test.DoesNotExist:
-        return HttpResponse(
-            status=status.HTTP_404_NOT_FOUND,
-            content=json.dumps({"error_message": "Теста с таким id не существует"}),
-            content_type="application/json"
-        )
-
-
-def test_overview(request, test_id):
     """
     Renders test overview template
     :param request: http request
@@ -267,7 +256,10 @@ def test_overview(request, test_id):
         # Get last TestSession for user
         test_session = TestSession.objects.filter(test=test,
                                                   user=user).last()
-        return render(request, "responses/tester.html", {"test": test, "test_session": test_session})
+        test_result = test.get_user_result(user)
+        return render(request, "responses/tester.html", {"test": test,
+                                                           "test_session": test_session,
+                                                           "test_result": test_result})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
@@ -288,5 +280,9 @@ def result_view(request, test_id):
     test = Test.objects.get(id=test_id)
     test_result = TestResult.objects.filter(test_session__user=user,
                                             test_session__test=test).last()
+    result_categories = test_result.get_result_categories()
+    result_items = test_result.get_result_items()
     return render(request, "responses/results.html", {"test": test,
-                                                      "test_result": test_result})
+                                                      "test_result": test_result,
+                                                      "result_categories": result_categories,
+                                                      "result_items": result_items})

@@ -45,6 +45,8 @@ class TestController {
 			return new PromiseRequest(`/tests/test/${this.test_id}/get_test_session/`).get_json()
 			.then((session) => {
 				this.session = session
+
+				console.log(session)
 				return r(session)
 			})
 			.catch(e => {
@@ -64,7 +66,6 @@ class TestController {
 			return session
 		})
 		.catch( error_data => { 
-			console.log('session error')
 			console.log(error_data)
 			throw error_data;
 		} )
@@ -86,17 +87,13 @@ class TestController {
 		this.getQuestionnaire()
 		.then(() => this.checkSession())
 		.then( (session) => {
-			console.log(session)
 			if (!session || session.test_session.is_finished) {
-				console.log('create new session')
 				return this.create_new_session()
 			} else {
-				console.log('return session')
 				return session
 			}
 		})
 		.then(session => {
-			console.log(session)
 			let last_id = null;
 
 			if (session.test_session.last_answered_question) {
@@ -132,7 +129,7 @@ class TestController {
 			if (!session.test_session.is_finished)
 				return this.showQuestion(this.findNextQuestion(session.test_session.last_answered_question.id))
 			else {
-				console.log('test is done')
+				this.view.show_result(this.test_id)
 			}
 		})
 		.catch(error => {
@@ -143,7 +140,6 @@ class TestController {
 
 	findNextQuestion(prev_id) {
 		let current_index = 0;
-		console.log(prev_id)
 
 		if (prev_id) {
 			// TODO: Написать расчет следующего вопроса
@@ -158,7 +154,6 @@ class TestController {
 		} else {
 			current_index = 0
 		}
-		console.log(current_index)
 		return this.questions[current_index].id
 	}
 
@@ -200,7 +195,6 @@ class TestView {
 
 	drawView(data, answer_callback) {
 		this.question_container.innerHTML = data.text
-		console.log(data)
 		this.answers_container.innerHTML = ''
 		data.answers.forEach(answer => {
 			let btn = document.createElement('button')
@@ -233,6 +227,10 @@ class TestView {
 	switch_view(view1, view2) {
 		document.getElementById(view1).hidden = true;
 		document.getElementById(view2).hidden = false;
+	}
+
+	show_result(test_id) {
+		document.location.href = `../../../views/test/${test_id}/result/`
 	}
 
 
