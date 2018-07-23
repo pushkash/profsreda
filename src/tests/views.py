@@ -63,6 +63,10 @@ def get_test_session(request, test_id):
         try:
             test_session = TestSession.objects.filter(user=user,
                                                       test=test).last()
+
+            if test_session is None:
+                raise TestSession.DoesNotExist
+
             return HttpResponse(
                 status=status.HTTP_200_OK,
                 content=json.dumps({"test_session": test_session.dict()}),
@@ -195,6 +199,7 @@ def get_test_result(request, test_id):
         test = Test.objects.get(id=test_id)
         test_result = TestResult.objects.filter(test_session__user=user,
                                                 test_session__test=test).last()
+
         if test_result is not None:
             return HttpResponse(
                 status=status.HTTP_200_OK,
