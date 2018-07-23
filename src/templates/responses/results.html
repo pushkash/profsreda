@@ -90,7 +90,7 @@
             <!-- row -->
             <div class="row">
 
-                <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
+                <div class="" style="margin-top: 20px;">
                     <div class="text-center">
                         <h2>Результаты теста <br/> {{ questionnaire.name }}</h2>
                         <hr style="
@@ -99,21 +99,24 @@
                             border-top: red solid 1px;"/>
                     </div>
                     <div>
+                        {{}}
+                    </div>
+
+                    <div>
                         <div>
 
-                            {% if questionnaire.pk == 1 %}
-                                <h5>Уровень коммуникационных способностей: {{ com_level }}</h5>
+                                <h5>Уровень коммуникационных способностей: 2</h5>
                                 <div class="progress">
                                     <div class="progress-bar"
                                          role="progressbar"
-                                         aria-valuenow="{{ com_score }}"
+                                         aria-valuenow="20"
                                          aria-valuemin="0"
                                          aria-valuemax="100"
-                                         style="width:{{ com_score }}%">
-                                        {{ com_score }}%
+                                         style="width:20%">
+                                        10%
                                     </div>
                                 </div>
-                                <p>{{ question }}</p>
+                                <p>20</p>
 
                                 <h5>Уровень организационных способностей: {{ org_level }}</h5>
 
@@ -129,8 +132,6 @@
                                 </div>
                                 <p>{{ question }}</p>
 
-
-                            {% elif questionnaire.pk == 2 %}
                                 <h4>Доминирующая модальность: &nbsp;&nbsp; {{ category|safe }}</h4>
 
                                 <!-- относительно профессий -->
@@ -143,8 +144,7 @@
                                 <h5 style="color: red; margin-top: 30px; margin-bottom: 8px;">Что характерно</h5>
                                 <p>{{ descr2|safe }}</p>
 
-                            {% endif %}
-                            <a href="/tests/">
+                            <a href="../../../all_tests/">
                                 <button class="main-button" autofocus>Другие тесты</button>
                             </a>
                         </div>
