@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>{{ web_site_name }}</title>
+    <title>{{ web_site_name}}</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet">
@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" >
 
     <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base-style.css' %}"/>
     <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"/>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -45,16 +46,16 @@
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-
-
+    <!--<meta property="og:title" content="Профсреда. Портал профориентации!" />-->
 
 </head>
 <body>
-    <div>
+    <div class='page-wrapper'>
         {% include 'navbar.html' %}
-
-        {% block content %}
-        {% endblock %}
+        <div class='page-content'>
+            {% block content %}
+            {% endblock %}
+        </div>
 
         {% include 'footer.html' %}
     </div>
@@ -67,6 +68,9 @@
     <!-- jQuery Plugins -->
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bluebird.core.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+    
 </body>
 </html>

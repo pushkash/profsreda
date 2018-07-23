@@ -1,18 +1,18 @@
+import json
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from questionnaire_responses.models import QuestionnaireResult
-import json
-
 
 class Profile(models.Model):
     SEX = [
-        ("М", "Мужской"),
-        ("Ж", "Женский")
+        ("M", "Мужской"),
+        ("F", "Женский")
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     first_name = models.CharField(
         max_length=400,
         null=True,
@@ -32,6 +32,11 @@ class Profile(models.Model):
         null=True,
         blank=True
     )
+    grade = models.CharField(
+        max_length=2,
+        null=True,
+        blank=True
+    )
     sex = models.CharField(
         max_length=1,
         choices=SEX,
@@ -44,10 +49,11 @@ class Profile(models.Model):
         default=json.dumps(
             {
                 "slot{}".format(x):
-                    "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
+                      "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
             }
         )
     )
+
 
     def put_item(self, item_pk):
         item = Item.objects.get(pk=item_pk)
@@ -103,26 +109,21 @@ class Profile(models.Model):
         self.slots = json.dumps(slots)
         self.save()
 
+#
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+#
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
 
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
     icon = models.TextField()
-    variant = models.ForeignKey(
-        QuestionnaireResult,
-        on_delete=models.PROTECT,
-        null=True
-    )
     slot1 = models.TextField(default="", blank=True)
     slot2 = models.TextField(default="", blank=True)
     slot3 = models.TextField(default="", blank=True)
@@ -145,7 +146,7 @@ class Item(models.Model):
 
 class ItemUser(models.Model):
     item = models.ForeignKey(
-        Item,
+        "heroes.Item",
         on_delete=models.PROTECT
     )
     user = models.ForeignKey(
@@ -160,3 +161,10 @@ class ItemUser(models.Model):
 
     def __str__(self):
         return "{} -> {}".format(self.item.name, self.user.email or self.user.username)
+
+
+class ShareProfileAvatar(models.Model):
+
+    user_id = models.PositiveIntegerField(null=False, unique=True)
+
+    avatar_image = models.TextField(default="")

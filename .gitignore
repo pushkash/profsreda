@@ -1,2 +1,10 @@
 **/__pycache__/
-**.pyc
+.vscode/
+.gitignore
+**/profsreda_env/**
+**/.idea/
+**/settings.py
+.gitignore
+.DS_Store
+*.pyc
+
