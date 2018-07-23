@@ -270,8 +270,8 @@ def result_view(request, test_id):
     test = Test.objects.get(id=test_id)
     test_result = TestResult.objects.filter(test_session__user=user,
                                             test_session__test=test).last()
-    result_categories = [rc.dict() for rc in ResultCategory.objects.filter(test_result=test_result)]
-    result_items = [ri.dict() for ri in ResultItem.objects.filter(test_result=test_result)]
+    result_categories = test_result.get_result_categories()
+    result_items = test_result.get_result_items()
     return render(request, "responses/results.html", {"test": test,
                                                       "test_result": test_result,
                                                       "result_categories": result_categories,

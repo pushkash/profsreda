@@ -1,5 +1,3 @@
-import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -68,21 +66,26 @@ class Test(models.Model):
         }
         return test
 
-    def dict(self):
+    def dict(self, user=None):
         """
         Returns full info about test
         :return: dict with full info about test
         """
         questions = [question.dict() for question in self.get_questions()]
         categories = [category.dict() for category in self.get_categories()]
+
         test = {
             "id": self.id,
             "name": self.name,
             "description": self.description,
             "image_url": self.image.url,
             "questions": questions,
-            "categories": categories
+            "categories": categories,
         }
+
+        if user is not None:
+            test["test_result"] = self.get_user_result(user).dict()
+
         return test
 
 
@@ -265,6 +268,20 @@ class TestResult(models.Model):
         :return: QuerySet of related ResultItem
         """
         return ResultItem.objects.filter(test_result=self)
+
+    def dict(self):
+        """
+        Returns info about TestResult
+        :return: dict with info about TestResult
+        """
+        result_categories = [rc.dict() for rc in self.get_result_categories()]
+        result_items = [ri.dict() for ri in self.get_result_items()]
+        test_result = {
+            "id": self.id,
+            "categories": result_categories,
+            "items": result_items
+        }
+        return test_result
 
 
 class TestSession(models.Model):
