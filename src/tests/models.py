@@ -46,6 +46,15 @@ class Test(models.Model):
         """
         return Category.objects.filter(test=self.id)
 
+    def get_user_result(self, user):
+        """
+        Returns last test result for given user
+        :param user: user to find test result
+        :return: last TestResult object for given user
+        """
+        return TestResult.objects.filter(test_session__test=self,
+                                         test_session__user=user).last()
+
     def main_dict(self):
         """
         Returns main info about test
@@ -242,6 +251,20 @@ class TestResult(models.Model):
         :return: Test object
         """
         return self.test_session.test
+
+    def get_result_categories(self):
+        """
+        Returns all related ResultCategory objects
+        :return: QuerySet of related ResultCategory
+        """
+        return ResultCategory.objects.filter(test_result=self)
+
+    def get_result_items(self):
+        """
+        Returns all related ResultItem objects
+        :return: QuerySet of related ResultItem
+        """
+        return ResultItem.objects.filter(test_result=self)
 
 
 class TestSession(models.Model):
