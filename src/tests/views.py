@@ -231,8 +231,10 @@ def get_all_tests_view(request):
     # TODO: change to request.user
     user = User.objects.get(id=1)
     tests = Test.objects.all()
+    test_results = [test.get_user_result(user) for test in tests]
 
-    return render(request, "responses/tests.html", {"tests": tests})
+    return render(request, "responses/tests.html", {"tests": tests,
+                                                    "test_results": test_results})
 
 
 def test_view(request, test_id):
@@ -249,7 +251,10 @@ def test_view(request, test_id):
         # Get last TestSession for user
         test_session = TestSession.objects.filter(test=test,
                                                   user=user).last()
-        return render(request, "responses/response.html", {"test": test, "test_session": test_session})
+        test_result = test.get_user_result(user)
+        return render(request, "responses/response.html", {"test": test,
+                                                           "test_session": test_session,
+                                                           "test_result": test_result})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,

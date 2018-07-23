@@ -66,14 +66,13 @@ class Test(models.Model):
         }
         return test
 
-    def dict(self, user=None):
+    def dict(self):
         """
         Returns full info about test
         :return: dict with full info about test
         """
         questions = [question.dict() for question in self.get_questions()]
         categories = [category.dict() for category in self.get_categories()]
-
         test = {
             "id": self.id,
             "name": self.name,
@@ -82,9 +81,6 @@ class Test(models.Model):
             "questions": questions,
             "categories": categories,
         }
-
-        if user is not None:
-            test["test_result"] = self.get_user_result(user).dict()
 
         return test
 
