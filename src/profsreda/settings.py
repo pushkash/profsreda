@@ -24,7 +24,7 @@ SECRET_KEY = '*^&z58vxvb6qr8(*2emxud-)rv-rb!1(%@uqbti=3u9mrn18(l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pushka.pythonanywhere.com']
+ALLOWED_HOSTS = ['*'] #'pushka.pythonanywhere.com'
 
 # Application definition
 
@@ -81,22 +81,22 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-        'default': {                                                      # Production
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'profsreda',
-        'USER': 'prof_user',
-        'PASSWORD': "profXsreda2018",
-        'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
-        'PORT': '10827',
-    }
-    # 'default': {                                                      # PAW
+    #     'default': {                                                      # Production
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
-    #     'USER' : 'prof_user',
-    #     'PASSWORD' : "profXsreda2018",
-    #     'HOST' : '127.0.0.1', # 'pushka-827.postgres.pythonanywhere-services.com'
-    #     'PORT' : '5432',
+    #     'USER': 'prof_user',
+    #     'PASSWORD': "profXsreda2018",
+    #     'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
+    #     'PORT': '10827',
     # }
+    'default': {                                                      # PAW
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'profsreda',
+        'USER' : 'prof_user',
+        'PASSWORD' : "profXsreda2018",
+        'HOST' : '127.0.0.1', # 'pushka-827.postgres.pythonanywhere-services.com'
+        'PORT' : '5432',
+    }
 
     # 'default': {                                                        # Local
     #     'ENGINE': 'django.db.backends.sqlite3',
