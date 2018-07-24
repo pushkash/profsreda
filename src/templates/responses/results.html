@@ -89,65 +89,75 @@
 
             <!-- row -->
             <div class="row">
+                <div class="text-center result-header">
+                    <h2>Результаты теста <br/> {{ test.name }}</h2>
+                    <hr class='h_divider' />
+                </div>
 
-                <div class="" style="margin-top: 20px;">
-                    <div class="text-center">
-                        <h2>Результаты теста <br/> {{ questionnaire.name }}</h2>
-                        <hr style="
-                            background-color: red;
-                            color: red;
-                            border-top: red solid 1px;"/>
-                    </div>
-                    <div>
-                        {{}}
-                    </div>
+                <div class="results" style="margin-top: 20px;">
 
                     <div>
+                        {% if result_categories|length > 1 %}
+                            <h4>У вас несколько результатов:</h4>
+                        {% else %}
+                            <h4>Ваш результат:</h4>
+                        {% endif %}
+                    </div>
+
+                    <div class='result-categories'>
+                        {% for res in result_categories%}
                         <div>
-
-                                <h5>Уровень коммуникационных способностей: 2</h5>
-                                <div class="progress">
-                                    <div class="progress-bar"
-                                         role="progressbar"
-                                         aria-valuenow="20"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"
-                                         style="width:20%">
-                                        10%
-                                    </div>
-                                </div>
-                                <p>20</p>
-
-                                <h5>Уровень организационных способностей: {{ org_level }}</h5>
-
-                                <div class="progress">
-                                    <div class="progress-bar"
-                                         role="progressbar"
-                                         aria-valuenow="{{ org_score }}"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"
-                                         style="width:{{ org_score }}%">
-                                        {{ org_score }}%
-                                    </div>
-                                </div>
-                                <p>{{ question }}</p>
-
-                                <h4>Доминирующая модальность: &nbsp;&nbsp; {{ category|safe }}</h4>
-
-                                <!-- относительно профессий -->
-                                <h5 style="color: red; margin-top: 30px; margin-bottom: 8px;">Про модальность</h5>
-                                <p>{{ main_description|safe }}</p>
-
-                                <h5 style="color: red; margin-top: 30px; margin-bottom: 8px;">Выбор профессии</h5>
-                                <p>{{ descr1|safe }}</p>
-
-                                <h5 style="color: red; margin-top: 30px; margin-bottom: 8px;">Что характерно</h5>
-                                <p>{{ descr2|safe }}</p>
-
-                            <a href="../../../all_tests/">
-                                <button class="main-button" autofocus>Другие тесты</button>
-                            </a>
+                            <span class='category-name'>{{res.category.name}}</span>
+                            <span class='short-desc'>{{res.category.short_description}}</span>
+                            <div class='long-desc'>
+                                <span class='cat-name'>{{res.category.long_description}}</span>
+                            </div>
                         </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class='result-inventory'>
+                        {% if result_items|length > 0 %}
+                            <h4>Ваша награда!</h4>
+                            {% for item in result_items %}
+                            <div class="col-md-3">
+                                <div class="card">
+                                <a href="../../../../../profile/">
+                                <img class="media-object img-responsive full-width"
+                                    style="
+                                        border-radius: 4px;
+                                        border: deepskyblue 1px solid"
+                                    src={% static item.item.icon %}
+                                >
+                                </a>
+                                <div class="card-text">
+                                    <p style="
+                                    text-align: center;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    -o-text-overflow: ellipsis;
+                                    line-height: 1.5em;
+                                    height: 3em;
+
+                                    ">
+                                        {{ item.item.name }}</p>
+                                </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            
+                        {% else %}
+                            <h4>Награда за тест</h4>
+                            К сожалению, вы ничего не получили. Попробуйте пройти тест ещё раз или выберите другой
+                        {% endif %}
+
+
+                    </div>
+
+                    <div>
+                        <a href="../../../all_tests/">
+                            <button class="main-button" autofocus>Другие тесты</button>
+                        </a>
                     </div>
                 </div>
             </div>

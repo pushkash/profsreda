@@ -31,6 +31,11 @@ body {
 	flex: 0 0 auto
 }
 
+.h_divider {
+	background-color: red;
+	color: red;
+	border-top: red solid 1px;
+}
 /* ----- */
 /* logo */
 /* ----- */
@@ -152,10 +157,29 @@ body {
 
 .course .course-img .course-floated:hover {
 	background: white;
-	color: red;
+	color: #f23333;
 }
 
 
 
 /* INVENTORY */
+
+
+/* RESULT */
+.results {
+	max-width: 900px;
+	margin: auto;
+}
+
+.result-categories > div{
+	margin-bottom: 24px;
+	line-height: 1.8em;
+}
+
+.category-name {
+	font-weight: bold;
+	color: red;
+}
+
+
 
