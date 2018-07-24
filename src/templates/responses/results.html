@@ -10,7 +10,7 @@
             <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
                 <div class="text-center">
                     <h2>Результаты теста <br/> {{ questionnaire.name }} не удалось загрузить</h2>
-                    <a href="/tests/">
+                    <a href="../../../../../tests/views/all_tests/">
                         <button class="main-button">Другие тесты</button>
                     </a>
                 </div>
@@ -19,149 +19,60 @@
     {% else %}
 
 
-        {% if no_item == False %}
+    <!-- container -->
+    <div class="container">
+       
+        <!-- header -->
+        <div class="text-center">
+            <h2>Результаты теста <br/> {{ test.name }}</h2>
+            <hr class='h_divider'/>
+        </div>
 
-            <div id="overlay"
-                 style="position: fixed;
-             display: block;
-             width: 100%;
-             height: 100%;
-             top: 0;
-             left: 0;
-             right: 0;
-             bottom: 0;
-             background-color: rgba(0,0,0,0.5);
-             z-index: 300;
-             cursor: pointer;">
+        <div class="result-view">
 
-
-                <div class="text-center"
-                     style="margin-top: 5%;">
-
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-4"
-                             style="background: white; padding: 20px; border-radius: 6px;">
-                            <div class="card">
-                                <h2>Вы получили предмет!</h2>
-                                <img class="media-object img-responsive"
-                                     style="
-                                    border-radius: 4px;
-                                    max-height: 350px;
-                                    max-width: 350px;
-                                    margin-left: auto;
-                                    margin-right: auto;
-                                    border: deepskyblue 1px solid;"
-                                     src={% static item_icon %}
-                                >
-                                <div class="card-text">
-                                    <p style="
-                                text-align: center;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                -o-text-overflow: ellipsis;
-                                line-height: 1.5em;
-                                height: 3em;
-
-                                ">
-                                        {{ item_name }}</p>
-
-                                </div>
-                                <button class="main-button" onclick="off()">Хорошо</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class='result-header'>
+                {% if result_categories|length > 1 %}
+                    <h4>Невероятно! Вы многогранная личность. Ваши результаты: </h4>
+                {% else %}
+                    <h4>Ваш результат:</h4>
+                {% endif %}
             </div>
-            <script>
-                function on() {
-                    document.getElementById("overlay").style.display = "block";
-                }
 
-                function off() {
-                    document.getElementById("overlay").style.display = "none";
-                }
-            </script>
-
-        {% endif %}
-
-        <!-- container -->
-        <div class="container">
-
-            <!-- row -->
-            <div class="row">
-                <div class="text-center result-header">
-                    <h2>Результаты теста <br/> {{ test.name }}</h2>
-                    <hr class='h_divider' />
+            <div class='result-categories'>
+                {% for category in result_categories %}
+                <div class='result-category'>
+                    <span class='category-name'>{{category.category.name}}</span>
+                    <span class='short-description'>{{category.category.short_description}}</span>
+                    <div class='long-description'>{{category.category.long_description}}</div>
                 </div>
-
-                <div class="results" style="margin-top: 20px;">
-
-                    <div>
-                        {% if result_categories|length > 1 %}
-                            <h4>У вас несколько результатов:</h4>
-                        {% else %}
-                            <h4>Ваш результат:</h4>
-                        {% endif %}
-                    </div>
-
-                    <div class='result-categories'>
-                        {% for res in result_categories%}
-                        <div>
-                            <span class='category-name'>{{res.category.name}}</span>
-                            <span class='short-desc'>{{res.category.short_description}}</span>
-                            <div class='long-desc'>
-                                <span class='cat-name'>{{res.category.long_description}}</span>
+                {% endfor %}
+            </div>
+            
+            <!-- Loot -->
+            <div>
+                {% if result_items|length > 0 %}
+                    <h4>Ваша награда:</h4>
+                    <div class='result-items row'>
+                        {% for item in result_items %}
+                        <div class='col-md-3'>
+                            <div class="item-card">
+                                <img class="item-icon media-object img-responsive full-width" src='../../../../../{{ item.item.icon }}'>
+                                <div class="item-title">
+                                    {{ item.item.name }}
+                                </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
-
-                    <div class='result-inventory'>
-                        {% if result_items|length > 0 %}
-                            <h4>Ваша награда!</h4>
-                            {% for item in result_items %}
-                            <div class="col-md-3">
-                                <div class="card">
-                                <a href="../../../../../profile/">
-                                <img class="media-object img-responsive full-width"
-                                    style="
-                                        border-radius: 4px;
-                                        border: deepskyblue 1px solid"
-                                    src={% static item.item.icon %}
-                                >
-                                </a>
-                                <div class="card-text">
-                                    <p style="
-                                    text-align: center;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    -o-text-overflow: ellipsis;
-                                    line-height: 1.5em;
-                                    height: 3em;
-
-                                    ">
-                                        {{ item.item.name }}</p>
-                                </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            
-                        {% else %}
-                            <h4>Награда за тест</h4>
-                            К сожалению, вы ничего не получили. Попробуйте пройти тест ещё раз или выберите другой
-                        {% endif %}
-
-
-                    </div>
-
-                    <div>
-                        <a href="../../../all_tests/">
-                            <button class="main-button" autofocus>Другие тесты</button>
-                        </a>
-                    </div>
-                </div>
+                {% endif %}
             </div>
+
+            <div><h4>Другие тесты</h4></div>
+
+            
+            
         </div>
+    </div>
 
     {% endif %}
 {% endblock %}

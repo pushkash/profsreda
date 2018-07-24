@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {                                                      # Production
+    # 'default': {                                                      # PAW from PAW
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
     #     'USER': 'prof_user',
@@ -89,7 +89,8 @@ DATABASES = {
     #     'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
     #     'PORT': '10827',
     # }
-    # 'default': {                                                      # PAW
+
+    # 'default': {                                                      # PAW from local
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
     #     'USER' : 'prof_user',
