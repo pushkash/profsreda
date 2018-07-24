@@ -51,9 +51,7 @@ class TestController {
 			})
 			.catch(e => {
 				// TODO: Обработка разных ошибок - Сейчас всегда создается новая сессия
-				if (true) {
-
-				}
+				console.log(e)
 				error(error_data)
 			})
 		})

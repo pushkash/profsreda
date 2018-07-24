@@ -7,4 +7,4 @@
 .gitignore
 .DS_Store
 *.pyc
-
+**/migrations/0*
