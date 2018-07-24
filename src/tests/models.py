@@ -203,12 +203,6 @@ class Category(models.Model):
         verbose_name=_("Развернутое описание"),
         help_text=_("Развёрнутое описание категории")
     )
-    item = models.ForeignKey(
-        "heroes.Item",
-        on_delete=models.DO_NOTHING,
-        verbose_name=_("Награда"),
-        help_text=_("Награда за получение категории")
-    )
 
     class Meta:
         verbose_name = "Категория"
