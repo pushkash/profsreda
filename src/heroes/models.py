@@ -50,10 +50,14 @@ class Profile(models.Model):
     slots = models.TextField(
         null=False,
         default=json.dumps(
-            sorted({
+            # sorted({
+            #     "slot{}".format(x):
+            #           "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
+            # }.items(), key=operator.itemgetter(1))
+            {
                 "slot{}".format(x):
                       "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
-            }.items(), key=operator.itemgetter(1))
+            }
         )
     )
 
@@ -100,6 +104,7 @@ class Profile(models.Model):
         for k in to_write.keys():
             slots["{}_pk".format(k)] = to_write[k].pk
             slots[k] = getattr(to_write[k], k)
+
 
         for i in range(1, 6):
             s = "slot{}".format(i)
