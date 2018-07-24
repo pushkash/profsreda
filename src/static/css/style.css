@@ -31,6 +31,12 @@ body {
 	flex: 0 0 auto
 }
 
+
+.h_divider {
+	background-color: red;
+	color: red;
+	border-top: red solid 1px;
+}
 /* ----- */
 /* logo */
 /* ----- */
@@ -155,7 +161,60 @@ body {
 	color: red;
 }
 
+/* TEST RESULT */
+
+
+
+.result-view {
+	max-width: 900px;
+	margin: auto;
+}
+
+.result-header {
+	margin-top: 24px;
+	margin-bottom: 32px;
+	text-align: center;
+}
+
+.result-categories{
+	margin-bottom: 40px;
+}
+.result-categories > div{
+	line-height: 1.8em;
+	margin-bottom: 24px;
+}
+
+.category-name {
+	font-weight: bold;
+	color: #f23333
+}
+
+.result-items {
+	padding-top: 32px;
+}
 
 
 /* INVENTORY */
 
+.item-card {
+	border-radius: 4px;
+	border: #ffaaaa 2px solid;
+	padding: 0 16px 0 16px;
+	margin-bottom: 24px;
+}
+
+.item-title {
+	padding-top: 8px;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	font-weight: bold;
+	font-size: 1.2em;
+	line-height: 1.5em;
+	height: 3em;
+}
+
+.item-icon {
+	border-radius: 2px;
+}
