@@ -31,7 +31,6 @@ body {
 	flex: 0 0 auto
 }
 
-
 .h_divider {
 	background-color: red;
 	color: red;
@@ -158,7 +157,7 @@ body {
 
 .course .course-img .course-floated:hover {
 	background: white;
-	color: red;
+	color: #f23333;
 }
 
 /* TEST RESULT */
