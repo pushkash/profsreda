@@ -1,4 +1,5 @@
 import json
+import operator
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -47,10 +48,10 @@ class Profile(models.Model):
     slots = models.TextField(
         null=False,
         default=json.dumps(
-            {
+            sorted({
                 "slot{}".format(x):
                       "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
-            }
+            }.items(), key=operator.itemgetter(1))
         )
     )
 
