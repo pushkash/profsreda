@@ -21,7 +21,7 @@
 
     <!-- container -->
     <div class="container">
-       
+
         <!-- header -->
         <div class="text-center">
             <h2>Результаты теста <br/> {{ test.name }}</h2>
@@ -47,7 +47,7 @@
                 </div>
                 {% endfor %}
             </div>
-            
+
             <!-- Loot -->
             <div>
                 {% if result_items|length > 0 %}
@@ -57,7 +57,7 @@
                         {% for item in result_items %}
                         <div class='col-md-3'>
                             <div class="item-card">
-                                <img class="item-icon media-object img-responsive full-width" src='../../../../../{{ item.item.icon }}'>
+                                <img class="item-icon media-object img-responsive full-width" src='../../../../../{% static item.item.icon %}'>
                                 <div class="item-title">
                                     {{ item.item.name }}
                                 </div>
@@ -91,11 +91,11 @@
                 {% endfor %}
                 {% endfor %}
                 <div class='row'>
-                
+
             </div>
 
-            
-            
+
+
         </div>
     </div>
 
