@@ -311,8 +311,7 @@ class TestSession(models.Model):
         related_name="next_answer"
     )
     count_answered_questions = models.PositiveSmallIntegerField(
-        default=0,
-        verbose_name=_("Количество отвеченных вопросов"),
+        default=0,        verbose_name=_("Количество отвеченных вопросов"),
         help_text=_("Количество вопросов, на которые ответил пользователь")
     )
     is_finished = models.BooleanField(
