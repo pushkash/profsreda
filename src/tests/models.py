@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from heroes.models import Item
+from heroes.models import Item, ItemUser
 
 
 class Test(models.Model):
@@ -305,7 +305,7 @@ class TestSession(models.Model):
         related_name="next_answer"
     )
     count_answered_questions = models.PositiveSmallIntegerField(
-        default=0,        verbose_name=_("Количество отвеченных вопросов"),
+        default=0, verbose_name=_("Количество отвеченных вопросов"),
         help_text=_("Количество вопросов, на которые ответил пользователь")
     )
     is_finished = models.BooleanField(
@@ -364,6 +364,13 @@ class TestSession(models.Model):
             for item in Item.objects.filter(category=result_category):
                 ResultItem.objects.create(test_result=test_result,
                                           item=item)
+
+                try:
+                    user_item = ItemUser.objects.get(item=item,
+                                                     user=self.user)
+                except ItemUser.DoesNotExist:
+                    user_item = ItemUser.objects.create(item=item,
+                                                        user=self.user)
 
     def calculate_result_categories(self):
         """

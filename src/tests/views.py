@@ -73,7 +73,7 @@ def get_test_session(request, test_id):
             )
         except TestSession.DoesNotExist:
             return HttpResponse(
-                status=status.HTTP_404_NOT_FOUND,
+                status=status.HTTP_403_FORBIDDEN,
                 content=json.dumps({"error_message": "Тест сессии с таким id не существует"}),
                 content_type="application/json"
             )
@@ -258,8 +258,8 @@ def test_view(request, test_id):
                                                   user=user).last()
         test_result = test.get_user_result(user)
         return render(request, "responses/tester.html", {"test": test,
-                                                           "test_session": test_session,
-                                                           "test_result": test_result})
+                                                         "test_session": test_session,
+                                                         "test_result": test_result})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
@@ -268,7 +268,7 @@ def test_view(request, test_id):
         )
 
 
-def result_view(request, test_id):
+def result_view_by_test(request, test_id):
     """
     Renders test result template
     :param request: http request
@@ -280,6 +280,33 @@ def result_view(request, test_id):
     test = Test.objects.get(id=test_id)
     test_result = TestResult.objects.filter(test_session__user=user,
                                             test_session__test=test).last()
+    result_categories = test_result.get_result_categories()
+    result_items = test_result.get_result_items()
+
+    tests = Test.objects.all()
+    test_results = [test.get_user_result(user) for test in tests]
+
+    return render(request, "responses/results.html", {"test": test,
+                                                      "test_result": test_result,
+                                                      "result_categories": result_categories,
+                                                      "result_items": result_items,
+                                                      "tests": tests,
+                                                      "test_results": test_results})
+
+
+def result_view_by_test_result(request, test_result_id):
+    """
+    Renders test result template
+    :param request: http request
+    :param test_result_id: test result id to render test result
+    :return: rendered HTML template
+    """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
+
+    test_result = TestResult.objects.get(id=test_result_id)
+    test = test_result.get_test()
+
     result_categories = test_result.get_result_categories()
     result_items = test_result.get_result_items()
 
