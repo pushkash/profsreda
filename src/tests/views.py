@@ -187,7 +187,7 @@ def save_response(request, test_session_id, question_id):
             )
     except TestSession.DoesNotExist:
         return HttpResponse(
-            status=status.HTTP_404_NOT_FOUND,
+            status=status.HTTP_403_FORBIDDEN,
             content=json.dumps({"error_message": "Тест сессии с таким id не существует"}),
             content_type="application/json"
         )
