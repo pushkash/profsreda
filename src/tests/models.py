@@ -203,12 +203,6 @@ class Category(models.Model):
         verbose_name=_("Развернутое описание"),
         help_text=_("Развёрнутое описание категории")
     )
-    item = models.ForeignKey(
-        "heroes.Item",
-        on_delete=models.DO_NOTHING,
-        verbose_name=_("Награда"),
-        help_text=_("Награда за получение категории")
-    )
 
     class Meta:
         verbose_name = "Категория"
@@ -367,8 +361,9 @@ class TestSession(models.Model):
         for result_category in self.calculate_result_categories():
             ResultCategory.objects.create(test_result=test_result,
                                           category=result_category)
-            ResultItem.objects.create(test_result=test_result,
-                                      item=result_category.item)
+            for item in Item.objects.filter(category=result_category):
+                ResultItem.objects.create(test_result=test_result,
+                                          item=item)
 
     def calculate_result_categories(self):
         """

@@ -187,7 +187,7 @@ def save_response(request, test_session_id, question_id):
             )
     except TestSession.DoesNotExist:
         return HttpResponse(
-            status=status.HTTP_404_NOT_FOUND,
+            status=status.HTTP_403_FORBIDDEN,
             content=json.dumps({"error_message": "Тест сессии с таким id не существует"}),
             content_type="application/json"
         )
@@ -282,7 +282,13 @@ def result_view(request, test_id):
                                             test_session__test=test).last()
     result_categories = test_result.get_result_categories()
     result_items = test_result.get_result_items()
+
+    tests = Test.objects.all()
+    test_results = [test.get_user_result(user) for test in tests]
+
     return render(request, "responses/results.html", {"test": test,
                                                       "test_result": test_result,
                                                       "result_categories": result_categories,
-                                                      "result_items": result_items})
+                                                      "result_items": result_items,
+                                                      "tests": tests,
+                                                      "test_results": test_results})

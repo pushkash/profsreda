@@ -5,6 +5,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import ugettext_lazy as _
+
 
 class Profile(models.Model):
     SEX = [
@@ -136,6 +138,13 @@ class Item(models.Model):
     slot3_girl = models.TextField(default="", blank=True)
     slot4_girl = models.TextField(default="", blank=True)
     slot5_girl = models.TextField(default="", blank=True)
+
+    category = models.ForeignKey(
+        "tests.Category",
+        on_delete=models.CASCADE,
+        verbose_name=_("Категория"),
+        help_text=_("Категория, за получение которой даётся награда")
+    )
 
     class Meta:
         verbose_name = 'Предмет'
