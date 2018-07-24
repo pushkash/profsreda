@@ -268,7 +268,7 @@ def test_view(request, test_id):
         )
 
 
-def result_view(request, test_id):
+def result_view_by_test(request, test_id):
     """
     Renders test result template
     :param request: http request
@@ -292,3 +292,31 @@ def result_view(request, test_id):
                                                       "result_items": result_items,
                                                       "tests": tests,
                                                       "test_results": test_results})
+
+
+def result_view_by_test_result(request, test_result_id):
+    """
+    Renders test result template
+    :param request: http request
+    :param test_result_id: test result id to render test result
+    :return: rendered HTML template
+    """
+    # TODO: change to request.user
+    user = User.objects.get(id=1)
+
+    test_result = TestResult.objects.get(id=test_result_id)
+    test = test_result.get_test()
+
+    result_categories = test_result.get_result_categories()
+    result_items = test_result.get_result_items()
+
+    tests = Test.objects.all()
+    test_results = [test.get_user_result(user) for test in tests]
+
+    return render(request, "responses/results.html", {"test": test,
+                                                      "test_result": test_result,
+                                                      "result_categories": result_categories,
+                                                      "result_items": result_items,
+                                                      "tests": tests,
+                                                      "test_results": test_results})
+
