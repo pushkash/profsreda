@@ -109,7 +109,6 @@ class TestController {
 		})
 		.then(() => this.checkSession())
 		.then((session) => {
-			console.log(session)
 			if (!session.test_session.is_finished)
 				return this.showQuestion(session.test_session.next_question_to_answer.id)
 			else {
@@ -157,7 +156,6 @@ class TestView {
 	}
 
 	update_progres(q_number, amount) {
-		console.log(`n: ${q_number}, a: ${amount}`)
 		document.getElementById('question_number').innerHTML = q_number;
 		document.getElementById('questions_amount').innerHTML = amount;
 	}
@@ -240,7 +238,6 @@ class PromiseRequest {
 			try {
 				return JSON.parse(result)
 			} catch {
-				//console.log('cannot parse json')
 				return {
 					result: result
 				}
