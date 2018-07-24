@@ -258,8 +258,8 @@ def test_view(request, test_id):
                                                   user=user).last()
         test_result = test.get_user_result(user)
         return render(request, "responses/tester.html", {"test": test,
-                                                           "test_session": test_session,
-                                                           "test_result": test_result})
+                                                         "test_session": test_session,
+                                                         "test_result": test_result})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
@@ -319,4 +319,3 @@ def result_view_by_test_result(request, test_result_id):
                                                       "result_items": result_items,
                                                       "tests": tests,
                                                       "test_results": test_results})
-
