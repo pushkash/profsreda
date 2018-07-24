@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" >
 
     <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base-style.css' %}"/>
     <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"/>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,11 +50,12 @@
 
 </head>
 <body>
-    <div>
+    <div class='page-wrapper'>
         {% include 'navbar.html' %}
-
-        {% block content %}
-        {% endblock %}
+        <div class='page-content'>
+            {% block content %}
+            {% endblock %}
+        </div>
 
         {% include 'footer.html' %}
     </div>
@@ -66,6 +68,9 @@
     <!-- jQuery Plugins -->
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bluebird.core.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+    
 </body>
 </html>

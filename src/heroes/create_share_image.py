@@ -63,6 +63,10 @@ def create_share_image(slots, image):
     image_name = str(uuid.uuid4()).replace('-', '') + '.png'
 
     share_img_path = os.path.abspath("static/img/share_avatars")
+
+    if not os.path.isdir(share_img_path):
+        os.mkdir(share_img_path)
+
     blanc_img.save(share_img_path + '/' + image_name)
 
     if image is not None:
