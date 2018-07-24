@@ -90,19 +90,19 @@ DATABASES = {
     #     'PORT': '10827',
     # }
 
-    'default': {                                                      # PAW from local
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'profsreda',
-        'USER' : 'prof_user',
-        'PASSWORD' : "profXsreda2018",
-        'HOST' : '127.0.0.1', # 'pushka-827.postgres.pythonanywhere-services.com'
-        'PORT' : '5432',
-    }
-
-    # 'default': {                                                        # Local
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # 'default': {                                                      # PAW from local
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'profsreda',
+    #     'USER' : 'prof_user',
+    #     'PASSWORD' : "profXsreda2018",
+    #     'HOST' : '127.0.0.1', # 'pushka-827.postgres.pythonanywhere-services.com'
+    #     'PORT' : '5432',
     # }
+
+    'default': {                                                        # Local
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 # Password validation

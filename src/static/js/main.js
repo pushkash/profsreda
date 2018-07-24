@@ -41,18 +41,14 @@ class TestController {
 	}
 
 	checkSession() {
-		return new Promise((r, error) => {
+		return new Promise((resolve, reject) => {
 			return new PromiseRequest(`/tests/test/${this.test_id}/get_test_session/`).get_json()
 			.then((session) => {
 				this.session = session
-
-				console.log(session)
-				return r(session)
+				return resolve(session)
 			})
-			.catch(e => {
-				// TODO: Обработка разных ошибок - Сейчас всегда создается новая сессия
-				console.log(e)
-				error(error_data)
+			.catch(error_data => {
+				reject(error_data)
 			})
 		})
 	}
@@ -75,15 +71,17 @@ class TestController {
 			this.questions = result.test.questions
 			return this.questions
 		})
-		.catch((e) => {
-			console.log('error get_questionarrie')
-			console.log(e)
+		.catch((error) => {
+			throw error
 		})
 	}
 
 	startTest() {
 		this.getQuestionnaire()
 		.then(() => this.checkSession())
+		.catch(error => {
+			if (error.code != 403) throw {code: 404, body: 'cannotfind test'}
+		})
 		.then( (session) => {
 			if (!session || session.test_session.is_finished) {
 				return this.create_new_session()
@@ -92,17 +90,11 @@ class TestController {
 			}
 		})
 		.then(session => {
-			let last_id = null;
-
-			if (session.test_session.last_answered_question) {
-				last_id = session.test_session.last_answered_question.id
-			}
-
 			this.view.show_tester();
-			return this.showQuestion(this.findNextQuestion(last_id))
+			return this.showQuestion(session.test_session.next_question_to_answer.id)
 		})
-		.catch(e => {
-			handle_error(e)
+		.catch(error => {
+			this.handle_error(error)
 		})
 	}
 
@@ -111,21 +103,15 @@ class TestController {
 		let response = {
 			answer_id: answer_id
 		}
-
 		new PromiseRequest(`/tests/test_session/${this.session.test_session.id}/save_question_response/${q_id}/`).post_json(response)
 		.catch((error) => {
-			if (error.code == 403) {
-				console.log('handle 403 error')
-			} else {
-				throw error
-			}
+			if (error.code != 403) throw error
 		})
-		.then((data) => {
-			return this.checkSession()
-		})
+		.then(() => this.checkSession())
 		.then((session) => {
+			console.log(session)
 			if (!session.test_session.is_finished)
-				return this.showQuestion(this.findNextQuestion(session.test_session.last_answered_question.id))
+				return this.showQuestion(session.test_session.next_question_to_answer.id)
 			else {
 				this.view.show_result(this.test_id)
 			}
@@ -133,29 +119,12 @@ class TestController {
 		.catch(error => {
 			this.handle_error(error)
 		})
-		
-	}
-
-	findNextQuestion(prev_id) {
-		let current_index = 0;
-
-		if (prev_id) {
-			// TODO: Написать расчет следующего вопроса
-
-			current_index = this.questions.indexOf(
-				this.questions.filter(e => {
-					return (e.id == prev_id)
-				})[0]
-			)
-
-			current_index += 1
-		} else {
-			current_index = 0
-		}
-		return this.questions[current_index].id
 	}
 
 	showQuestion(question_id) {
+		this.view.update_progres(
+			this.session.test_session.count_answered_questions + 1,
+			this.questions.length)
 		let question = this.questions.filter((e) => {
 			return (e.id == question_id)
 		})[0];
@@ -187,8 +156,10 @@ class TestView {
 
 	}
 
-	update_progres() {
-
+	update_progres(q_number, amount) {
+		console.log(`n: ${q_number}, a: ${amount}`)
+		document.getElementById('question_number').innerHTML = q_number;
+		document.getElementById('questions_amount').innerHTML = amount;
 	}
 
 	drawView(data, answer_callback) {
@@ -206,11 +177,11 @@ class TestView {
 	}
 
 	show_error_view() {
+		document.getElementById('test-overview').hidden = true;
 		this.switch_view('test-view', 'test-error')
 	}
 
 	show_tester() {
-		console.log('show tester')
 		this.switch_view('test-overview', 'test-view')
 	}
 
@@ -252,8 +223,10 @@ class PromiseRequest {
 					if (xhr.status == "200") {
 						resolve(xhr.responseText)
 					} else {
-						console.log(`error: ${url}`)
-						reject(xhr.responseText)
+						reject({
+							code: xhr.status,
+							error_message: xhr.responseText
+						})
 					}
 				} 
 			};
@@ -267,7 +240,7 @@ class PromiseRequest {
 			try {
 				return JSON.parse(result)
 			} catch {
-				console.log('cannot parse json')
+				//console.log('cannot parse json')
 				return {
 					result: result
 				}
@@ -277,10 +250,7 @@ class PromiseRequest {
 			try {
 				throw JSON.parse(e)
 			} catch {
-				console.log('cannot parse json')
-				throw {
-					error: e
-				}
+				throw e
 			}
 		})
 	}
