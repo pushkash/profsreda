@@ -1,1 +1,5 @@
 *.pyc
+**/__pycache__/
+**/migrations/0*
+.vscode
+src/.idea/
