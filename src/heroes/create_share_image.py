@@ -22,11 +22,12 @@ def create_share_image(slots, image):
 
     profile_slots_ordered_array = [x[1] for x in sorted(slots.items()) if type(x[1]) != int ]
 
-    script_dir = os.path.dirname(__file__)
+    project_dir = os.path.realpath(os.getcwd())
 
     for index, file in enumerate(profile_slots_ordered_array):
 
-        p = os.path.abspath(file).replace('src/img', 'src/static/img')
+        #p = os.path.abspath(file).replace('src/img', 'src/static/img')
+        p = os.path.join(project_dir + '/static', file)
         img = Image.open(p)
         w, h = img.size
 
@@ -62,7 +63,7 @@ def create_share_image(slots, image):
 
     image_name = str(uuid.uuid4()).replace('-', '') + '.png'
 
-    share_img_path = os.path.abspath("static/img/share_avatars")
+    share_img_path = os.path.join(project_dir, "static/img/share_avatars")
 
     if not os.path.isdir(share_img_path):
         os.mkdir(share_img_path)
