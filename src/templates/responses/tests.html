@@ -15,12 +15,11 @@
                     <h2>Тесты</h2>
                     <p class="lead">Узнай свои сильные стороны</p>
                 </div>
-                {% for i in "xxxxx" %}
                     {% for test in tests %}
                         <div class="col-md-4 col-sm-6 col-xs-6">
                             <div class="test-card">
                                 <a href="/tests/views/test_view/{{ test.id }}/" class="course-img">
-                                    <img src="{{ test.image.url }}" alt="">
+                                    <img src="{{ test.image.url }}" alt="/media/test_images/course01.jpg">
                                     <span class="course-floated">Начать тест</span>
                                 </a>
                                 <div class="course">
@@ -33,7 +32,6 @@
                             </div>
                         </div>
                     {% endfor %}
-                {% endfor %}
             </div>
         </div>
     </div>
