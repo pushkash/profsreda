@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from heroes.models import Item, ItemUser
+from heroes.models import Item, ItemUser, Profile
 
 
 class Test(models.Model):
@@ -52,6 +53,19 @@ class Test(models.Model):
         """
         return TestResult.objects.filter(test_session__test=self,
                                          test_session__user=user).last()
+
+    def check_grade(self, user):
+        """
+        Checks if test is related to users grade
+        :param user: user to filter test
+        :return: boolean
+        """
+        profile = Profile.objects.get(user=user)
+        grade_intervals = TestGradeInterval.objects.filter(test=self)
+        for grade_interval in grade_intervals:
+            if grade_interval.min_grade <= int(profile.grade) <= grade_interval.max_grade:
+                return True
+        return False
 
     def main_dict(self):
         """
@@ -489,3 +503,35 @@ class ResultItem(models.Model):
             "item": self.item.main_dict()
         }
         return result_item
+
+
+class TestGradeInterval(models.Model):
+    test = models.ForeignKey(
+        "tests.Test",
+        on_delete=models.CASCADE,
+        verbose_name=_("Тест"),
+        help_text=_("Тест, к кото")
+    )
+    min_grade = models.SmallIntegerField(
+        verbose_name=_("Самый младший класс"),
+        help_text=_("Самый младший класс в интервале")
+    )
+    max_grade = models.SmallIntegerField(
+        verbose_name=_("Самый старший класс"),
+        help_text=_("Самый старший класс в интервале")
+    )
+
+    class Meta:
+        verbose_name = "Интервал классов"
+        verbose_name_plural = "Интервалы классов"
+
+    def __str__(self):
+        return " - ".join([str(self.test), str(self.min_grade), str(self.max_grade)])
+
+    def clean(self, *args, **kwargs):
+        if self.min_grade < 1 or self.min_grade > 11:
+            raise ValidationError(_("Некорректное значение: Самый младший класс"))
+        if self.max_grade < 1 or self.max_grade > 11:
+            raise ValidationError(_("Некорректное значение: Самый старший класс"))
+        if self.min_grade > self.max_grade:
+            raise ValidationError(_("Некорректное значение: Самый младший класс больше Самого старшего"))

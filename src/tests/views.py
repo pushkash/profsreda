@@ -16,7 +16,8 @@ def get_all_tests(request):
     :param request: http request
     :return: JSON object with all tests
     """
-    tests = [test.main_dict() for test in Test.objects.all()]
+    user = request.user
+    tests = [test.main_dict() for test in Test.objects.all() if test.check_grade(user)]
     return HttpResponse(
         status=status.HTTP_200_OK,
         content=json.dumps({"tests": tests}),
@@ -229,7 +230,7 @@ def get_all_tests_view(request):
     :return: rendered HTML
     """
     user = request.user
-    tests = Test.objects.all()
+    tests = [test for test in Test.objects.all() if test.check_grade(user)]
     test_results = [test.get_user_result(user) for test in tests]
 
     return render(request, "responses/tests.html", {"tests": tests,
@@ -275,7 +276,7 @@ def result_view_by_test(request, test_id):
     result_categories = test_result.get_result_categories()
     result_items = test_result.get_result_items()
 
-    tests = Test.objects.all()
+    tests = [test for test in Test.objects.all() if test.check_grade(user)]
     test_results = [test.get_user_result(user) for test in tests]
 
     return render(request, "responses/results.html", {"test": test,
@@ -301,7 +302,7 @@ def result_view_by_test_result(request, test_result_id):
     result_categories = test_result.get_result_categories()
     result_items = test_result.get_result_items()
 
-    tests = Test.objects.all()
+    tests = [test for test in Test.objects.all() if test.check_grade(user)]
     test_results = [test.get_user_result(user) for test in tests]
 
     return render(request, "responses/results.html", {"test": test,
