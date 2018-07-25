@@ -59,8 +59,11 @@ def customProfileCreation(request):
             message_text = render_to_string('email_template.txt', ctx)
             message_html = render_to_string("email_template.html", ctx)
 
-            send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
-                      fail_silently=False, html_message=message_html)
+            try:
+                send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
+                          fail_silently=False, html_message=message_html)
+            except:
+                pass
 
             return redirect("account_profile")
 
