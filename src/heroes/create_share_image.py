@@ -22,7 +22,7 @@ def create_share_image(slots, image):
 
     profile_slots_ordered_array = [x[1] for x in sorted(slots.items()) if type(x[1]) != int ]
 
-    project_dir = os.path.realpath(os.getcwd())
+    project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     for index, file in enumerate(profile_slots_ordered_array):
 
