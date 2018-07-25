@@ -81,23 +81,23 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {                                                      # PAW from PAW
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'profsreda',
-        'USER': 'prof_user',
-        'PASSWORD': "profXsreda2018",
-        'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
-        'PORT': '10827',
-    }
-
-    # 'default': {                                                      # PAW from local
+    # 'default': {                                                      # PAW from PAW
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'profsreda',
-    #     'USER' : 'prof_user',
-    #     'PASSWORD' : "profXsreda2018",
-    #     'HOST' : '127.0.0.1', # 'pushka-827.postgres.pythonanywhere-services.com'
-    #     'PORT' : '5432',
+    #     'USER': 'prof_user',
+    #     'PASSWORD': "profXsreda2018",
+    #     'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
+    #     'PORT': '10827',
     # }
+
+    'default': {                                                      # PAW from local
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'profsreda',
+        'USER' : 'prof_user',
+        'PASSWORD' : "profXsreda2018",
+        'HOST' : '127.0.0.1', # 'pushka-827.postgres.pythonanywhere-services.com'
+        'PORT' : '5432',
+    }
 
     # 'default': {                                                        # Local
     #     'ENGINE': 'django.db.backends.sqlite3',
