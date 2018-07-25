@@ -93,7 +93,7 @@ class Question(models.Model):
         help_text=_("Тест, к которому относится вопрос")
     )
     text = models.CharField(
-        max_length=100,
+        max_length=150,
         verbose_name=_("Вопрос"),
         help_text=_("Текст вопроса")
     )
