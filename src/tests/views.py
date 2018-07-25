@@ -1,6 +1,5 @@
 import json
 
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
@@ -54,8 +53,7 @@ def get_test_session(request, test_id):
     :param test_id: test for which a test session is requested
     :return: JSON object with current/new test session object
     """
-    # TODO: change to request.user
-    user = User.objects.get(id=1)
+    user = request.user
     # Find test or return error
     try:
         test = Test.objects.get(id=test_id)
@@ -92,8 +90,7 @@ def create_test_session(request, test_id):
     :param test_id: test id to create related test session
     :return: JSON object with created test session info
     """
-    # TODO: change to request.user
-    user = User.objects.get(id=1)
+    user = request.user
     # Find test or return error
     try:
         test = Test.objects.get(id=test_id)
@@ -135,8 +132,7 @@ def save_response(request, test_session_id, question_id):
     :param question_id: current question_id
     :return: JSON object with error message in case if one of id's is incorrect
     """
-    # TODO: change to request.user
-    user = User.objects.get(id=1)
+    user = request.user
     # Find test session or return error
     try:
         test_session = TestSession.objects.get(id=test_session_id)
@@ -200,8 +196,7 @@ def get_test_result(request, test_id):
     :param test_id: Test id to find TestResult
     :return: JSON object with TestResult info
     """
-    # TODO: change to request.user
-    user = User.objects.get(id=1)
+    user = request.user
     try:
         test = Test.objects.get(id=test_id)
         test_result = TestResult.objects.filter(test_session__user=user,
@@ -233,8 +228,7 @@ def get_all_tests_view(request):
     :param request:
     :return: rendered HTML
     """
-    # TODO: change to request.user
-    user = User.objects.get(id=1)
+    user = request.user
     tests = Test.objects.all()
     test_results = [test.get_user_result(user) for test in tests]
 
@@ -249,8 +243,7 @@ def test_view(request, test_id):
     :param test_id: test id to render overview
     :return: rendered HTML template
     """
-    # TODO: change to request.user
-    user = User.objects.get(id=1)
+    user = request.user
     try:
         test = Test.objects.get(id=test_id)
         # Get last TestSession for user
@@ -275,8 +268,7 @@ def result_view_by_test(request, test_id):
     :param test_id: test id to render test result
     :return: rendered HTML template
     """
-    # TODO: change to request.user
-    user = User.objects.get(id=1)
+    user = request.user
     test = Test.objects.get(id=test_id)
     test_result = TestResult.objects.filter(test_session__user=user,
                                             test_session__test=test).last()
@@ -301,8 +293,7 @@ def result_view_by_test_result(request, test_result_id):
     :param test_result_id: test result id to render test result
     :return: rendered HTML template
     """
-    # TODO: change to request.user
-    user = User.objects.get(id=1)
+    user = request.user
 
     test_result = TestResult.objects.get(id=test_result_id)
     test = test_result.get_test()

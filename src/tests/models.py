@@ -362,13 +362,12 @@ class TestSession(models.Model):
             ResultCategory.objects.create(test_result=test_result,
                                           category=result_category)
             for item in Item.objects.filter(category=result_category):
-                ResultItem.objects.create(test_result=test_result,
-                                          item=item)
-
                 try:
                     user_item = ItemUser.objects.get(item=item,
                                                      user=self.user)
                 except ItemUser.DoesNotExist:
+                    ResultItem.objects.create(test_result=test_result,
+                                              item=item)
                     user_item = ItemUser.objects.create(item=item,
                                                         user=self.user)
 
