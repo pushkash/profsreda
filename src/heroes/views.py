@@ -130,7 +130,10 @@ def profile_random(request):
         if len(to_write) == len(available):
             for x, y in zip(available, to_write):
                 slots["{}_pk".format(x)] = y.pk
-                slots[x] = getattr(y, x)
+                if hero_profile.sex == 'F':
+                    slots[x] = getattr(y, x + '_girl')
+                else:
+                    slots[x] = getattr(y, x)
 
     for i in range(1,6):
         t = "slot{}".format(i)

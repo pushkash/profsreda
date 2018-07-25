@@ -103,15 +103,17 @@ class Profile(models.Model):
 
         for k in to_write.keys():
             slots["{}_pk".format(k)] = to_write[k].pk
-            slots[k] = getattr(to_write[k], k)
-
+            if self.sex == 'F':
+                slots[k] = getattr(to_write[k], k + '_girl')
+            else:
+                slots[k] = getattr(to_write[k], k)
 
         for i in range(1, 6):
             s = "slot{}".format(i)
             s_pk = "{}_pk".format(s)
             if s_pk in slots.keys():
                 if slots[s_pk] in to_clean:
-                    slots[s] = "img/game/avatar/M/0{}.png".format(i)
+                    slots[s] = "img/game/avatar/" + self.sex + "/0{}.png".format(i)
                     del slots[s_pk]
 
         self.slots = json.dumps(slots)
