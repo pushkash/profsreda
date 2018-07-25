@@ -71,9 +71,9 @@ class UpdateUserProfile(forms.Form):
 
     current_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль", required=False)
 
-    new_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль", required=False)
+    new_password = forms.CharField(widget=forms.PasswordInput, label="Введите новый пароль", required=False)
 
-    confirm_new_password = forms.CharField(widget=forms.PasswordInput, label="Введите текущий пароль", required=False)
+    confirm_new_password = forms.CharField(widget=forms.PasswordInput, label="Подтвердите новый пароль", required=False)
 
     class Meta:
         model = User
