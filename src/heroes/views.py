@@ -69,7 +69,6 @@ def customProfileCreation(request):
 
 
 def profile(request):
-
     items = ItemUser.objects.filter(user=request.user)
     items = [i.item for i in items]
     hero_profile = Profile.objects.get(user=request.user)
@@ -241,3 +240,9 @@ def update_share_image(hero_profile, slots):
     share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
     share_avatar_image.save()
     return share_avatar_image.avatar_image
+
+from tests.models import ResultItem
+def get_content_name_result_test(item, user):
+    res_item = ResultItem.objects.filter(item=item, test_result__test_session__user=user).first()
+    test_res = res_item.test_result
+    return test_res
