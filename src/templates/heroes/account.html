@@ -114,7 +114,7 @@
                             {% for item in items %}
 
                             <div class='col-md-3'>
-                                <a id="{{ item.id}}" href="/accounts/profile/item/{{ item.id }}" data-toogle="popover" title="" data-content="<a href='#'>ссылка на результат</a>" data-original-title="{{ item.category.name }}">
+                                <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id}}" class='items_href' data-toogle="popover" title="" data-content="<a href='#'>ссылка на результат</a>" data-original-title="{{ item.category.name }}">
                                 <div class="item-card">
                                     <img class="item-icon media-object img-responsive full-width" src='{% static item.icon %}' title="">
                                     <div class="item-title">
@@ -125,17 +125,33 @@
                             </div>
 
                         <script>
-                            var item_js = document.getElementById('{{ item.id }}');
-                            item_js.onmouseover = function(){
-                                $("[id={{ item.id }}]").popover({html:true});
-                                $("[id={{ item.id }}]").popover('show');
-                            }
 
-                            item_js.onmouseout = function() {
-                                $("[id={{ item.id }}]").popover('hide');
-                            }
+                            <!--var other_items = document.getElementsByClassName('items_href');-->
+                            <!--var item_js = document.getElementById('item_{{ item.id }}');-->
+                            <!--item_js.onmouseover = function(){-->
+                                <!--$("[id=item_{{ item.id }}]").popover({html:true, placement: 'auto right', container: 'body'});-->
+                                <!--$("[id=item_{{ item.id }}]").popover('show');-->
+                            <!--}-->
 
+                            <!--item_js.onmouseleave = function() {-->
+                                <!--$("[id=item_{{ item.id }}]").popover('hide');-->
+                            <!--}-->
 
+                            $("[id=item_{{ item.id }}]").popover({trigger: 'manual', html:true, animation: false, placement: 'auto right', container: 'body'})
+                                .on("mouseenter", function(){
+                                    var _this = this;
+                                    $(this).popover('show');
+                                    $('.popover').on('mouseleave', function(){
+                                        $(_this).popover('hide');
+                                    })
+                                }).on("mouseleave", function () {
+                                        var _this = this;
+                                        setTimeout(function () {
+                                            if (!$(".popover:hover").length) {
+                                                $(_this).popover("hide");
+                                            }
+                                        }, 300);
+                                    });
 
 
 
@@ -147,7 +163,6 @@
                 </div>
             </div>
         </div>
-
 
 {% block script %} {% endblock %}
 
