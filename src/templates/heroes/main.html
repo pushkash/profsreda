@@ -15,7 +15,13 @@
 						<div class="col-md-8">
 							<h1 class="white-text">Профсреда</h1>
 							<p class="lead white-text">Стань героем, выбрав профессию по душе.</p>
-							<a class="main-button icon-button" href="/tests/">Начать!</a>
+							<a class="main-button icon-button" 
+							{% if user.is_authenticated %}
+								href="/tests/views/all_tests/"
+							{% else %}
+								href="/accounts/login/"
+							{% endif %}
+							>Начать!</a>
 						</div>
 					</div>
 				</div>
