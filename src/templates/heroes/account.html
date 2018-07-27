@@ -105,7 +105,6 @@
                 </div>
 
 
-
                 <div id='items-table'>
                     <div>
                         <div class="section-header" style="margin-top: 15px;">
@@ -113,8 +112,12 @@
                         </div>
                             {% for item in items %}
 
+                            {% for k, v in items_results.items %}
+                                {% if k == item.id %}
+
+
                             <div class='col-md-3'>
-                                <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id}}" class='items_href' data-toogle="popover" title="" data-content="<a href='#'>ссылка на результат</a>" data-original-title="{{ item.category.name }}">
+                                <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id }}" class='items_href' data-toogle="popover" title="" data-content="<a href='{% url 'test_result' v %}' style='color: red'>Посмотреть результат</a>" data-original-title="{{ item.category.name }}"> <!--<a href='views/test/{{ v }}/result/ -->
                                 <div class="item-card">
                                     <img class="item-icon media-object img-responsive full-width" src='{% static item.icon %}' title="">
                                     <div class="item-title">
@@ -124,18 +127,11 @@
                                 </a>
                             </div>
 
+                            {% endif %}
+                            {% endfor%}
+
                         <script>
 
-                            <!--var other_items = document.getElementsByClassName('items_href');-->
-                            <!--var item_js = document.getElementById('item_{{ item.id }}');-->
-                            <!--item_js.onmouseover = function(){-->
-                                <!--$("[id=item_{{ item.id }}]").popover({html:true, placement: 'auto right', container: 'body'});-->
-                                <!--$("[id=item_{{ item.id }}]").popover('show');-->
-                            <!--}-->
-
-                            <!--item_js.onmouseleave = function() {-->
-                                <!--$("[id=item_{{ item.id }}]").popover('hide');-->
-                            <!--}-->
 
                             $("[id=item_{{ item.id }}]").popover({trigger: 'manual', html:true, animation: false, placement: 'auto right', container: 'body'})
                                 .on("mouseenter", function(){
@@ -156,7 +152,6 @@
 
 
                         </script>
-
                             {% endfor %}
                         </div>
                     </div>

@@ -81,6 +81,13 @@ def profile(request):
     else:
         sex = "неуказан"
 
+
+    items_results = {}
+
+    for item in items:
+        test_id = get_content_name_result_test(item, request.user)
+        items_results[item.id] = test_id
+
     return render(request,
                   context=locals(),
                   template_name='heroes/account.html')
@@ -244,5 +251,5 @@ def update_share_image(hero_profile, slots):
 from tests.models import ResultItem
 def get_content_name_result_test(item, user):
     res_item = ResultItem.objects.filter(item=item, test_result__test_session__user=user).first()
-    test_res = res_item.test_result
+    test_res = res_item.test_result.test_session.test_id;
     return test_res
