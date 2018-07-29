@@ -158,6 +158,11 @@ class TestView {
 	update_progres(q_number, amount) {
 		document.getElementById('question_number').innerHTML = q_number;
 		document.getElementById('questions_amount').innerHTML = amount;
+		this.update_progress_bar((q_number-1.0)/amount*100)
+	}
+
+	update_progress_bar(percents) {
+		document.getElementById('test-progress-bar').style.width = percents + '%';
 	}
 
 	drawView(data, answer_callback) {
@@ -197,6 +202,7 @@ class TestView {
 	}
 
 	show_result(test_id) {
+		this.update_progress_bar(100)
 		document.location.href = `../../../views/test/${test_id}/result/`
 	}
 

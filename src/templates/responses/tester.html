@@ -10,7 +10,7 @@
 
                 <div class="test-header">
                     <div class="text-center">
-                        <h2>Тест "{{ test.name }}"</h2>
+                        <h2>{{ test.name }}</h2>
                     </div>
                 </div>
                 <div id='test-body'>
@@ -38,10 +38,16 @@
 
                     <div id='test-view' class='test-in-progress' hidden>
                         <div id='test-progress'>
-                        <span>Вопрос:</span>
-                        <span id='question_number'>0</span>
-                        из
-                        <span id='questions_amount'>0</span>
+                            <span>Вопрос:</span>
+                            <span id='question_number'>0</span>
+                            из
+                            <span id='questions_amount'>0</span>
+
+                            <div  class="progress">
+                                <div id='test-progress-bar' class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                <span class="sr-only"></span>
+                                </div>
+                            </div>
                         </div>
 
                         <div id='test-question' class='test-text'>
@@ -80,7 +86,9 @@
         document.addEventListener("DOMContentLoaded", (e) => { 
             
             document.getElementById("start-button").addEventListener('click', (event) => {
-                new TestController('{{test.id}}').startTest();           
+                var controller = new TestController('{{test.id}}')           
+                controller.startTest()
+                //new TestController('{{test.id}}').startTest();
                 // switch_view('test-overview', 'test-view')         
             } )
 
