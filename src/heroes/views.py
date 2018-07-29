@@ -5,7 +5,7 @@ from heroes.models import ItemUser, Profile, Item, ShareProfileAvatar
 from .forms import CustomUserCreationForm, UpdateUserProfile
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.template.loader import render_to_string, get_template
 from django.template import Context
@@ -59,8 +59,11 @@ def customProfileCreation(request):
             message_text = render_to_string('email_template.txt', ctx)
             message_html = render_to_string("email_template.html", ctx)
 
-            send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
-                      fail_silently=False, html_message=message_html)
+            try:
+                send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
+                          fail_silently=False, html_message=message_html)
+            except:
+                pass
 
             return redirect("account_profile")
 
@@ -187,7 +190,6 @@ def update_user_profile(request):
 
         if form.is_valid():
             hero_profile = Profile.objects.get(user_id=request.user.id)
-            print(form.cleaned_data)
             sex = form.cleaned_data["sex"]
             grade = form.cleaned_data["grade"]
             current_password = form.cleaned_data["current_password"]
@@ -212,7 +214,8 @@ def update_user_profile(request):
             if current_password and new_password and confirm_new_password:
                 user.set_password(confirm_new_password)
                 user.save()
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                user.backend = 'django.contrib.auth.backends.ModelBackend'
+                login(request, user)
 
             return redirect("account_profile")
 
