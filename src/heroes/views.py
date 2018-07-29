@@ -238,6 +238,8 @@ def profile_share_avatar(request):
 
     share_avatar = update_share_image(hero_profile, slots)
 
+    items_results = get_content_name_result_test(items, request.user)
+
     return render(request,
                   context=locals(),
                   template_name='heroes/account_share.html')
