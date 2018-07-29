@@ -252,8 +252,10 @@ def get_content_name_result_test(items, user):
     for item in items:
         res_item = ResultItem.objects.filter(item=item, test_result__test_session__user=user).first()
         res_items = ResultItem.objects.filter(item=item, test_result__test_session__user=user)
+
+        #из-за чистки бд пришлось сделать проверку, чтобы ничего не падало
         if res_item == None:
-            test_id = 69
+            test_id = 0
         else:
             test_id = res_item.test_result_id;
 
