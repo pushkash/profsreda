@@ -72,15 +72,24 @@
                 <h4>Другие тесты</h4>
                 <div class='row course'>
                 {% for test in tests %}
+                    
+
+
                     <div class="col-md-4 col-sm-6 col-xs-6">
                         <div class="test-card">
-                            <a href="/tests/views/test_view/{{ test.id }}/" class="course-img">
+                            <div class="course-img">
                                 <img src="{{ test.image.url }}" alt="/media/test_images/course01.jpg">
-                                <span class="course-floated">Начать тест</span>
-                            </a>
+
+                                <div class='course-floated'>
+                                <a href="/tests/views/test_view/{{ test.id }}/" class='course-btn'>
+                                    <span >Начать тест</span>
+                                </a>
+                                
+                                </div>
+                            </div>
                             <div class="course">
                                 <div class="test-details">
-                                    <span class="course-category">{{ test.name }}</span>
+                                    <span class="course-category"> {{ test.name }}</span>
                                 </div>
                             </div>
 

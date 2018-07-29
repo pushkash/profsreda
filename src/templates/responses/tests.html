@@ -9,22 +9,35 @@
         <!-- row -->
         <div class="row">
 
-            <div class="col-md-10 col-md-offset-1 course tests">
+            <div class="col-md-10 col-md-offset-1 tests">
 
                 <div class="text-center">
                     <h2>Тесты</h2>
                     <p class="lead">Узнай свои сильные стороны</p>
                 </div>
+                    
                     {% for test in tests %}
+                        
                         <div class="col-md-4 col-sm-6 col-xs-6">
                             <div class="test-card">
-                                <a href="/tests/views/test_view/{{ test.id }}/" class="course-img">
+                                <div class="test-card-img">
                                     <img src="{{ test.image.url }}" alt="/media/test_images/course01.jpg">
-                                    <span class="course-floated">Начать тест</span>
-                                </a>
+
+                                    <div class='course-floated'>
+                                    <a href="/tests/views/test_view/{{ test.id }}/" class='course-btn'>
+                                        <span >Начать тест</span>
+                                    </a>
+                                    {% if test.result%}
+                                    <br>
+                                    <a href="/tests/views/test_result/{{ test.result.id }}/result/" class='course-btn' >
+                                        <span >Результаты</span>
+                                    </a>
+                                    {% endif %}
+                                    </div>
+                                </div>
                                 <div class="course">
                                     <div class="test-details">
-                                        <span class="course-category">Тест {{ test.name }}</span>
+                                        <span class="course-category">{{ test.name }}</span>
                                     </div>
                                 </div>
 

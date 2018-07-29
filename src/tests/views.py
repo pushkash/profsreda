@@ -233,6 +233,9 @@ def get_all_tests_view(request):
     tests = [test for test in Test.objects.all() if test.check_grade(user)]
     test_results = [test.get_user_result(user) for test in tests]
 
+    for i in range(len(tests)):    
+        setattr(tests[i], 'result', test_results[i])
+
     return render(request, "responses/tests.html", {"tests": tests,
                                                     "test_results": test_results})
 
