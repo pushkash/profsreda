@@ -8,3 +8,4 @@
 .DS_Store
 *.pyc
 **/migrations/0*
+**/priv_vals.py

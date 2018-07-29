@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import priv_vals
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -84,20 +85,11 @@ DATABASES = {
     'default': {                                                      # PAW from PAW
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'profsreda',
-        'USER': 'prof_user',
-        'PASSWORD': "profXsreda2018",
-        'HOST': 'pushka-827.postgres.pythonanywhere-services.com',
-        'PORT': '10827',
+        'USER': priv_vals.paw_db_user,
+        'PASSWORD': priv_vals.paw_db_password,
+        'HOST': priv_vals.paw_db,
+        'PORT': priv_vals.paw_db_port,
     }
-
-    # 'default': {                                                      # PAW from local
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'profsreda',
-    #     'USER' : 'prof_user',
-    #     'PASSWORD' : "profXsreda2018",
-    #     'HOST' : '127.0.0.1', # 'pushka-827.postgres.pythonanywhere-services.com'
-    #     'PORT' : '5432',
-    # }
 
     # 'default': {                                                        # Local
     #     'ENGINE': 'django.db.backends.sqlite3',
@@ -167,14 +159,13 @@ if MODE == 'dev':
 
 if MODE == 'prod':
     EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = 'info.profsreda@gmail.com'
-    EMAIL_HOST_PASSWORD = '26kadr_profsreda'
-    EMAIL_HOST = 'smtp.gmail.com'
-    #EMAIL_PORT = 465
-    EMAIL_PORT = 587
+    EMAIL_HOST_USER = priv_vals.email_user
+    EMAIL_HOST_PASSWORD = priv_vals.email_password
+    EMAIL_HOST = priv_vals.email_host
+    EMAIL_PORT = priv_vals.email_port
 
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    DEFAULT_FROM_EMAIL = 'info.profsreda@gmail.com'
+    DEFAULT_FROM_EMAIL = priv_vals.email_user
 
     #ACCOUNT_EMAIL_VERIFICATION = "mandatory"
     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
