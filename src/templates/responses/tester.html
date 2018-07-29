@@ -86,17 +86,8 @@
         document.addEventListener("DOMContentLoaded", (e) => { 
             
             document.getElementById("start-button").addEventListener('click', (event) => {
-                var controller = new TestController('{{test.id}}')           
-                controller.startTest()
-                //new TestController('{{test.id}}').startTest();
-                // switch_view('test-overview', 'test-view')         
+                new TestController('{{test.id}}').startTest();    
             } )
-
-            
-            // function switch_view(view1, view2) {
-            //     document.getElementById(view1).hidden = true;
-            //     document.getElementById(view2).hidden = false;
-            // }
 
             document.getElementById("reload-button").addEventListener('click', (event) => {
                 location.reload()
