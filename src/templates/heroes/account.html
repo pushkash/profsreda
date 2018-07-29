@@ -53,7 +53,7 @@
                     </div>
                 </div>
 
-
+                <div align="center">
                 <!--<a href="{% url 'share_avatar' %}" style="display: inline-block;text-decoration: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><span style="position: relative;padding: 0;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><img src="http://vk.com/images/vk32.png"></span></a>-->
                 <table cellspacing="0" cellpadding="0" style="position: relative; cursor: pointer; width: auto; line-height: normal; border: 0; direction: ltr;">
                     <tbody>
@@ -69,9 +69,10 @@
                         </tr>
                     </tbody>
                 </table>
+                </div>
 
                 <a href="/profile/random/">
-                <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px;">
+                <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px; margin-top: 10px;">
                     Случайный выбор
                 </button>
                 </a>
@@ -105,7 +106,6 @@
                 </div>
 
 
-
                 <div id='items-table'>
                     <div>
                         <div class="section-header" style="margin-top: 15px;">
@@ -113,10 +113,14 @@
                         </div>
                             {% for item in items %}
 
+                            {% for k, v in items_results.items %}
+                                {% if k == item.id %}
+
+
                             <div class='col-md-3'>
-                                <a href="/accounts/profile/item/{{ item.id }}">
+                                <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id }}" class='items_href' data-toogle="popover" title="" data-content="<a href='{% url 'test_result_for_item' v %}' target='_blank' style='color: red'>Посмотреть результат</a>" data-original-title="{{ item.category.name }}"> <!--<a href='views/test/{{ v }}/result/ -->
                                 <div class="item-card">
-                                    <img class="item-icon media-object img-responsive full-width" src='{% static item.icon %}'>
+                                    <img class="item-icon media-object img-responsive full-width" src='{% static item.icon %}' title="">
                                     <div class="item-title">
                                         {{ item.name }}
                                     </div>
@@ -124,6 +128,31 @@
                                 </a>
                             </div>
 
+                            {% endif %}
+                            {% endfor%}
+
+                        <script>
+
+
+                            $("[id=item_{{ item.id }}]").popover({trigger: 'manual', html:true, animation: false, placement: 'auto right', container: 'body'})
+                                .on("mouseenter", function(){
+                                    var _this = this;
+                                    $(this).popover('show');
+                                    $('.popover').on('mouseleave', function(){
+                                        $(_this).popover('hide');
+                                    })
+                                }).on("mouseleave", function () {
+                                        var _this = this;
+                                        setTimeout(function () {
+                                            if (!$(".popover:hover").length) {
+                                                $(_this).popover("hide");
+                                            }
+                                        }, 200);
+                                    });
+
+
+
+                        </script>
                             {% endfor %}
                         </div>
                     </div>

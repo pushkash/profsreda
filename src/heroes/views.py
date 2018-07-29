@@ -5,7 +5,7 @@ from heroes.models import ItemUser, Profile, Item, ShareProfileAvatar
 from .forms import CustomUserCreationForm, UpdateUserProfile
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.template.loader import render_to_string, get_template
 from django.template import Context
@@ -59,8 +59,11 @@ def customProfileCreation(request):
             message_text = render_to_string('email_template.txt', ctx)
             message_html = render_to_string("email_template.html", ctx)
 
-            send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
-                      fail_silently=False, html_message=message_html)
+            try:
+                send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
+                          fail_silently=False, html_message=message_html)
+            except:
+                pass
 
             return redirect("account_profile")
 
@@ -69,7 +72,6 @@ def customProfileCreation(request):
 
 
 def profile(request):
-
     items = ItemUser.objects.filter(user=request.user)
     items = [i.item for i in items]
     hero_profile = Profile.objects.get(user=request.user)
@@ -81,6 +83,9 @@ def profile(request):
         sex = "мужской"
     else:
         sex = "неуказан"
+
+
+    items_results = get_content_name_result_test(items, request.user)
 
     return render(request,
                   context=locals(),
@@ -144,6 +149,8 @@ def profile_random(request):
     hero_profile.slots = json.dumps(slots)
     hero_profile.save()
 
+    items_results = get_content_name_result_test(items, request.user)
+
     return render(request,
                   context=locals(),
                   template_name='heroes/account.html')
@@ -183,7 +190,6 @@ def update_user_profile(request):
 
         if form.is_valid():
             hero_profile = Profile.objects.get(user_id=request.user.id)
-            print(form.cleaned_data)
             sex = form.cleaned_data["sex"]
             grade = form.cleaned_data["grade"]
             current_password = form.cleaned_data["current_password"]
@@ -208,7 +214,8 @@ def update_user_profile(request):
             if current_password and new_password and confirm_new_password:
                 user.set_password(confirm_new_password)
                 user.save()
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                user.backend = 'django.contrib.auth.backends.ModelBackend'
+                login(request, user)
 
             return redirect("account_profile")
 
@@ -241,3 +248,19 @@ def update_share_image(hero_profile, slots):
     share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
     share_avatar_image.save()
     return share_avatar_image.avatar_image
+
+from tests.models import ResultItem
+def get_content_name_result_test(items, user):
+    items_results = {}
+    for item in items:
+        res_item = ResultItem.objects.filter(item=item, test_result__test_session__user=user).first()
+        res_items = ResultItem.objects.filter(item=item, test_result__test_session__user=user)
+
+        #из-за чистки бд пришлось сделать проверку, чтобы ничего не падало
+        if res_item == None:
+            test_id = 0
+        else:
+            test_id = res_item.test_result_id;
+
+        items_results[item.id] = test_id
+    return items_results
