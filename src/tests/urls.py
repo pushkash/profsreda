@@ -11,5 +11,5 @@ urlpatterns = [
     path(r"views/all_tests/", views.get_all_tests_view),
     path(r"views/test_view/<int:test_id>/", views.test_view),
     path(r"views/test/<int:test_id>/result/", views.result_view_by_test, name='test_result'),
-    path(r"views/test_result/<int:test_result_id>/result/", views.result_view_by_test_result)
+    path(r"views/test_result/<int:test_result_id>/result/", views.result_view_by_test_result, name='test_result_for_item')
 ]

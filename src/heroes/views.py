@@ -82,11 +82,7 @@ def profile(request):
         sex = "неуказан"
 
 
-    items_results = {}
-
-    for item in items:
-        test_id = get_content_name_result_test(item, request.user)
-        items_results[item.id] = test_id
+    items_results = get_content_name_result_test(items, request.user)
 
     return render(request,
                   context=locals(),
@@ -149,6 +145,8 @@ def profile_random(request):
 
     hero_profile.slots = json.dumps(slots)
     hero_profile.save()
+
+    items_results = get_content_name_result_test(items, request.user)
 
     return render(request,
                   context=locals(),
@@ -249,7 +247,15 @@ def update_share_image(hero_profile, slots):
     return share_avatar_image.avatar_image
 
 from tests.models import ResultItem
-def get_content_name_result_test(item, user):
-    res_item = ResultItem.objects.filter(item=item, test_result__test_session__user=user).first()
-    test_res = res_item.test_result.test_session.test_id;
-    return test_res
+def get_content_name_result_test(items, user):
+    items_results = {}
+    for item in items:
+        res_item = ResultItem.objects.filter(item=item, test_result__test_session__user=user).first()
+        res_items = ResultItem.objects.filter(item=item, test_result__test_session__user=user)
+        if res_item == None:
+            test_id = 69
+        else:
+            test_id = res_item.test_result_id;
+
+        items_results[item.id] = test_id
+    return items_results

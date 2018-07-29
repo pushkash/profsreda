@@ -117,7 +117,7 @@
 
 
                             <div class='col-md-3'>
-                                <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id }}" class='items_href' data-toogle="popover" title="" data-content="<a href='{% url 'test_result' v %}' style='color: red'>Посмотреть результат</a>" data-original-title="{{ item.category.name }}"> <!--<a href='views/test/{{ v }}/result/ -->
+                                <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id }}" class='items_href' data-toogle="popover" title="" data-content="<a href='{% url 'test_result_for_item' v %}' target='_blank' style='color: red'>Посмотреть результат</a>" data-original-title="{{ item.category.name }}"> <!--<a href='views/test/{{ v }}/result/ -->
                                 <div class="item-card">
                                     <img class="item-icon media-object img-responsive full-width" src='{% static item.icon %}' title="">
                                     <div class="item-title">
@@ -146,7 +146,7 @@
                                             if (!$(".popover:hover").length) {
                                                 $(_this).popover("hide");
                                             }
-                                        }, 300);
+                                        }, 200);
                                     });
 
 
