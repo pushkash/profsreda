@@ -1,8 +1,8 @@
 import json
 from random import shuffle
 from django.shortcuts import render, redirect
+from heroes.forms import CustomUserCreationForm, UpdateUserProfile
 from heroes.models import ItemUser, Profile, Item, ShareProfileAvatar
-from .forms import CustomUserCreationForm, UpdateUserProfile
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -10,7 +10,11 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string, get_template
 from django.template import Context
 import random
-from .create_share_image import create_share_image
+from PIL import Image
+import os
+import uuid
+from django.contrib.staticfiles.templatetags.staticfiles import static
+
 
 def home(request):
     return render(request, template_name='heroes/main.html')
@@ -224,31 +228,21 @@ def update_user_profile(request):
 
 
 def profile_share_avatar(request):
-    items = ItemUser.objects.filter(user=request.user)
-    items = [i.item for i in items]
     hero_profile = Profile.objects.get(user=request.user)
     slots = json.loads(hero_profile.slots)
 
-    if hero_profile.sex == "F":
-        sex = "женский"
-    elif hero_profile.sex == "M":
-        sex = "мужской"
-    else:
-        sex = "неуказан"
-
-    share_avatar = update_share_image(hero_profile, slots)
-
-    items_results = get_content_name_result_test(items, request.user)
-
-    return render(request,
-                  context=locals(),
-                  template_name='heroes/account_share.html')
-
-
-def update_share_image(hero_profile, slots):
     share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
     share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
     share_avatar_image.save()
+
+    return HttpResponse(share_avatar_image.avatar_image)
+
+def update_share_image(hero_profile, slots):
+
+    share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
+    share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
+    share_avatar_image.save()
+
     return share_avatar_image.avatar_image
 
 from tests.models import ResultItem
@@ -266,3 +260,73 @@ def get_content_name_result_test(items, user):
 
         items_results[item.id] = test_id
     return items_results
+
+
+def create_share_image(slots, image):
+    init_avatar = Image.new('RGBA', (4267, 8534))
+
+    init_avatar_w, init_avatar_h = init_avatar.size
+
+    h_prev = 0
+
+    profile_slots_ordered_array = [x[1] for x in sorted(slots.items()) if type(x[1]) != int ]
+
+    project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    for index, file in enumerate(profile_slots_ordered_array):
+
+        #p = os.path.abspath(file).replace('src/img', 'src/static/img')
+        p = os.path.join(project_dir + '/static', file)
+        img = Image.open(p)
+        w, h = img.size
+
+        # right hand
+        if index == 3:
+            img_area = (init_avatar_w - w, h_prev, init_avatar_w, h + h_prev)
+        else:
+            img_area = (0, h_prev, w, h + h_prev)
+
+        if index != 2:
+            h_prev = h + h_prev
+
+        init_avatar.paste(img, img_area)
+
+    init_avatar_w, init_avatar_h = init_avatar.size
+
+    init_avatar_w = int(init_avatar_w)
+    init_avatar_h = int(init_avatar_h)
+
+    init_avatar = init_avatar.resize((init_avatar_w, init_avatar_h), Image.ANTIALIAS)
+
+    init_avatar = init_avatar.resize((int(init_avatar_w / 14), int(init_avatar_h / 14)), Image.ANTIALIAS)
+
+    blanc_img = Image.new('RGBA', (1300, 607))  # 1480
+
+    b_w, b_h = blanc_img.size
+    w, h = init_avatar.size
+
+    blanc_img.paste(init_avatar, (int((b_w - w) / 2), 0, int((b_w + w) / 2), h))
+
+    #Создание рамки у изображения
+    # blanc_img = ImageOps.expand(blanc_img, border = 1, fill ='black')
+
+    image_name = str(uuid.uuid4()).replace('-', '') + '.png'
+
+    share_img_path = os.path.join(project_dir, "static/img/share_avatars")
+
+    if not os.path.isdir(share_img_path):
+        os.mkdir(share_img_path)
+
+    blanc_img.save(share_img_path + '/' + image_name)
+
+    if image is not None:
+        try:
+            remove_prev_profile_share_avatar(share_img_path + '/' + image)
+        except Exception as e:
+            pass
+
+    return image_name
+
+
+def remove_prev_profile_share_avatar(file):
+    os.remove(file)

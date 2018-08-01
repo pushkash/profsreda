@@ -32,5 +32,6 @@ urlpatterns = [
     path('accounts/profile/update/', hero_view.update_user_profile, name="update_profile"),
     path('accounts/share_avatar', hero_view.profile_share_avatar, name='share_avatar'),
     path('signup/', hero_view.customProfileCreation, name="signup"),
-    path("tests/", include("tests.urls"))
+    path("tests/", include("tests.urls")),
+    path("accounts/share_avatar/share_avatar.py", hero_view.create_share_image, name='share_avatar_func')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
