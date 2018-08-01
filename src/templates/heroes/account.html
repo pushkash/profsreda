@@ -208,10 +208,8 @@
                 url: '{% url 'share_avatar' %}',
                 dataType: 'text',
                 success: function(response){
-                    console.log(response);
                     var link = 'http://pushka.pythonanywhere.com/static/img/share_avatars/' + response;
                     var tmp = document.getElementById('hidden_vk');
-                    console.log(link);
 
                     tmp.innerHTML = VK.Share.button({url: 'http://profsreda.com', title: 'Профсреда. Портал профиориентации', image: link, noparse: true});
 
@@ -219,6 +217,7 @@
                     tab[0].style.display = 'none';
                     var a_s = document.querySelectorAll("#vkshare0 > tbody > tr > td:nth-child(2) > a");
                     a_s[0].click();
+                    tmp.innerHTML = ''
                 }
             })
        };
