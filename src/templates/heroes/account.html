@@ -160,6 +160,11 @@
             </div>
         </div>
 
+
+<div id="hidden_vk">
+
+</div>
+
 <script>
 
     function getCookie(name) {
@@ -194,24 +199,37 @@
         }
     });
 
-    $("[id=vk_mock]").click(function(){
-        $.ajax({
-            type: 'POST',
-            url: '{% url 'share_avatar' %}',
-            dataType: 'text',
-            success: function(response){
-                 var link = 'https://pushka.pythonanywhere.com/static/img/share_avatars/' + response
-                 document.write(VK.Share.button({url: 'http://profsreda.com', title: 'Профсреда. Портал профиориентации', image: link, noparse: true}));
-                 var tab = document.querySelectorAll('#vkshare0 > tbody')
-                 tab[0].style.display = 'none';
-                 var a_s = document.querySelectorAll("#vkshare0 > tbody > tr > td:nth-child(2) > a");
-                 a_s[0].click();
+    var vk_mock = document.getElementById('vk_mock')
 
-            }
-        }).done(function(data){
+    vk_mock.onclick = function(){
 
-        })
-    });
+        get_share_image = function(){
+             return $.ajax({
+                type: 'POST',
+                url: '{% url 'share_avatar' %}',
+                dataType: 'text',
+                async: false,
+                success: function(response){
+                     <!--var link = 'https://pushka.pythonanywhere.com/static/img/share_avatars/' + response-->
+                     return response
+                }
+            })
+        };
+
+        var link = get_share_image();
+
+        var tmp = document.getElementById('hidden_vk');
+
+        tmp.innerHTML = VK.Share.button({url: 'http://profsreda.com', title: 'Профсреда. Портал профиориентации', image: link.responseText, noparse: true});
+
+        <!--document.write(VK.Share.button({url: 'http://profsreda.com', title: 'Профсреда. Портал профиориентации', image: link.responseText, noparse: true}));-->
+        var tab = document.querySelectorAll('#vkshare0 > tbody')
+        tab[0].style.display = 'none';
+        var a_s = document.querySelectorAll("#vkshare0 > tbody > tr > td:nth-child(2) > a");
+        a_s[0].click();
+
+       };
+
 </script>
 
 {% block script %} {% endblock %}
