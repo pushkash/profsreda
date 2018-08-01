@@ -161,10 +161,6 @@
         </div>
 
 
-<div id="hidden_vk">
-
-</div>
-
 <script>
 
     function getCookie(name) {
@@ -209,15 +205,26 @@
                 dataType: 'text',
                 success: function(response){
                     var link = 'http://pushka.pythonanywhere.com/static/img/share_avatars/' + response;
-                    var tmp = document.getElementById('hidden_vk');
+
+                    var tmp = document.createElement('div');
+                    tmp.setAttribute('id', 'hidden_div');
+                    document.body.appendChild(tmp);
+
 
                     tmp.innerHTML = VK.Share.button({url: 'http://profsreda.com', title: 'Профсреда. Портал профиориентации', image: link, noparse: true});
+                    console.log(document.getElementById('hidden_div').getElementsByTagName("*")[0].getAttribute('id'))
+                    var table_id = document.getElementById('hidden_div').getElementsByTagName("*")[0].getAttribute('id')
 
-                    var tab = document.querySelectorAll('#vkshare0 > tbody')
+                    var tab_query_selector = '#' + table_id + ' > tbody';
+                    var tab_a_query_selector = '#' + table_id + " > tbody > tr > td:nth-child(2) > a";
+
+                    var tab = document.querySelectorAll(tab_query_selector);
+                    console.log(tab_query_selector);
+                    console.log(tab);
                     tab[0].style.display = 'none';
-                    var a_s = document.querySelectorAll("#vkshare0 > tbody > tr > td:nth-child(2) > a");
+                    var a_s = document.querySelectorAll(tab_a_query_selector);
                     a_s[0].click();
-                    tmp.innerHTML = ''
+                    document.body.removeChild(tmp);
                 }
             })
        };
