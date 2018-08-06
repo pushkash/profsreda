@@ -68,11 +68,16 @@
                 {% endif %}
             </div>
 
+            </div>
+
             <div>
+                <div class="col-md-10 col-md-offset-1 tests">
+
                 <h4>Другие тесты</h4>
+
                 <div class='row course'>
                 {% for test in tests %}
-                    
+
 
 
                     <div class="col-md-4 col-sm-6 col-xs-6">
@@ -84,7 +89,7 @@
                                 <a href="/tests/views/test_view/{{ test.id }}/" class='course-btn'>
                                     <span >Начать тест</span>
                                 </a>
-                                
+
                                 </div>
                             </div>
                             <div class="course">
@@ -103,6 +108,7 @@
 
 
 
+        </div>
         </div>
     </div>
 
