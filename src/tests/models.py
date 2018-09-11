@@ -167,7 +167,7 @@ class Answer(models.Model):
         verbose_name=_("Категория"),
         help_text=_("Категория, соответствующая варианту ответа")
     )
-    weight = models.PositiveIntegerField(
+    weight = models.SmallIntegerField(
         verbose_name=_("Коэффициент"),
         help_text=_("Коэффициент, с которым вариант ответа учитывается при подсчёте результата")
     )
