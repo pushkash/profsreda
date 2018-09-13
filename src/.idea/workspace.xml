@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ff21e8f4-b170-4e0f-830c-921dfc6f9c26" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heroes/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/heroes/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/profsreda/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/profsreda/settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +18,8 @@
           <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/heroes/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3255">
-                  <caret line="159" column="32" selection-start-line="159" selection-start-column="32" selection-end-line="159" selection-end-column="32" />
+                <state relative-caret-position="520">
+                  <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
                   <folding>
                     <element signature="e#0#11#0" expanded="true" />
                   </folding>
@@ -32,8 +30,11 @@
           <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/profsreda/settings.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="273">
-                  <caret line="91" column="7" selection-start-line="91" selection-start-column="7" selection-end-line="91" selection-end-column="7" />
+                <state relative-caret-position="483">
+                  <caret line="101" lean-forward="true" selection-start-line="101" selection-end-line="101" />
+                  <folding>
+                    <element signature="e#310#319#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -121,8 +122,8 @@
         <option value="$PROJECT_DIR$/heroes/views.py" />
         <option value="$PROJECT_DIR$/tests/views.py" />
         <option value="$PROJECT_DIR$/tests/models.py" />
-        <option value="$PROJECT_DIR$/heroes/models.py" />
         <option value="$PROJECT_DIR$/profsreda/settings.py" />
+        <option value="$PROJECT_DIR$/heroes/models.py" />
       </list>
     </option>
   </component>
@@ -233,7 +234,14 @@
       <option name="project" value="LOCAL" />
       <updated>1536693281454</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Refactoring">
+      <created>1536865155891</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1536865155891</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -250,6 +258,7 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50061125" side_tool="true" weight="0.29418105" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" visible="true" weight="0.18789144" />
@@ -267,7 +276,6 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297414" />
@@ -283,7 +291,8 @@
     <MESSAGE value="Pulling master" />
     <MESSAGE value="Merge branch 'master' of https://github.com/pushkash/profsreda&#10;&#10;# Conflicts:&#10;#&#9;src/db.sqlite3" />
     <MESSAGE value="Change answer weight to be SmallIntegerField" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change answer weight to be SmallIntegerField" />
+    <MESSAGE value="Refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -537,8 +546,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heroes/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3255">
-          <caret line="159" column="32" selection-start-line="159" selection-start-column="32" selection-end-line="159" selection-end-column="32" />
+        <state relative-caret-position="520">
+          <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -547,8 +556,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/profsreda/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="91" column="7" selection-start-line="91" selection-start-column="7" selection-end-line="91" selection-end-column="7" />
+        <state relative-caret-position="483">
+          <caret line="101" lean-forward="true" selection-start-line="101" selection-end-line="101" />
+          <folding>
+            <element signature="e#310#319#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
