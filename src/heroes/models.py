@@ -132,88 +132,72 @@ class Profile(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
-    icon = models.TextField()
-    icon_file = models.FileField(
+    icon = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-
-    slot1 = models.TextField(default="", blank=True)
-    slot2 = models.TextField(default="", blank=True)
-    slot3 = models.TextField(default="", blank=True)
-    slot4 = models.TextField(default="", blank=True)
-    slot5 = models.TextField(default="", blank=True)
-
-    slot1_file = models.FileField(
+    slot1 = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-    slot2_file = models.FileField(
+    slot2 = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-    slot3_file = models.FileField(
+    slot3 = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-    slot4_file = models.FileField(
+    slot4 = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-    slot5_file = models.FileField(
+    slot5 = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-
-    slot1_girl = models.TextField(default="", blank=True)
-    slot2_girl = models.TextField(default="", blank=True)
-    slot3_girl = models.TextField(default="", blank=True)
-    slot4_girl = models.TextField(default="", blank=True)
-    slot5_girl = models.TextField(default="", blank=True)
-
-    slot1_girl_file = models.FileField(
+    slot1_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-    slot2_girl_file = models.FileField(
+    slot2_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-    slot3_girl_file = models.FileField(
+    slot3_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-    slot4_girl_file = models.FileField(
+    slot4_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-    slot5_girl_file = models.FileField(
+    slot5_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение"),
         help_text=_("Изображение предмета надетого на")
     )
-
     category = models.ForeignKey(
         "tests.Category",
         on_delete=models.CASCADE,
@@ -236,7 +220,7 @@ class Item(models.Model):
         item = {
             "id": self.id,
             "name": self.name,
-            "icon": self.icon
+            "icon": self.icon.url
         }
         return item
 
