@@ -139,11 +139,73 @@ class Item(models.Model):
     slot4 = models.TextField(default="", blank=True)
     slot5 = models.TextField(default="", blank=True)
 
+    slot1_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+    slot2_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+    slot3_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+    slot4_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+    slot5_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+
     slot1_girl = models.TextField(default="", blank=True)
     slot2_girl = models.TextField(default="", blank=True)
     slot3_girl = models.TextField(default="", blank=True)
     slot4_girl = models.TextField(default="", blank=True)
     slot5_girl = models.TextField(default="", blank=True)
+
+    slot1_girl_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+    slot2_girl_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+    slot3_girl_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+    slot4_girl_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+    slot5_girl_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
 
     category = models.ForeignKey(
         "tests.Category",
