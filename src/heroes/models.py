@@ -133,6 +133,13 @@ class Profile(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=100)
     icon = models.TextField()
+    icon_file = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение"),
+        help_text=_("Изображение предмета надетого на")
+    )
+
     slot1 = models.TextField(default="", blank=True)
     slot2 = models.TextField(default="", blank=True)
     slot3 = models.TextField(default="", blank=True)
