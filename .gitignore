@@ -2,9 +2,8 @@
 .vscode/
 .gitignore
 **/profsreda_env/**
-**/.idea/
+.idea
 **/settings.py
-.gitignore
 .DS_Store
 *.pyc
 **/migrations/0*
