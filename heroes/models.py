@@ -1,11 +1,9 @@
 import json
-import operator
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
+
 
 class Profile(models.Model):
     SEX = [
@@ -55,11 +53,10 @@ class Profile(models.Model):
             # }.items(), key=operator.itemgetter(1))
             {
                 "slot{}".format(x):
-                      "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
+                    "img/game/avatar/M/0{}.png".format(x) for x in range(1, 6)
             }
         )
     )
-
 
     def put_item(self, item_pk):
         item = Item.objects.get(pk=item_pk)
@@ -117,17 +114,6 @@ class Profile(models.Model):
 
         self.slots = json.dumps(slots)
         self.save()
-
-#
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-
-#
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
 
 
 class Item(models.Model):
@@ -245,7 +231,10 @@ class ItemUser(models.Model):
 
 
 class ShareProfileAvatar(models.Model):
-
-    user_id = models.PositiveIntegerField(null=False, unique=True)
-
-    avatar_image = models.TextField(default="")
+    user_id = models.PositiveIntegerField(
+        null=False,
+        unique=True
+    )
+    avatar_image = models.TextField(
+        default=""
+    )

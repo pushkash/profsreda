@@ -40,13 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'heroes',
     'tests',
-
-    # 3rd party
     'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.vk',
 ]
 
 MIDDLEWARE = [
@@ -117,10 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
@@ -141,15 +135,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
 
 SITE_ID = 1
 
@@ -158,18 +150,18 @@ MODE = 'prod'
 if MODE == 'dev':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-if MODE == 'prod':
-    EMAIL_USE_TLS = True
-    # EMAIL_HOST_USER = priv_vals.email_user
-    # EMAIL_HOST_PASSWORD = priv_vals.email_password
-    # EMAIL_HOST = priv_vals.email_host
-    # EMAIL_PORT = priv_vals.email_port
-
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    # DEFAULT_FROM_EMAIL = priv_vals.email_user
-
-    # ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-    ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+# if MODE == 'prod':
+#     EMAIL_USE_TLS = True
+#     EMAIL_HOST_USER = priv_vals.email_user
+#     EMAIL_HOST_PASSWORD = priv_vals.email_password
+#     EMAIL_HOST = priv_vals.email_host
+#     EMAIL_PORT = priv_vals.email_port
+#
+#     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#     DEFAULT_FROM_EMAIL = priv_vals.email_user
+#
+#     ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+#     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True

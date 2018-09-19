@@ -1,27 +1,26 @@
-import json
-from random import shuffle
-from django.shortcuts import render, redirect
-from heroes.forms import CustomUserCreationForm, UpdateUserProfile
-from heroes.models import ItemUser, Profile, Item, ShareProfileAvatar
-from django.http import HttpResponse
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.core.mail import send_mail
-from django.template.loader import render_to_string, get_template
-from django.template import Context
-import random
-from PIL import Image
 import os
 import uuid
-from django.contrib.staticfiles.templatetags.staticfiles import static
+import json
+from PIL import Image
+
+from random import shuffle
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
+from heroes.forms import CustomUserCreationForm, UpdateUserProfile
+from heroes.models import ItemUser, Profile, ShareProfileAvatar
+from tests.models import ResultItem
 
 
 def home(request):
     return render(request, template_name='heroes/main.html')
 
 
-def customProfileCreation(request):
-
+def custom_profile_creation(request):
     if request.method == "GET":
         form = CustomUserCreationForm()
         return render(request, "signup.html", {"form": form})
@@ -33,7 +32,6 @@ def customProfileCreation(request):
             username = email
             sex = form.cleaned_data['sex']
             grade = form.cleaned_data['grade']
-
 
             user = User.objects.create_user(username, email, form.cleaned_data['password2'])
 
@@ -87,7 +85,6 @@ def profile(request):
         sex = "мужской"
     else:
         sex = "неуказан"
-
 
     items_results = get_content_name_result_test(items, request.user)
 
@@ -144,11 +141,11 @@ def profile_random(request):
                 else:
                     slots[x] = getattr(y, x)
 
-    for i in range(1,6):
+    for i in range(1, 6):
         t = "slot{}".format(i)
 
         if t not in slots.keys():
-            slots[t] = "img/game/avatar/" + hero_profile.sex +"/0{}.png".format(i)
+            slots[t] = "img/game/avatar/" + hero_profile.sex + "/0{}.png".format(i)
 
     hero_profile.slots = json.dumps(slots)
     hero_profile.save()
@@ -188,8 +185,8 @@ def update_user_profile(request):
 
         current_password = request.POST.get("current_password")
 
-        if request.POST.get("current_password") != None:
-            if user.check_password(current_password) == False:
+        if request.POST.get("current_password") is not None:
+            if not user.check_password(current_password):
                 form.set_current_password_flag()
 
         if form.is_valid():
@@ -237,26 +234,26 @@ def profile_share_avatar(request):
 
     return HttpResponse(share_avatar_image.avatar_image)
 
-def update_share_image(hero_profile, slots):
 
+def update_share_image(hero_profile, slots):
     share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
     share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
     share_avatar_image.save()
 
     return share_avatar_image.avatar_image
 
-from tests.models import ResultItem
+
 def get_content_name_result_test(items, user):
     items_results = {}
     for item in items:
         res_item = ResultItem.objects.filter(item=item, test_result__test_session__user=user).first()
         res_items = ResultItem.objects.filter(item=item, test_result__test_session__user=user)
 
-        #из-за чистки бд пришлось сделать проверку, чтобы ничего не падало
-        if res_item == None:
+        # из-за чистки бд пришлось сделать проверку, чтобы ничего не падало
+        if res_item is None:
             test_id = 0
         else:
-            test_id = res_item.test_result_id;
+            test_id = res_item.test_result_id
 
         items_results[item.id] = test_id
     return items_results
@@ -269,13 +266,13 @@ def create_share_image(slots, image):
 
     h_prev = 0
 
-    profile_slots_ordered_array = [x[1] for x in sorted(slots.items()) if type(x[1]) != int ]
+    profile_slots_ordered_array = [x[1] for x in sorted(slots.items()) if type(x[1]) != int]
 
     project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     for index, file in enumerate(profile_slots_ordered_array):
 
-        #p = os.path.abspath(file).replace('src/img', 'src/static/img')
+        # p = os.path.abspath(file).replace('src/img', 'src/static/img')
         p = os.path.join(project_dir + '/static', file)
         img = Image.open(p)
         w, h = img.size
@@ -307,7 +304,7 @@ def create_share_image(slots, image):
 
     blanc_img.paste(init_avatar, (int((b_w - w) / 2), 0, int((b_w + w) / 2), h))
 
-    #Создание рамки у изображения
+    # Создание рамки у изображения
     # blanc_img = ImageOps.expand(blanc_img, border = 1, fill ='black')
 
     image_name = str(uuid.uuid4()).replace('-', '') + '.png'
