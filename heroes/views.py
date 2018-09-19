@@ -157,10 +157,10 @@ def profile_random(request):
                   template_name='heroes/account.html')
 
 
-def profile_item(request, item_pk):
+def profile_item(request, item_id):
     hero_profile = Profile.objects.get(user=request.user)
     try:
-        hero_profile.put_item(item_pk)
+        hero_profile.put_item(item_id)
         print('Success')
         return profile(request)
 
