@@ -12,4 +12,3 @@ class ItemUserAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Profile)
-

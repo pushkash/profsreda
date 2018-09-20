@@ -1,5 +1,3 @@
-import json
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -44,20 +42,9 @@ class Profile(models.Model):
         blank=True
     )
 
-    # slots = models.TextField(
-    #     null=False,
-    #     default=json.dumps(
-    #         {
-    #             "slot{}".format(x):
-    #                 "img/game/avatar/M/0{}.png".format(x) for x in range(1, 6)
-    #         }
-    #     )
-    # )
-
     def put_item(self, item_id):
-        pass
         item = Item.objects.get(id=item_id)
-        profile_items = ProfileItem.objects.get(profile=self)
+        profile_items = ProfileItem.objects.filter(profile=self)
 
         # Remove item from profile if it was putted on
         for profile_item in profile_items:
@@ -66,11 +53,11 @@ class Profile(models.Model):
                 return
         else:
             for profile_item in profile_items:
-                if profile_item.item.head_male is not None and item.head_male is not None or \
-                        profile_item.item.body_male is not None and item.body_male is not None or \
-                        profile_item.item.left_hand_male is not None and item.left_hand_male is not None or \
-                        profile_item.item.right_hand_male is not None and item.right_hand_male is not None or \
-                        profile_item.item.legs_male is not None and item.legs.male is not None:
+                if profile_item.item.head_male != "" and item.head_male != "" or \
+                        profile_item.item.body_male != "" and item.body_male != "" or \
+                        profile_item.item.left_hand_male != "" and item.left_hand_male != "" or \
+                        profile_item.item.right_hand_male != "" and item.right_hand_male != "" or \
+                        profile_item.item.legs_male != "" and item.legs.male != "":
                     profile_item.delete()
             ProfileItem.objects.create(profile=self,
                                        item=item)
@@ -78,68 +65,77 @@ class Profile(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
-    icon = models.FileField(
-        blank=True,
+    icon = models.ImageField(
         upload_to="item_image/",
         verbose_name=_("Изображение предмета"),
         help_text=_("Изображение предмета")
     )
-    head_male = models.FileField(
+    head_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение гловы [мужской аватар]"),
         help_text=_("Изображение предмета надетого на голову")
     )
-    body_male = models.FileField(
+    body_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение туловища [мужской аватар]"),
         help_text=_("Изображение предмета надетого на туловище")
     )
-    right_hand_male = models.FileField(
+    right_hand_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение правой руки [мужской аватар]"),
         help_text=_("Изображение предмета надетого на правую руку")
     )
-    left_hand_male = models.FileField(
+    left_hand_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение левой руки [мужской аватар]"),
         help_text=_("Изображение предмета надетого на левую руку")
     )
-    legs_male = models.FileField(
+    legs_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение ног [мужской аватар]"),
         help_text=_("Изображение предмета надетого на ноги")
     )
-    head_female = models.FileField(
+    head_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение гловы [женский аватар]"),
         help_text=_("Изображение предмета надетого на голову")
     )
-    body_female = models.FileField(
+    body_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение туловища [женский аватар]"),
         help_text=_("Изображение предмета надетого на туловище")
     )
-    right_hand_female = models.FileField(
+    right_hand_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение правой руки [женский аватар]"),
         help_text=_("Изображение предмета надетого на правую руку")
     )
-    left_hand_female = models.FileField(
+    left_hand_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение левой руки [женский аватар]"),
         help_text=_("Изображение предмета надетого на левую руку")
     )
-    legs_female = models.FileField(
+    legs_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
         verbose_name=_("Изображение ног [женский аватар]"),
         help_text=_("Изображение предмета надетого на ноги ")

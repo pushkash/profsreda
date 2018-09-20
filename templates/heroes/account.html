@@ -41,8 +41,8 @@
                         {% endif %}
                     </div>
                     <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
-                        {% if head %}
-                            <img src="{{ head }}" class="media-object img-responsive full-width">
+                        {% if right_hand %}
+                            <img src="{{ right_hand }}" class="media-object img-responsive full-width">
                         {% else %}
                             <img src="{% static "img/game/avatar/M/03.png" %}" class="media-object img-responsive full-width">
                         {% endif %}
@@ -139,7 +139,7 @@
                                             <!--<a href='views/test/{{ v }}/result/ -->
                                             <div class="item-card">
                                                 <img class="item-icon media-object img-responsive full-width"
-                                                     src='{% static item.icon %}' title="">
+                                                     src='{{ item.icon.url }}' title="">
                                                 <div class="item-title">
                                                     {{ item.name }}
                                                 </div>

@@ -35,11 +35,11 @@ def custom_profile_creation(request):
             user = User.objects.create_user(username, email, form.cleaned_data['password2'])
             user.save()
 
-            profile = Profile.objects.create(user=user)
-            profile.user = user
-            profile.sex = sex
-            profile.grade = grade
-            profile.save()
+            user_profile = Profile.objects.create(user=user)
+            user_profile.user = user
+            user_profile.sex = sex
+            user_profile.grade = grade
+            user_profile.save()
 
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
@@ -65,34 +65,46 @@ def custom_profile_creation(request):
 def profile(request):
     items = ItemUser.objects.filter(user=request.user)
     items = [i.item for i in items]
-    profile = Profile.objects.get(user=request.user)
+    user_profile = Profile.objects.get(user=request.user)
 
-    profile_items = ProfileItem.objects.filter(profile=profile)
-
-    head = profile_items.filter(item__head_male__isnull=False).first()
-    body = profile_items.filter(item__body_male__isnull=False).first()
-    right_hand = profile_items.filter(item__right_hand_male__isnull=False).first()
-    left_hand = profile_items.filter(item__left_hand_male__isnull=False).first()
-    legs = profile_items.filter(item__legs_male__isnull=False).first()
-
-    if profile.sex == "F":
+    if user_profile.sex == "F":
         sex = "женский"
-    elif profile.sex == "M":
-        sex = "мужской"
     else:
-        sex = "неуказан"
+        sex = "мужской"
+
+    profile_items = ProfileItem.objects.filter(profile=user_profile)
+
+    head = profile_items.exclude(item__head_male="").first()
+    body = profile_items.exclude(item__body_male="").first()
+    right_hand = profile_items.exclude(item__right_hand_male="").first()
+    left_hand = profile_items.exclude(item__left_hand_male="").first()
+    legs = profile_items.exclude(item__legs_male="").first()
+
+    if sex == "мужской":
+        head = head.item.head_male.url if head is not None else None
+        body = body.item.body_male.url if body is not None else None
+        right_hand = right_hand.item.right_hand_male.url if right_hand is not None else None
+        left_hand = left_hand.item.left_hand_male.url if left_hand is not None else None
+        legs = legs.item.legs_male.url if legs is not None else None
+    else:
+        head = head.item.head_female.url if head is not None else None
+        body = body.item.body_female.url if body is not None else None
+        right_hand = right_hand.item.right_hand_female.url if right_hand is not None else None
+        left_hand = left_hand.item.left_hand_female.url if left_hand is not None else None
+        legs = legs.item.legs_female.url if legs is not None else None
 
     items_results = get_content_name_result_test(items, request.user)
     return render(request, 'heroes/account.html',
                   {
-                      "profile": profile,
+                      "profile": user_profile,
                       "items": items,
                       "head": head,
                       "body": body,
                       "right_hand": right_hand,
                       "left_hand": left_hand,
                       "legs": legs,
-                      "sex": sex
+                      "sex": sex,
+                      "items_results": items_results
                   })
 
 
@@ -164,7 +176,6 @@ def profile_item(request, item_id):
     hero_profile = Profile.objects.get(user=request.user)
     try:
         hero_profile.put_item(item_id)
-        print('Success')
         return profile(request)
 
     except Exception as e:
