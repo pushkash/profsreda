@@ -57,7 +57,7 @@ class Profile(models.Model):
                         profile_item.item.body_male != "" and item.body_male != "" or \
                         profile_item.item.left_hand_male != "" and item.left_hand_male != "" or \
                         profile_item.item.right_hand_male != "" and item.right_hand_male != "" or \
-                        profile_item.item.legs_male != "" and item.legs.male != "":
+                        profile_item.item.legs_male != "" and item.legs_male != "":
                     profile_item.delete()
             ProfileItem.objects.create(profile=self,
                                        item=item)

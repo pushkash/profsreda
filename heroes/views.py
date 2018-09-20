@@ -1,9 +1,9 @@
 import os
 import uuid
 import json
+import random
 from PIL import Image
 
-from random import shuffle
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -94,82 +94,73 @@ def profile(request):
         legs = legs.item.legs_female.url if legs is not None else None
 
     items_results = get_content_name_result_test(items, request.user)
-    return render(request, 'heroes/account.html',
-                  {
-                      "profile": user_profile,
-                      "items": items,
-                      "head": head,
-                      "body": body,
-                      "right_hand": right_hand,
-                      "left_hand": left_hand,
-                      "legs": legs,
-                      "sex": sex,
-                      "items_results": items_results
-                  })
+    return render(request, 'heroes/account.html', locals())
 
 
 def profile_random(request):
-    items = ItemUser.objects.filter(user=request.user)
-    items = [i.item for i in items]
+    items = [item_user.item for item_user in ItemUser.objects.filter(user=request.user)]
+    random.shuffle(items)
 
-    hero_profile = Profile.objects.get(user=request.user)
+    random_items_amount = random.randint(0, len(items))
+    for _ in range(random_items_amount):
+        item_to_put_on = random.choice(items)
+        print(item_to_put_on)
+        items.remove(item_to_put_on)
+        Profile.objects.get(user=request.user).put_item(item_to_put_on.id)
 
-    r_items = items
-    shuffle(r_items)
-
-    slots = {}
-
-    for item in r_items:
-        to_write = []
-        available = []
-
-        if item.slot1 != '':
-            to_write.append(item)
-            if 'slot1' not in slots.keys():
-                available.append('slot1')
-
-        if item.slot2 != '':
-            to_write.append(item)
-            if 'slot2' not in slots.keys():
-                available.append('slot2')
-
-        if item.slot3 != '':
-            to_write.append(item)
-            if 'slot3' not in slots.keys():
-                available.append('slot3')
-
-        if item.slot4 != '':
-            to_write.append(item)
-            if 'slot4' not in slots.keys():
-                available.append('slot4')
-
-        if item.slot5 != '':
-            to_write.append(item)
-            if 'slot5' not in slots.keys():
-                available.append('slot5')
-
-        if len(to_write) == len(available):
-            for x, y in zip(available, to_write):
-                slots["{}_pk".format(x)] = y.pk
-                if hero_profile.sex == 'F':
-                    slots[x] = getattr(y, x + '_girl')
-                else:
-                    slots[x] = getattr(y, x)
-
-    for i in range(1, 6):
-        t = "slot{}".format(i)
-
-        if t not in slots.keys():
-            slots[t] = "img/game/avatar/" + hero_profile.sex + "/0{}.png".format(i)
-
-    hero_profile.slots = json.dumps(slots)
-    hero_profile.save()
-
-    items_results = get_content_name_result_test(items, request.user)
-
-    return render(request,
-                  context=locals(),
-                  template_name='heroes/account.html')
+    # items = ItemUser.objects.filter(user=request.user)
+    # items = [i.item for i in items]
+    #
+    # hero_profile = Profile.objects.get(user=request.user)
+    #
+    # r_items = items
+    # shuffle(r_items)
+    #
+    # slots = {}
+    #
+    # for item in r_items:
+    #     to_write = []
+    #     available = []
+    #
+    #     if item.slot1 != '':
+    #         to_write.append(item)
+    #         if 'slot1' not in slots.keys():
+    #             available.append('slot1')
+    #
+    #     if item.slot2 != '':
+    #         to_write.append(item)
+    #         if 'slot2' not in slots.keys():
+    #             available.append('slot2')
+    #
+    #     if item.slot3 != '':
+    #         to_write.append(item)
+    #         if 'slot3' not in slots.keys():
+    #             available.append('slot3')
+    #
+    #     if item.slot4 != '':
+    #         to_write.append(item)
+    #         if 'slot4' not in slots.keys():
+    #             available.append('slot4')
+    #
+    #     if item.slot5 != '':
+    #         to_write.append(item)
+    #         if 'slot5' not in slots.keys():
+    #             available.append('slot5')
+    #
+    #     if len(to_write) == len(available):
+    #         for x, y in zip(available, to_write):
+    #             slots["{}_pk".format(x)] = y.pk
+    #             if hero_profile.sex == 'F':
+    #                 slots[x] = getattr(y, x + '_girl')
+    #             else:
+    #                 slots[x] = getattr(y, x)
+    #
+    # for i in range(1, 6):
+    #     t = "slot{}".format(i)
+    #
+    #     if t not in slots.keys():
+    #         slots[t] = "img/game/avatar/" + hero_profile.sex + "/0{}.png".format(i)
+    return redirect(profile)
 
 
 def profile_item(request, item_id):
