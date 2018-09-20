@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-# import profsreda.priv_vals as priv_vals
+from config import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,16 +82,27 @@ WSGI_APPLICATION = 'profsreda.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {                                                      # PAW from PAW
+    # PAW TO PAW CONNECTION
+    # 'default': {  # PAW from PAW
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': DATABASE_NAME_PRODUCTION,
+    #     'USER': DATABASE_USER,
+    #     'PASSWORD': DATABASE_PASSWORD,
+    #     'HOST': DATABASE_HOST_PAW,
+    #     'PORT': DATABASE_PORT_PAW,
+    # }
+
+    # LOCAL TO PAW CONNECTION
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'profsreda',
-        # 'USER': priv_vals.paw_db_user,
-        # 'PASSWORD': priv_vals.paw_db_password,
-        # 'HOST': priv_vals.paw_db_host,
-        # 'PORT': priv_vals.paw_db_port,
+        'NAME': DATABASE_NAME_DEVELOPMENT,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': DATABASE_HOST_LOCAL,
+        'PORT': DATABASE_PORT_LOCAL,
     }
 
-    # 'default': {                                                        # Local
+    # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
@@ -157,18 +168,18 @@ MODE = 'prod'
 if MODE == 'dev':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-if MODE == 'prod':
-    EMAIL_USE_TLS = True
-    # EMAIL_HOST_USER = priv_vals.email_user
-    # EMAIL_HOST_PASSWORD = priv_vals.email_password
-    # EMAIL_HOST = priv_vals.email_host
-    # EMAIL_PORT = priv_vals.email_port
-
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    # DEFAULT_FROM_EMAIL = priv_vals.email_user
-
-    #ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-    ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+# if MODE == 'prod':
+#     EMAIL_USE_TLS = True
+#     EMAIL_HOST_USER = priv_vals.email_user
+#     EMAIL_HOST_PASSWORD = priv_vals.email_password
+#     EMAIL_HOST = priv_vals.email_host
+#     EMAIL_PORT = priv_vals.email_port
+#
+#     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#     DEFAULT_FROM_EMAIL = priv_vals.email_user
+#
+#     ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+#     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
