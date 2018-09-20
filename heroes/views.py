@@ -8,11 +8,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
 
 from heroes.forms import CustomUserCreationForm, UpdateUserProfile
-from heroes.models import ItemUser, Profile, ShareProfileAvatar
+from heroes.models import ItemUser, Profile, ShareProfileAvatar, ProfileItem
 from tests.models import ResultItem
 
 
@@ -32,22 +32,13 @@ def custom_profile_creation(request):
             username = email
             sex = form.cleaned_data['sex']
             grade = form.cleaned_data['grade']
-
             user = User.objects.create_user(username, email, form.cleaned_data['password2'])
-
             user.save()
 
             profile = Profile.objects.create(user=user)
             profile.user = user
             profile.sex = sex
             profile.grade = grade
-            slots = json.dumps(
-                {
-                    "slot{}".format(x):
-                        "img/game/avatar/" + sex + "/0{}.png".format(x) for x in range(1, 6)
-                })
-
-            profile.slots = slots
             profile.save()
 
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
@@ -64,30 +55,34 @@ def custom_profile_creation(request):
             try:
                 send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
                           fail_silently=False, html_message=message_html)
-            except:
+            except BadHeaderError:
                 pass
-
             return redirect("account_profile")
-
         else:
-            return render(request, "signup.html", {"form": form})
+            return rBadHeaderErrorender(request, "signup.html", {"form": form})
 
 
 def profile(request):
     items = ItemUser.objects.filter(user=request.user)
     items = [i.item for i in items]
-    hero_profile = Profile.objects.get(user=request.user)
-    slots = json.loads(hero_profile.slots)
+    profile = Profile.objects.get(user=request.user)
 
-    if hero_profile.sex == "F":
+    profile_items = ProfileItem.objects.filter(profile=profile)
+
+    head = profile_items.filter(item__head_male__is_null=False).first()
+    body = profile_items.filter(item__body_male__is_null=False).first()
+    right_hand = profile_items.filter(item__right_hand_male__is_null=False).first()
+    left_hand = profile_items.filter(item__left_hand_male__is_null=False).first()
+    legs = profile_items.filter(item__legs_male__is_null=False).first()
+
+    if profile.sex == "F":
         sex = "женский"
-    elif hero_profile.sex == "M":
+    elif profile.sex == "M":
         sex = "мужской"
     else:
         sex = "неуказан"
 
     items_results = get_content_name_result_test(items, request.user)
-
     return render(request,
                   context=locals(),
                   template_name='heroes/account.html')
