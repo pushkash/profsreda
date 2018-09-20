@@ -56,24 +56,24 @@ class Profile(models.Model):
 
     def put_item(self, item_id):
         pass
-        # item = Item.objects.get(id=item_id)
-        # profile_items = ProfileItem.objects.get(profile=self)
-        #
-        # # Remove item from profile if it was putted on
-        # for profile_item in profile_items:
-        #     if profile_item.item == item:
-        #         profile_item.delete()
-        #         return
-        # else:
-        #     for profile_item in profile_items:
-        #         if profile_item.item.head_male is not None and item.head_male is not None or \
-        #                 profile_item.item.body_male is not None and item.body_male is not None or \
-        #                 profile_item.item.left_hand_male is not None and item.left_hand_male is not None or \
-        #                 profile_item.item.right_hand_male is not None and item.right_hand_male is not None or \
-        #                 profile_item.item.legs_male is not None and item.legs.male is not None:
-        #             profile_item.delete()
-        #     ProfileItem.objects.create(profile=self,
-        #                                item=item)
+        item = Item.objects.get(id=item_id)
+        profile_items = ProfileItem.objects.get(profile=self)
+
+        # Remove item from profile if it was putted on
+        for profile_item in profile_items:
+            if profile_item.item == item:
+                profile_item.delete()
+                return
+        else:
+            for profile_item in profile_items:
+                if profile_item.item.head_male is not None and item.head_male is not None or \
+                        profile_item.item.body_male is not None and item.body_male is not None or \
+                        profile_item.item.left_hand_male is not None and item.left_hand_male is not None or \
+                        profile_item.item.right_hand_male is not None and item.right_hand_male is not None or \
+                        profile_item.item.legs_male is not None and item.legs.male is not None:
+                    profile_item.delete()
+            ProfileItem.objects.create(profile=self,
+                                       item=item)
 
 
 class Item(models.Model):
@@ -84,61 +84,61 @@ class Item(models.Model):
         verbose_name=_("Изображение предмета"),
         help_text=_("Изображение предмета")
     )
-    slot1 = models.FileField(
+    head_male = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение гловы [мужской аватар]"),
         help_text=_("Изображение предмета надетого на голову")
     )
-    slot2 = models.FileField(
+    body_male = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение туловища [мужской аватар]"),
         help_text=_("Изображение предмета надетого на туловище")
     )
-    slot3 = models.FileField(
+    right_hand_male = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение правой руки [мужской аватар]"),
         help_text=_("Изображение предмета надетого на правую руку")
     )
-    slot4 = models.FileField(
+    left_hand_male = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение левой руки [мужской аватар]"),
         help_text=_("Изображение предмета надетого на левую руку")
     )
-    slot5 = models.FileField(
+    legs_male = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение ног [мужской аватар]"),
         help_text=_("Изображение предмета надетого на ноги")
     )
-    slot1_girl = models.FileField(
+    head_female = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение гловы [женский аватар]"),
         help_text=_("Изображение предмета надетого на голову")
     )
-    slot2_girl = models.FileField(
+    body_female = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение туловища [женский аватар]"),
         help_text=_("Изображение предмета надетого на туловище")
     )
-    slot3_girl = models.FileField(
+    right_hand_female = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение правой руки [женский аватар]"),
         help_text=_("Изображение предмета надетого на правую руку")
     )
-    slot4_girl = models.FileField(
+    left_hand_female = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение левой руки [женский аватар]"),
         help_text=_("Изображение предмета надетого на левую руку")
     )
-    slot5_girl = models.FileField(
+    legs_female = models.FileField(
         blank=True,
         upload_to="item_image/",
         verbose_name=_("Изображение ног [женский аватар]"),
