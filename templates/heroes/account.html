@@ -26,34 +26,41 @@
 
             <div id='avatar-block' class="col-md-3">
                 <div class="media">
-
                     <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
                         {% if head %}
-                            <img src="{{ head.url }}" class="media-object img-responsive full-width">
+                            <img src="{{ head }}" class="media-object img-responsive full-width">
                         {% else %}
-                            <img src="{% static slots.slot1 %}" class="media-object img-responsive full-width">
+                            <img src="{% static "img/game/avatar/M/01.png" %}" class="media-object img-responsive full-width">
                         {% endif %}
                     </div>
-
-{#                    <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">#}
-{#                        <img src="{% static slots.slot2 %}"#}
-{#                             class="media-object img-responsive full-width">#}
-{#                    </div>#}
-{##}
-{#                    <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">#}
-{#                        <img src="{% static slots.slot3 %}"#}
-{#                             class="media-object img-responsive full-width">#}
-{#                    </div>#}
-{##}
-{#                    <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">#}
-{#                        <img src="{% static slots.slot4 %}"#}
-{#                             class="media-object img-responsive full-width">#}
-{#                    </div>#}
-{##}
-{#                    <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">#}
-{#                        <img src="{% static slots.slot5 %}"#}
-{#                             class="media-object img-responsive full-width">#}
-{#                    </div>#}
+                    <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
+                        {% if body %}
+                            <img src="{{ body }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/02.png" %}" class="media-object img-responsive full-width">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
+                        {% if head %}
+                            <img src="{{ head }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/03.png" %}" class="media-object img-responsive full-width">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
+                        {% if left_hand %}
+                            <img src="{{ left_hand }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/04.png" %}" class="media-object img-responsive full-width">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
+                        {% if legs %}
+                            <img src="{{ legs }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/05.png" %}" class="media-object img-responsive full-width">
+                        {% endif %}
+                    </div>
                 </div>
 
                 <div align="center">

@@ -69,11 +69,11 @@ def profile(request):
 
     profile_items = ProfileItem.objects.filter(profile=profile)
 
-    head = profile_items.filter(item__head_male__is_null=False).first()
-    body = profile_items.filter(item__body_male__is_null=False).first()
-    right_hand = profile_items.filter(item__right_hand_male__is_null=False).first()
-    left_hand = profile_items.filter(item__left_hand_male__is_null=False).first()
-    legs = profile_items.filter(item__legs_male__is_null=False).first()
+    head = profile_items.filter(item__head_male__isnull=False).first()
+    body = profile_items.filter(item__body_male__isnull=False).first()
+    right_hand = profile_items.filter(item__right_hand_male__isnull=False).first()
+    left_hand = profile_items.filter(item__left_hand_male__isnull=False).first()
+    legs = profile_items.filter(item__legs_male__isnull=False).first()
 
     if profile.sex == "F":
         sex = "женский"
@@ -83,9 +83,17 @@ def profile(request):
         sex = "неуказан"
 
     items_results = get_content_name_result_test(items, request.user)
-    return render(request,
-                  context=locals(),
-                  template_name='heroes/account.html')
+    return render(request, 'heroes/account.html',
+                  {
+                      "profile": profile,
+                      "items": items,
+                      "head": head,
+                      "body": body,
+                      "right_hand": right_hand,
+                      "left_hand": left_hand,
+                      "legs": legs,
+                      "sex": sex
+                  })
 
 
 def profile_random(request):
