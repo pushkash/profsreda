@@ -81,56 +81,68 @@ class Item(models.Model):
     icon = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение предмета"),
+        help_text=_("Изображение предмета")
+    )
+    slot1 = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение гловы [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на голову")
+    )
+    slot2 = models.FileField(
+        blank=True,
+        upload_to="item_image/",
+        verbose_name=_("Изображение туловища [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на туловище")
     )
     slot3 = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение правой руки [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на правую руку")
     )
     slot4 = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение левой руки [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на левую руку")
     )
     slot5 = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение ног [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на ноги")
     )
     slot1_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение гловы [женский аватар]"),
+        help_text=_("Изображение предмета надетого на голову")
     )
     slot2_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение туловища [женский аватар]"),
+        help_text=_("Изображение предмета надетого на туловище")
     )
     slot3_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение правой руки [женский аватар]"),
+        help_text=_("Изображение предмета надетого на правую руку")
     )
     slot4_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение левой руки [женский аватар]"),
+        help_text=_("Изображение предмета надетого на левую руку")
     )
     slot5_girl = models.FileField(
         blank=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение ног [женский аватар]"),
+        help_text=_("Изображение предмета надетого на ноги ")
     )
     category = models.ForeignKey(
         "tests.Category",
