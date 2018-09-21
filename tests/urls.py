@@ -3,7 +3,7 @@ from tests import views
 
 urlpatterns = [
     path(r"get_all_tests/", views.get_all_tests),
-    path(r"get_test/<int:test_id>/", views.get_test),
+    path(r"get_test_info/<int:test_id>/", views.get_test_info),
     path(r"test/<int:test_id>/get_test_session/", views.get_test_session),
     path(r"test/<int:test_id>/create_test_session/", views.create_test_session),
     path(r"test/<int:test_id>/result/", views.get_test_result),

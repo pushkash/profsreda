@@ -65,11 +65,11 @@ class TestController {
 		} )
 	}
 
-	getQuestionnaire() {
-		return new PromiseRequest(`/tests/get_test/${this.test_id}/`).get_json()
+	getTest() {
+		return new PromiseRequest(`/tests/get_test_info/${this.test_id}/`).get_json()
 		.then( (result) => {
-			this.questions = result.test.questions
-			return this.questions
+			this.test = result.test
+			return this.test
 		})
 		.catch((error) => {
 			throw error
@@ -77,7 +77,7 @@ class TestController {
 	}
 
 	startTest() {
-		this.getQuestionnaire()
+		this.getTest()
 		.then(() => this.checkSession())
 		.catch(error => {
 			if (error.code != 403) throw {code: 404, body: 'cannotfind test'}
@@ -91,6 +91,7 @@ class TestController {
 		})
 		.then(session => {
 			this.view.show_tester();
+			this.view.init_avatar(this.test.question_count)
 			return this.showQuestion(session.test_session.next_question_to_answer.id)
 		})
 		.catch(error => {
@@ -98,8 +99,7 @@ class TestController {
 		})
 	}
 
-	sendResponse(q_id, answer_id) {
-		
+	sendResponse(q_id, answer_id) {		
 		let response = {
 			answer_id: answer_id
 		}
@@ -123,10 +123,9 @@ class TestController {
 	showQuestion(question_id) {
 		this.view.update_progres(
 			this.session.test_session.count_answered_questions + 1,
-			this.questions.length)
-		let question = this.questions.filter((e) => {
-			return (e.id == question_id)
-		})[0];
+			this.test.question_count)
+		let question = this.session.test_session.next_question_to_answer
+		
 		if (question) {
 			this.view.drawView(question, (...args) => {this.sendResponse(args[0], args[1])})
 		} else {
@@ -151,13 +150,16 @@ class TestView {
 		this.answers_container = document.getElementById('answer-buttons');
 	}
 
-	showTestView() {
-
+	init_avatar(questions_count) {
+		this.avatar = new ProgressAvatar(questions_count)
 	}
 
 	update_progres(q_number, amount) {
 		document.getElementById('question_number').innerHTML = q_number;
 		document.getElementById('questions_amount').innerHTML = amount;
+
+		this.avatar.update(q_number)
+		
 		this.update_progress_bar((q_number-1.0)/amount*100)
 	}
 
@@ -168,15 +170,23 @@ class TestView {
 	drawView(data, answer_callback) {
 		this.question_container.innerHTML = data.text
 		this.answers_container.innerHTML = ''
+		let max_width = 0;
+		let btns = [];
 		data.answers.forEach(answer => {
 			let btn = document.createElement('button')
-			btn.classList.add('btn', 'btn-default', 'btn-lg')
+			btn.classList.add('btn', 'btn-default', 'btn-lg', 'answer-btn')
 			btn.innerHTML = answer.text
 			btn.addEventListener('click', (e) => {
 				answer_callback(data.id, answer.id)
 			})
 			this.answers_container.appendChild(btn)
+			btns.push(btn)
+			if (max_width < btn.offsetWidth) max_width = btn.offsetWidth
 		});
+		btns.forEach((btn) => {
+			btn.style.width = `${max_width}px`
+		})
+
 	}
 
 	show_error_view() {
@@ -186,14 +196,6 @@ class TestView {
 
 	show_tester() {
 		this.switch_view('test-overview', 'test-view')
-	}
-
-	start_loading() {
-
-	}
-
-	stop_loading() {
-
 	}
 
 	switch_view(view1, view2) {
@@ -207,6 +209,80 @@ class TestView {
 	}
 
 
+}
+
+class ProgressAvatar {
+	constructor(questions_count) {
+		this.frames_count_by_type = [2,3,2,4,2,2]
+		this.questions_count = questions_count
+		this.rules = [1, 6, 16]
+		if (questions_count > 50) {
+			this.rules.push(Math.floor(questions_count * 0.5) + 1)
+			this.rules.push(Math.floor(questions_count * 0.75) + 1)
+			this.rules.push(Math.floor(questions_count * 0.85) + 1)
+		} else {
+			this.rules.push(...[21, 36, 46])
+		}
+	}
+
+	/**
+	 * Find frame of avatar moves
+	 * @param {*} question_number the number of current question
+	 */
+	get_frame_info(question_number){
+		if (question_number > this.questions_count || question_number < 1) new Error('unexpected question_number')
+		let type_move = 0
+		this.rules.forEach((rule) => {
+			if (question_number >= rule) {
+				type_move++
+			}
+		})
+		let frame_number = (question_number - this.rules[type_move-1]) % this.frames_count_by_type[type_move-1] + 1
+		return {type: type_move, frame: frame_number}
+	}
+
+	get_view(question_number) {
+		let view = document.createElement('div')
+		view.classList.add('progress-avatar-img')
+		return view
+	}
+
+	move(question_number) {
+		let length = document.getElementById('progress-avatar-container').offsetWidth;
+		let width = document.getElementById('progress-avatar').offsetWidth;
+		let left = question_number / this.questions_count  * (length - width) - width/2
+		document.getElementById('progress-avatar').style.marginLeft = `${left}px`
+	}
+
+	update(question_number) {
+		this.change_frame(question_number)
+		this.move(question_number)
+	}
+
+	change_frame(question_number) {
+		let frame_info = this.get_frame_info(question_number)
+		document.getElementById("progress-avatar-img").src=`../../../../static/img/game/sprite/${frame_info.type}/${frame_info.frame}.png`;
+	}
+
+	preloadImages(array) {
+		if (!preloadImages.list) {
+			preloadImages.list = [];
+		}
+		var list = preloadImages.list;
+		for (var i = 0; i < array.length; i++) {
+			var img = new Image();
+			img.onload = function() {
+				var index = list.indexOf(this);
+				if (index !== -1) {
+					// remove image from the array once it loaded
+					// for memory consumption reasons
+					list.splice(index, 1);
+				}
+			}
+			list.push(img);
+			img.src = array[i];
+		}
+	}
 }
 
 class PromiseRequest {

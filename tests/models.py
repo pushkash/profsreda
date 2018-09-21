@@ -72,11 +72,13 @@ class Test(models.Model):
         Returns main info about test
         :return: dict with main info about test
         """
+        question_count = self.get_questions().count()
         test = {
             "id": self.id,
             "name": self.name,
             "description": self.description,
             "image_url": self.image.url,
+            "question_count": question_count,
         }
         return test
 
@@ -87,15 +89,16 @@ class Test(models.Model):
         """
         questions = [question.dict() for question in self.get_questions()]
         categories = [category.dict() for category in self.get_categories()]
+        question_count = len(questions)
         test = {
             "id": self.id,
             "name": self.name,
             "description": self.description,
             "image_url": self.image.url,
             "questions": questions,
+            "question_count": question_count,
             "categories": categories,
         }
-
         return test
 
 

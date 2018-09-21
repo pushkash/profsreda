@@ -46,6 +46,27 @@ def get_test(request, test_id):
             content_type="application/json"
         )
 
+def get_test_info(request, test_id):
+    """
+    Returns test with given id
+    :param request: http request
+    :param test_id: test id as key
+    :return: JSON object with test data
+    """
+    try:
+        test = Test.objects.get(id=test_id)
+        return HttpResponse(
+            status=status.HTTP_200_OK,
+            content=json.dumps({"test": test.main_dict()}),
+            content_type="application/json"
+        )
+    except Test.DoesNotExist:
+        return HttpResponse(
+            status=status.HTTP_404_NOT_FOUND,
+            content=json.dumps({"error_message": "Теста с таким id не существует"}),
+            content_type="application/json"
+        )
+
 
 def get_test_session(request, test_id):
     """
