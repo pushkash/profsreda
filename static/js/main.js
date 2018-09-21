@@ -65,11 +65,11 @@ class TestController {
 		} )
 	}
 
-	getQuestionnaire() {
-		return new PromiseRequest(`/tests/get_test/${this.test_id}/`).get_json()
+	getTest() {
+		return new PromiseRequest(`/tests/get_test_info/${this.test_id}/`).get_json()
 		.then( (result) => {
-			this.questions = result.test.questions
-			return this.questions
+			this.test = result.test
+			return this.test
 		})
 		.catch((error) => {
 			throw error
@@ -77,7 +77,7 @@ class TestController {
 	}
 
 	startTest() {
-		this.getQuestionnaire()
+		this.getTest()
 		.then(() => this.checkSession())
 		.catch(error => {
 			if (error.code != 403) throw {code: 404, body: 'cannotfind test'}
@@ -98,8 +98,7 @@ class TestController {
 		})
 	}
 
-	sendResponse(q_id, answer_id) {
-		
+	sendResponse(q_id, answer_id) {		
 		let response = {
 			answer_id: answer_id
 		}
@@ -123,10 +122,12 @@ class TestController {
 	showQuestion(question_id) {
 		this.view.update_progres(
 			this.session.test_session.count_answered_questions + 1,
-			this.questions.length)
-		let question = this.questions.filter((e) => {
-			return (e.id == question_id)
-		})[0];
+			this.test.question_count)
+		// let question = this.questions.filter((e) => {
+		// 	return (e.id == question_id)
+		// })[0];
+		let question = this.session.test_session.next_question_to_answer
+		
 		if (question) {
 			this.view.drawView(question, (...args) => {this.sendResponse(args[0], args[1])})
 		} else {
@@ -168,15 +169,21 @@ class TestView {
 	drawView(data, answer_callback) {
 		this.question_container.innerHTML = data.text
 		this.answers_container.innerHTML = ''
+		let max_width = 0;
 		data.answers.forEach(answer => {
 			let btn = document.createElement('button')
-			btn.classList.add('btn', 'btn-default', 'btn-lg')
+			btn.classList.add('btn', 'btn-default', 'btn-lg', 'answer-btn')
 			btn.innerHTML = answer.text
 			btn.addEventListener('click', (e) => {
 				answer_callback(data.id, answer.id)
 			})
 			this.answers_container.appendChild(btn)
+			console.log(btn.offsetWidth)
 		});
+
+		
+
+
 	}
 
 	show_error_view() {
