@@ -180,8 +180,6 @@ class Answer(models.Model):
         answer = {
             "id": self.id,
             "text": self.answer_text,
-            "category_id": self.category.id,
-            "weight": self.weight
         }
         return answer
 
@@ -405,7 +403,7 @@ class TestSession(models.Model):
         categories_weights = {category: 0 for category in Category.objects.filter(test=self.test)}
         for response in Response.objects.filter(test_session=self):
             for answer_category in AnswerCategory.objects.filter(answer=response.answer):
-                categories_weights[response.answer.category] += answer_category.weight
+                categories_weights[answer_category.category] += answer_category.weight
         max_weight = max(categories_weights.values())
 
         result_categories = [category for category, weight in categories_weights.items() if weight == max_weight]
