@@ -208,6 +208,11 @@ class Category(models.Model):
         verbose_name=_("Развернутое описание"),
         help_text=_("Развёрнутое описание категории")
     )
+    start_weight = models.SmallIntegerField(
+        default=0,
+        verbose_name=_("Стартовое значение"),
+        help_text=_("Стартовое значение")
+    )
 
     class Meta:
         verbose_name = "Категория"
@@ -400,7 +405,7 @@ class TestSession(models.Model):
         Calculates categories weights
         :return: list of categories with max weight
         """
-        categories_weights = {category: 0 for category in Category.objects.filter(test=self.test)}
+        categories_weights = {category: category.start_weight for category in Category.objects.filter(test=self.test)}
         for response in Response.objects.filter(test_session=self):
             for answer_category in AnswerCategory.objects.filter(answer=response.answer):
                 categories_weights[answer_category.category] += answer_category.weight
