@@ -468,6 +468,10 @@ class ResultCategory(models.Model):
         verbose_name=_("Категория"),
         help_text=_("Категория, определённая в тесте")
     )
+    severity_ratio = models.FloatField(
+        verbose_name=_("Степень выраженности"),
+        help_text=_("Степерь выраженности категории у пользователя")
+    )
 
     class Meta:
         verbose_name = "Определённая категория"
