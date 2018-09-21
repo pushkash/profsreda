@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Count
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -506,6 +505,10 @@ class ResultCategory(models.Model):
         return " - ".join([str(self.test_result), str(self.category)])
 
     def get_severity_ratio_interpretation(self):
+        """
+        Interprets severity ratio depends on test severity scale
+        :return: str interpretation of severity ratio
+        """
         # TODO: write interpretation depends on ration interval
         severity_ratio_interpretation = self.severity_ratio
 
@@ -520,7 +523,7 @@ class ResultCategory(models.Model):
             "id": self.id,
             "category": self.category.dict(),
         }
-        
+
         if self.show_severity_ratio:
             result_category["severity_ratio"]: self.get_severity_ratio_interpretation()
 
