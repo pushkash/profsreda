@@ -62,6 +62,29 @@ class Profile(models.Model):
             ProfileItem.objects.create(profile=self,
                                        item=item)
 
+    def get_putted_on_items_images(self):
+        profile_items = ProfileItem.objects.filter(profile=self)
+        head = profile_items.exclude(item__head_male="").first()
+        body = profile_items.exclude(item__body_male="").first()
+        right_hand = profile_items.exclude(item__right_hand_male="").first()
+        left_hand = profile_items.exclude(item__left_hand_male="").first()
+        legs = profile_items.exclude(item__legs_male="").first()
+
+        if self.sex == "M":
+            head = head.item.head_male.url if head is not None else None
+            body = body.item.body_male.url if body is not None else None
+            right_hand = right_hand.item.right_hand_male.url if right_hand is not None else None
+            left_hand = left_hand.item.left_hand_male.url if left_hand is not None else None
+            legs = legs.item.legs_male.url if legs is not None else None
+        else:
+            head = head.item.head_female.url if head is not None else None
+            body = body.item.body_female.url if body is not None else None
+            right_hand = right_hand.item.right_hand_female.url if right_hand is not None else None
+            left_hand = left_hand.item.left_hand_female.url if left_hand is not None else None
+            legs = legs.item.legs_female.url if legs is not None else None
+
+        return head, body, right_hand, left_hand, legs
+
 
 class Item(models.Model):
     name = models.CharField(max_length=100)

@@ -1,6 +1,5 @@
 import os
 import uuid
-import json
 import random
 from PIL import Image
 
@@ -10,6 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
+
+from profsreda.settings import BASE_DIR
 
 from heroes.forms import CustomUserCreationForm, UpdateUserProfile
 from heroes.models import ItemUser, Profile, ShareProfileAvatar, ProfileItem
@@ -67,31 +68,7 @@ def profile(request):
     items = [i.item for i in items]
     user_profile = Profile.objects.get(user=request.user)
 
-    if user_profile.sex == "F":
-        sex = "женский"
-    else:
-        sex = "мужской"
-
-    profile_items = ProfileItem.objects.filter(profile=user_profile)
-
-    head = profile_items.exclude(item__head_male="").first()
-    body = profile_items.exclude(item__body_male="").first()
-    right_hand = profile_items.exclude(item__right_hand_male="").first()
-    left_hand = profile_items.exclude(item__left_hand_male="").first()
-    legs = profile_items.exclude(item__legs_male="").first()
-
-    if sex == "мужской":
-        head = head.item.head_male.url if head is not None else None
-        body = body.item.body_male.url if body is not None else None
-        right_hand = right_hand.item.right_hand_male.url if right_hand is not None else None
-        left_hand = left_hand.item.left_hand_male.url if left_hand is not None else None
-        legs = legs.item.legs_male.url if legs is not None else None
-    else:
-        head = head.item.head_female.url if head is not None else None
-        body = body.item.body_female.url if body is not None else None
-        right_hand = right_hand.item.right_hand_female.url if right_hand is not None else None
-        left_hand = left_hand.item.left_hand_female.url if left_hand is not None else None
-        legs = legs.item.legs_female.url if legs is not None else None
+    head, body, right_hand, left_hand, legs = user_profile.get_putted_on_items_images()
 
     items_results = get_content_name_result_test(items, request.user)
     return render(request, 'heroes/account.html', locals())
@@ -104,81 +81,26 @@ def profile_random(request):
     random_items_amount = random.randint(0, len(items))
     for _ in range(random_items_amount):
         item_to_put_on = random.choice(items)
-        print(item_to_put_on)
         items.remove(item_to_put_on)
         Profile.objects.get(user=request.user).put_item(item_to_put_on.id)
 
-    # items = ItemUser.objects.filter(user=request.user)
-    # items = [i.item for i in items]
-    #
-    # hero_profile = Profile.objects.get(user=request.user)
-    #
-    # r_items = items
-    # shuffle(r_items)
-    #
-    # slots = {}
-    #
-    # for item in r_items:
-    #     to_write = []
-    #     available = []
-    #
-    #     if item.slot1 != '':
-    #         to_write.append(item)
-    #         if 'slot1' not in slots.keys():
-    #             available.append('slot1')
-    #
-    #     if item.slot2 != '':
-    #         to_write.append(item)
-    #         if 'slot2' not in slots.keys():
-    #             available.append('slot2')
-    #
-    #     if item.slot3 != '':
-    #         to_write.append(item)
-    #         if 'slot3' not in slots.keys():
-    #             available.append('slot3')
-    #
-    #     if item.slot4 != '':
-    #         to_write.append(item)
-    #         if 'slot4' not in slots.keys():
-    #             available.append('slot4')
-    #
-    #     if item.slot5 != '':
-    #         to_write.append(item)
-    #         if 'slot5' not in slots.keys():
-    #             available.append('slot5')
-    #
-    #     if len(to_write) == len(available):
-    #         for x, y in zip(available, to_write):
-    #             slots["{}_pk".format(x)] = y.pk
-    #             if hero_profile.sex == 'F':
-    #                 slots[x] = getattr(y, x + '_girl')
-    #             else:
-    #                 slots[x] = getattr(y, x)
-    #
-    # for i in range(1, 6):
-    #     t = "slot{}".format(i)
-    #
-    #     if t not in slots.keys():
-    #         slots[t] = "img/game/avatar/" + hero_profile.sex + "/0{}.png".format(i)
     return redirect(profile)
 
 
 def profile_item(request, item_id):
-    hero_profile = Profile.objects.get(user=request.user)
+    user_profile = Profile.objects.get(user=request.user)
     try:
-        hero_profile.put_item(item_id)
+        user_profile.put_item(item_id)
         return profile(request)
-
     except Exception as e:
-        print(e.args[0])
         return profile(request)
 
 
 def update_user_profile(request):
     if request.method == "GET":
-        hero_profile = Profile.objects.get(user_id=request.user.id)
+        user_profile = Profile.objects.get(user_id=request.user.id)
 
-        form = UpdateUserProfile(initial={"grade": hero_profile.grade, "sex": hero_profile.sex})
+        form = UpdateUserProfile(initial={"grade": user_profile.grade, "sex": user_profile.sex})
 
         return render(request,
                       context=locals(),
@@ -195,27 +117,18 @@ def update_user_profile(request):
                 form.set_current_password_flag()
 
         if form.is_valid():
-            hero_profile = Profile.objects.get(user_id=request.user.id)
+            user_profile = Profile.objects.get(user_id=request.user.id)
             sex = form.cleaned_data["sex"]
             grade = form.cleaned_data["grade"]
             current_password = form.cleaned_data["current_password"]
             new_password = form.cleaned_data["new_password"]
             confirm_new_password = form.cleaned_data["new_password"]
 
-            if sex != hero_profile.sex:
-                slots = json.dumps(
-                    {
-                        "slot{}".format(x):
-                            "img/game/avatar/" + sex + "/0{}.png".format(x) for x in range(1, 6)
-                    })
-
-                hero_profile.slots = slots
-                hero_profile.sex = sex
-
-            if grade != hero_profile.grade:
-                hero_profile.grade = grade
-
-            hero_profile.save()
+            if sex != user_profile.sex:
+                user_profile.sex = sex
+            if grade != user_profile.grade:
+                user_profile.grade = grade
+            user_profile.save()
 
             if current_password and new_password and confirm_new_password:
                 user.set_password(confirm_new_password)
@@ -224,25 +137,32 @@ def update_user_profile(request):
                 login(request, user)
 
             return redirect("account_profile")
-
         else:
             return render(request, template_name="update_user_profile.html", context=locals())
 
 
 def profile_share_avatar(request):
-    hero_profile = Profile.objects.get(user=request.user)
-    slots = json.loads(hero_profile.slots)
+    user_profile = Profile.objects.get(user=request.user)
+    head, body, right_hand, left_hand, legs = user_profile.get_putted_on_items_images()
 
-    share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
-    share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
-    share_avatar_image.save()
+    head = os.path.join(BASE_DIR, "static/img/game/avatar/{}/01.png".format(user_profile.sex)) if head is None \
+        else os.path.join(BASE_DIR, head.strip("/"))
+    body = os.path.join(BASE_DIR, "static/img/game/avatar/{}/02.png".format(user_profile.sex)) if body is None \
+        else os.path.join(BASE_DIR, body.strip("/"))
+    right_hand = os.path.join(BASE_DIR, "static/img/game/avatar/{}/03.png".format(user_profile.sex)) if right_hand is None \
+        else os.path.join(BASE_DIR, right_hand.strip("/"))
+    left_hand = os.path.join(BASE_DIR, "static/img/game/avatar/{}/04.png".format(user_profile.sex)) if left_hand is None \
+        else os.path.join(BASE_DIR, left_hand.strip("/"))
+    legs = os.path.join(BASE_DIR, "static/img/game/avatar/{}/05.png".format(user_profile.sex)) if legs is None \
+        else os.path.join(BASE_DIR, legs.strip("/"))
 
-    return HttpResponse(share_avatar_image.avatar_image)
+    return HttpResponse(update_share_image(user_profile,
+                                           [head, body, right_hand, left_hand, legs]))
 
 
-def update_share_image(hero_profile, slots):
-    share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=hero_profile.id)
-    share_avatar_image.avatar_image = create_share_image(slots, share_avatar_image.avatar_image)
+def update_share_image(user_profile, items):
+    share_avatar_image, created = ShareProfileAvatar.objects.get_or_create(user_id=user_profile.id)
+    share_avatar_image.avatar_image = create_share_image(items, share_avatar_image.avatar_image)
     share_avatar_image.save()
 
     return share_avatar_image.avatar_image
@@ -264,22 +184,13 @@ def get_content_name_result_test(items, user):
     return items_results
 
 
-def create_share_image(slots, image):
+def create_share_image(items, image):
     init_avatar = Image.new('RGBA', (4267, 8534))
-
     init_avatar_w, init_avatar_h = init_avatar.size
-
     h_prev = 0
 
-    profile_slots_ordered_array = [x[1] for x in sorted(slots.items()) if type(x[1]) != int]
-
-    project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-    for index, file in enumerate(profile_slots_ordered_array):
-
-        # p = os.path.abspath(file).replace('src/img', 'src/static/img')
-        p = os.path.join(project_dir + '/static', file)
-        img = Image.open(p)
+    for index, file_path in enumerate(items):
+        img = Image.open(file_path)
         w, h = img.size
 
         # right hand
@@ -294,12 +205,10 @@ def create_share_image(slots, image):
         init_avatar.paste(img, img_area)
 
     init_avatar_w, init_avatar_h = init_avatar.size
-
     init_avatar_w = int(init_avatar_w)
     init_avatar_h = int(init_avatar_h)
 
     init_avatar = init_avatar.resize((init_avatar_w, init_avatar_h), Image.ANTIALIAS)
-
     init_avatar = init_avatar.resize((int(init_avatar_w / 14), int(init_avatar_h / 14)), Image.ANTIALIAS)
 
     blanc_img = Image.new('RGBA', (1300, 607))  # 1480
@@ -314,7 +223,7 @@ def create_share_image(slots, image):
 
     image_name = str(uuid.uuid4()).replace('-', '') + '.png'
 
-    share_img_path = os.path.join(project_dir, "static/img/share_avatars")
+    share_img_path = os.path.join(BASE_DIR, "static/img/share_avatars")
 
     if not os.path.isdir(share_img_path):
         os.mkdir(share_img_path)
