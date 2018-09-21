@@ -149,7 +149,8 @@ def profile_share_avatar(request):
         else os.path.join(BASE_DIR, head.strip("/"))
     body = os.path.join(BASE_DIR, "static/img/game/avatar/{}/02.png".format(user_profile.sex)) if body is None \
         else os.path.join(BASE_DIR, body.strip("/"))
-    right_hand = os.path.join(BASE_DIR, "static/img/game/avatar/{}/03.png".format(user_profile.sex)) if right_hand is None \
+    right_hand = os.path.join(BASE_DIR,
+                              "static/img/game/avatar/{}/03.png".format(user_profile.sex)) if right_hand is None \
         else os.path.join(BASE_DIR, right_hand.strip("/"))
     left_hand = os.path.join(BASE_DIR, "static/img/game/avatar/{}/04.png".format(user_profile.sex)) if left_hand is None \
         else os.path.join(BASE_DIR, left_hand.strip("/"))
