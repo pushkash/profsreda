@@ -1,5 +1,3 @@
-import json
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -44,145 +42,126 @@ class Profile(models.Model):
         blank=True
     )
 
-    slots = models.TextField(
-        null=False,
-        default=json.dumps(
-            # sorted({
-            #     "slot{}".format(x):
-            #           "img/game/avatar/M/0{}.png".format(x) for x in range(1,6)
-            # }.items(), key=operator.itemgetter(1))
-            {
-                "slot{}".format(x):
-                    "img/game/avatar/M/0{}.png".format(x) for x in range(1, 6)
-            }
-        )
-    )
+    def put_item(self, item_id):
+        item = Item.objects.get(id=item_id)
+        profile_items = ProfileItem.objects.filter(profile=self)
 
-    def put_item(self, item_pk):
-        item = Item.objects.get(pk=item_pk)
-        available_items = ItemUser.objects.filter(user=self.user)
-        if available_items.count() < 1:
-            raise Exception('No available items!')
-        available_items = [i.item for i in available_items]
-        if item not in available_items:
-            raise Exception('Item is not available!')
+        # Remove item from profile if it was putted on
+        for profile_item in profile_items:
+            if profile_item.item == item:
+                profile_item.delete()
+                return
+        else:
+            for profile_item in profile_items:
+                if profile_item.item.head_male != "" and item.head_male != "" or \
+                        profile_item.item.body_male != "" and item.body_male != "" or \
+                        profile_item.item.left_hand_male != "" and item.left_hand_male != "" or \
+                        profile_item.item.right_hand_male != "" and item.right_hand_male != "" or \
+                        profile_item.item.legs_male != "" and item.legs_male != "":
+                    profile_item.delete()
+            ProfileItem.objects.create(profile=self,
+                                       item=item)
 
-        slots = json.loads(self.slots)
+    def get_putted_on_items_images(self):
+        profile_items = ProfileItem.objects.filter(profile=self)
+        head = profile_items.exclude(item__head_male="").first()
+        body = profile_items.exclude(item__body_male="").first()
+        right_hand = profile_items.exclude(item__right_hand_male="").first()
+        left_hand = profile_items.exclude(item__left_hand_male="").first()
+        legs = profile_items.exclude(item__legs_male="").first()
 
-        to_write = {}
-        to_clean = set()
+        if self.sex == "M":
+            head = head.item.head_male.url if head is not None else None
+            body = body.item.body_male.url if body is not None else None
+            right_hand = right_hand.item.right_hand_male.url if right_hand is not None else None
+            left_hand = left_hand.item.left_hand_male.url if left_hand is not None else None
+            legs = legs.item.legs_male.url if legs is not None else None
+        else:
+            head = head.item.head_female.url if head is not None else None
+            body = body.item.body_female.url if body is not None else None
+            right_hand = right_hand.item.right_hand_female.url if right_hand is not None else None
+            left_hand = left_hand.item.left_hand_female.url if left_hand is not None else None
+            legs = legs.item.legs_female.url if legs is not None else None
 
-        if item.slot1 != '':
-            to_write['slot1'] = item
-            if 'slot1_pk' in slots.keys():
-                to_clean.add(slots['slot1_pk'])
-
-        if item.slot2 != '':
-            to_write['slot2'] = item
-            if 'slot2_pk' in slots.keys():
-                to_clean.add(slots['slot2_pk'])
-
-        if item.slot3 != '':
-            to_write['slot3'] = item
-            if 'slot3_pk' in slots.keys():
-                to_clean.add(slots['slot3_pk'])
-
-        if item.slot4 != '':
-            to_write['slot4'] = item
-            if 'slot4_pk' in slots.keys():
-                to_clean.add(slots['slot4_pk'])
-
-        if item.slot5 != '':
-            to_write['slot5'] = item
-            if 'slot5_pk' in slots.keys():
-                to_clean.add(slots['slot5_pk'])
-
-        for k in to_write.keys():
-            slots["{}_pk".format(k)] = to_write[k].pk
-            if self.sex == 'F':
-                slots[k] = getattr(to_write[k], k + '_girl')
-            else:
-                slots[k] = getattr(to_write[k], k)
-
-        for i in range(1, 6):
-            s = "slot{}".format(i)
-            s_pk = "{}_pk".format(s)
-            if s_pk in slots.keys():
-                if slots[s_pk] in to_clean:
-                    slots[s] = "img/game/avatar/" + self.sex + "/0{}.png".format(i)
-                    del slots[s_pk]
-
-        self.slots = json.dumps(slots)
-        self.save()
+        return head, body, right_hand, left_hand, legs
 
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
-    icon = models.FileField(
-        blank=True,
+    icon = models.ImageField(
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение предмета"),
+        help_text=_("Изображение предмета")
     )
-    slot1 = models.FileField(
+    head_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение гловы [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на голову")
     )
-    slot2 = models.FileField(
+    body_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение туловища [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на туловище")
     )
-    slot3 = models.FileField(
+    right_hand_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение правой руки [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на правую руку")
     )
-    slot4 = models.FileField(
+    left_hand_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение левой руки [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на левую руку")
     )
-    slot5 = models.FileField(
+    legs_male = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение ног [мужской аватар]"),
+        help_text=_("Изображение предмета надетого на ноги")
     )
-    slot1_girl = models.FileField(
+    head_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение гловы [женский аватар]"),
+        help_text=_("Изображение предмета надетого на голову")
     )
-    slot2_girl = models.FileField(
+    body_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение туловища [женский аватар]"),
+        help_text=_("Изображение предмета надетого на туловище")
     )
-    slot3_girl = models.FileField(
+    right_hand_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение правой руки [женский аватар]"),
+        help_text=_("Изображение предмета надетого на правую руку")
     )
-    slot4_girl = models.FileField(
+    left_hand_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение левой руки [женский аватар]"),
+        help_text=_("Изображение предмета надетого на левую руку")
     )
-    slot5_girl = models.FileField(
+    legs_female = models.ImageField(
         blank=True,
+        null=True,
         upload_to="item_image/",
-        verbose_name=_("Изображение"),
-        help_text=_("Изображение предмета надетого на")
+        verbose_name=_("Изображение ног [женский аватар]"),
+        help_text=_("Изображение предмета надетого на ноги ")
     )
     category = models.ForeignKey(
         "tests.Category",
@@ -209,6 +188,21 @@ class Item(models.Model):
             "icon": self.icon.url
         }
         return item
+
+
+class ProfileItem(models.Model):
+    profile = models.ForeignKey(
+        "heroes.Profile",
+        verbose_name=_("Профиль"),
+        help_text=_("Профиль пользователя, надевшего предмет"),
+        on_delete=models.CASCADE
+    )
+    item = models.ForeignKey(
+        "heroes.Item",
+        verbose_name=_("Предмет"),
+        help_text=_("Предмет, который надел пользователь"),
+        on_delete=models.CASCADE
+    )
 
 
 class ItemUser(models.Model):

@@ -13,11 +13,11 @@
     <div class="wrapper container">
         <div class="row">
 
-        <div class="col-md-12">
-        <div class="section-header text-center">
-            <h2>Инвентарь</h2>
-        </div>
-        </div>
+            <div class="col-md-12">
+                <div class="section-header text-center">
+                    <h2>Инвентарь</h2>
+                </div>
+            </div>
 
 
             <!--<div class="col-md-1">
@@ -26,55 +26,74 @@
 
             <div id='avatar-block' class="col-md-3">
                 <div class="media">
-
                     <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
-                        <img src="{% static slots.slot1 %}"
-                         class="media-object img-responsive full-width">
+                        {% if head %}
+                            <img src="{{ head }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/01.png" %}"
+                                 class="media-object img-responsive full-width">
+                        {% endif %}
                     </div>
-
                     <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
-                    <img src="{% static slots.slot2 %}"
-                         class="media-object img-responsive full-width">
+                        {% if body %}
+                            <img src="{{ body }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/02.png" %}"
+                                 class="media-object img-responsive full-width">
+                        {% endif %}
                     </div>
-
                     <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
-                        <img src="{% static slots.slot3 %}"
-                         class="media-object img-responsive full-width">
+                        {% if right_hand %}
+                            <img src="{{ right_hand }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/03.png" %}"
+                                 class="media-object img-responsive full-width">
+                        {% endif %}
                     </div>
-
                     <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
-                        <img src="{% static slots.slot4 %}"
-                         class="media-object img-responsive full-width">
+                        {% if left_hand %}
+                            <img src="{{ left_hand }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/04.png" %}"
+                                 class="media-object img-responsive full-width">
+                        {% endif %}
                     </div>
-
                     <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
-                    <img src="{% static slots.slot5 %}"
-                         class="media-object img-responsive full-width">
+                        {% if legs %}
+                            <img src="{{ legs }}" class="media-object img-responsive full-width">
+                        {% else %}
+                            <img src="{% static "img/game/avatar/M/05.png" %}"
+                                 class="media-object img-responsive full-width">
+                        {% endif %}
                     </div>
                 </div>
 
                 <div align="center">
-                <!--<a href="{% url 'share_avatar' %}" style="display: inline-block;text-decoration: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><span style="position: relative;padding: 0;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><img src="http://vk.com/images/vk32.png"></span></a>-->
-                <table cellspacing="0" cellpadding="0" style="position: relative; cursor: pointer; width: auto; line-height: normal; border: 0; direction: ltr;" id="vk_mock">
-                    <tbody>
+                    <!--<a href="{% url 'share_avatar' %}" style="display: inline-block;text-decoration: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><span style="position: relative;padding: 0;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><img src="http://vk.com/images/vk32.png"></span></a>-->
+                    <table cellspacing="0" cellpadding="0"
+                           style="position: relative; cursor: pointer; width: auto; line-height: normal; border: 0; direction: ltr;"
+                           id="vk_mock">
+                        <tbody>
                         <tr style="line-height: normal;">
                             <td style="vertical-align: middle;font: 400 12px Arial, Helvetica, sans-serif;letter-spacing: 0.1px;text-shadow: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;">
-                                <a onmouseup="this._btn=event.button;this.blur();" style="border: 0px; display: block; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 2px 0px 0px 2px; padding: 2px 6px 4px; box-sizing: content-box; color: rgb(255, 255, 255);">
+                                <a onmouseup="this._btn=event.button;this.blur();"
+                                   style="border: 0px; display: block; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 2px 0px 0px 2px; padding: 2px 6px 4px; box-sizing: content-box; color: rgb(255, 255, 255);">
                                     <div style="background-size: 19px 59px;background-image: url('https://vk.com/images/icons/like_widget_2x.png');height: 8px;width: 14px;margin: 4px 0 3px;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"></div>
                                 </a>
                             </td>
                             <td style="vertical-align: middle;font: 400 12px Arial, Helvetica, sans-serif;letter-spacing: 0.1px;text-shadow: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;">
-                                <a onmouseup="this._btn=event.button;this.blur();" style="color: rgb(255, 255, 255); text-decoration: none; border: 0px; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 0px 2px 2px 0px; font: 400 12px/16px Arial, Helvetica, sans-serif; letter-spacing: 0.1px; text-shadow: none; display: block; padding: 2px 6px 4px 0px; height: 15px; box-sizing: content-box;">Поделиться</a>
+                                <a onmouseup="this._btn=event.button;this.blur();"
+                                   style="color: rgb(255, 255, 255); text-decoration: none; border: 0px; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 0px 2px 2px 0px; font: 400 12px/16px Arial, Helvetica, sans-serif; letter-spacing: 0.1px; text-shadow: none; display: block; padding: 2px 6px 4px 0px; height: 15px; box-sizing: content-box;">Поделиться</a>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
 
                 <a href="/profile/random/">
-                <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px; margin-top: 10px;">
-                    Случайный выбор
-                </button>
+                    <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px; margin-top: 10px;">
+                        Случайный выбор
+                    </button>
                 </a>
 
 
@@ -111,99 +130,109 @@
                         <div class="section-header" style="margin-top: 15px;">
                             <p class="lead">Предметы в наличии</p>
                         </div>
-                            {% for item in items %}
+                        {% for item in items %}
 
                             {% for k, v in items_results.items %}
                                 {% if k == item.id %}
 
 
-                            <div class='col-md-3'>
-                                <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id }}" class='items_href' data-toogle="popover" title="" data-content="<a href='{% url 'test_result_for_item' v %}' target='_blank' style='color: red'>Посмотреть результат</a>" data-original-title="{{ item.category.name }}"> <!--<a href='views/test/{{ v }}/result/ -->
-                                <div class="item-card">
-                                    <img class="item-icon media-object img-responsive full-width" src='{% static item.icon %}' title="">
-                                    <div class="item-title">
-                                        {{ item.name }}
+                                    <div class='col-md-3'>
+                                        <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id }}"
+                                           class='items_href' data-toogle="popover" title=""
+                                           data-content="<a href='{% url 'test_result_for_item' v %}' target='_blank' style='color: red'>Посмотреть результат</a>"
+                                           data-original-title="{{ item.category.name }}">
+                                            <!--<a href='views/test/{{ v }}/result/ -->
+                                            <div class="item-card">
+                                                <img class="item-icon media-object img-responsive full-width"
+                                                     src='{{ item.icon.url }}' title="">
+                                                <div class="item-title">
+                                                    {{ item.name }}
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
-                                </div>
-                                </a>
-                            </div>
 
-                            {% endif %}
-                            {% endfor%}
-
-                        <script>
-
-
-                            $("[id=item_{{ item.id }}]").popover({trigger: 'manual', html:true, animation: false, placement: 'auto right', container: 'body'})
-                                .on("mouseenter", function(){
-                                    var _this = this;
-                                    $(this).popover('show');
-                                    $('.popover').on('mouseleave', function(){
-                                        $(_this).popover('hide');
-                                    })
-                                }).on("mouseleave", function () {
-                                        var _this = this;
-                                        setTimeout(function () {
-                                            if (!$(".popover:hover").length) {
-                                                $(_this).popover("hide");
-                                            }
-                                        }, 50);
-                                    });
-
-
-
-                        </script>
+                                {% endif %}
                             {% endfor %}
-                        </div>
+
+                            <script>
+
+
+                                $("[id=item_{{ item.id }}]").popover({
+                                    trigger: 'manual',
+                                    html: true,
+                                    animation: false,
+                                    placement: 'auto right',
+                                    container: 'body'
+                                })
+                                    .on("mouseenter", function () {
+                                        var _this = this;
+                                        $(this).popover('show');
+                                        $('.popover').on('mouseleave', function () {
+                                            $(_this).popover('hide');
+                                        })
+                                    }).on("mouseleave", function () {
+                                    var _this = this;
+                                    setTimeout(function () {
+                                        if (!$(".popover:hover").length) {
+                                            $(_this).popover("hide");
+                                        }
+                                    }, 50);
+                                });
+
+
+                            </script>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 
-<script>
+    <script>
 
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
             }
+            return cookieValue;
         }
-        return cookieValue;
-    }
 
-    var csrftoken = getCookie('csrftoken');
+        var csrftoken = getCookie('csrftoken');
 
 
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
 
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
             }
-        }
-    });
+        });
 
-    var vk_mock = document.getElementById('vk_mock')
+        var vk_mock = document.getElementById('vk_mock')
 
-    vk_mock.onclick = function(){
+        vk_mock.onclick = function () {
 
-              $.ajax({
+            $.ajax({
                 type: 'POST',
                 url: '{% url 'share_avatar' %}',
                 dataType: 'text',
-                success: function(response){
+                success: function (response) {
                     var link = 'http://pushka.pythonanywhere.com/static/img/share_avatars/' + response;
 
                     var tmp = document.createElement('div');
@@ -211,7 +240,12 @@
                     document.body.appendChild(tmp);
 
 
-                    tmp.innerHTML = VK.Share.button({url: 'http://profsreda.com', title: 'Профсреда. Портал профиориентации', image: link, noparse: true});
+                    tmp.innerHTML = VK.Share.button({
+                        url: 'http://profsreda.com',
+                        title: 'Профсреда. Портал профиориентации',
+                        image: link,
+                        noparse: true
+                    });
                     var table_id = document.getElementById('hidden_div').getElementsByTagName("*")[0].getAttribute('id')
 
                     var tab_query_selector = '#' + table_id + ' > tbody';
@@ -225,10 +259,10 @@
                     document.body.removeChild(tmp);
                 }
             })
-       };
+        };
 
-</script>
+    </script>
 
-{% block script %} {% endblock %}
+    {% block script %} {% endblock %}
 
 {% endblock %}
