@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Count
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -387,10 +388,12 @@ class TestSession(models.Model):
         self.save()
         test_result = TestResult.objects.create(test_session=self)
 
-        for result_category in self.calculate_result_categories():
+        result_categories, categories_ratio = self.calculate_result_categories()
+        for category in result_categories:
             ResultCategory.objects.create(test_result=test_result,
-                                          category=result_category)
-            for item in Item.objects.filter(category=result_category):
+                                          category=category,
+                                          severity_ratio=categories_ratio[category])
+            for item in Item.objects.filter(category=category):
                 try:
                     user_item = ItemUser.objects.get(item=item,
                                                      user=self.user)
@@ -405,14 +408,31 @@ class TestSession(models.Model):
         Calculates categories weights
         :return: list of categories with max weight
         """
-        categories_weights = {category: category.start_weight for category in Category.objects.filter(test=self.test)}
-        for response in Response.objects.filter(test_session=self):
-            for answer_category in AnswerCategory.objects.filter(answer=response.answer):
-                categories_weights[answer_category.category] += answer_category.weight
-        max_weight = max(categories_weights.values())
+        test_categories = Category.objects.filter(test=self.test)
 
-        result_categories = [category for category, weight in categories_weights.items() if weight == max_weight]
-        return result_categories
+        # Calculate categories weights
+        categories_weights = {category: category.start_weight for category in test_categories}
+        for response in Response.objects.filter(test_session=self):
+            answer_category = AnswerCategory.objects.get(answer=response.answer)
+            categories_weights[answer_category.category] += answer_category.weight
+
+        # Calculate max category weight
+        max_weight = max(categories_weights.values())
+        # Filter categories with max weight
+        result_categories = [category for category in categories_weights if category.weight == max_weight]
+
+        # Calculate categories severity ratios
+        categories_ratio = {}
+        for category in test_categories:
+            # Question affects category, not answer
+            max_responses_count = AnswerCategory.objects.filter(category=category).distinct("answer__question").count()
+            # Get count responses which affect this category
+            possible_answers = AnswerCategory.objects.filter(category=category).values("answer").count()
+            responses_count = Response.objects.filter(test_session=self, answer__in=possible_answers)
+            # Calculate ratio
+            categories_ratio[category] = responses_count / max_responses_count
+
+        return result_categories, categories_ratio
 
     def dict(self):
         """
@@ -480,6 +500,12 @@ class ResultCategory(models.Model):
     def __str__(self):
         return " - ".join([str(self.test_result), str(self.category)])
 
+    def get_severity_ratio_interpretation(self):
+        # TODO: write interpretation depends on ration interval
+        severity_ratio_interpretation = self.severity_ratio
+
+        return severity_ratio_interpretation
+
     def dict(self):
         """
         Returns info about ResultCategory
@@ -487,7 +513,8 @@ class ResultCategory(models.Model):
         """
         result_category = {
             "id": self.id,
-            "category": self.category.dict()
+            "category": self.category.dict(),
+            "severity_ratio": self.get_severity_ratio_interpretation()
         }
         return result_category
 
