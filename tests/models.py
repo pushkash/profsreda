@@ -164,23 +164,13 @@ class Answer(models.Model):
         verbose_name=_("Вопрос"),
         help_text=_("Соответствующий варианту ответа вопрос")
     )
-    category = models.ForeignKey(
-        "tests.Category",
-        on_delete=models.CASCADE,
-        verbose_name=_("Категория"),
-        help_text=_("Категория, соответствующая варианту ответа")
-    )
-    weight = models.SmallIntegerField(
-        verbose_name=_("Коэффициент"),
-        help_text=_("Коэффициент, с которым вариант ответа учитывается при подсчёте результата")
-    )
 
     class Meta:
         verbose_name = "Вариант ответа"
         verbose_name_plural = "Варианты ответов"
 
     def __str__(self):
-        return " - ".join([str(self.question), self.answer_text, str(self.category)])
+        return " - ".join([str(self.question), self.answer_text])
 
     def dict(self):
         """
@@ -190,8 +180,6 @@ class Answer(models.Model):
         answer = {
             "id": self.id,
             "text": self.answer_text,
-            "category_id": self.category.id,
-            "weight": self.weight
         }
         return answer
 
@@ -240,6 +228,25 @@ class Category(models.Model):
             "long_description": self.long_description
         }
         return category
+
+
+class AnswerCategory(models.Model):
+    answer = models.ForeignKey(
+        "tests.Answer",
+        verbose_name=_("Вариант ответа"),
+        help_text=_("Вариант ответа"),
+        on_delete=models.CASCADE
+    )
+    category = models.ForeignKey(
+        "tests.Category",
+        verbose_name=_("Категория варианта ответа"),
+        help_text=_("Категория, к которой относиться вариант ответа"),
+        on_delete=models.CASCADE
+    )
+    weight = models.SmallIntegerField(
+        verbose_name=_("Коэффициент"),
+        help_text=_("Коэффициент, с которым вариант ответа учитывается при подсчёте результата")
+    )
 
 
 class TestResult(models.Model):
@@ -395,7 +402,8 @@ class TestSession(models.Model):
         """
         categories_weights = {category: 0 for category in Category.objects.filter(test=self.test)}
         for response in Response.objects.filter(test_session=self):
-            categories_weights[response.answer.category] += response.answer.weight
+            for answer_category in AnswerCategory.objects.filter(answer=response.answer):
+                categories_weights[answer_category.category] += answer_category.weight
         max_weight = max(categories_weights.values())
 
         result_categories = [category for category, weight in categories_weights.items() if weight == max_weight]
