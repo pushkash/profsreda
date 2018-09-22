@@ -46,6 +46,7 @@ def get_test(request, test_id):
             content_type="application/json"
         )
 
+
 def get_test_info(request, test_id):
     """
     Returns test with given id
@@ -79,7 +80,7 @@ def get_test_session(request, test_id):
     # Find test or return error
     try:
         test = Test.objects.get(id=test_id)
-        # Find unfinished test session or return error
+        # Find test session or return error
         try:
             test_session = TestSession.objects.filter(user=user,
                                                       test=test).last()

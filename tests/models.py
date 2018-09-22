@@ -387,10 +387,17 @@ class TestSession(models.Model):
         self.save()
         test_result = TestResult.objects.create(test_session=self)
 
-        for result_category in self.calculate_result_categories():
+        result_categories = self.calculate_result_categories()
+        # Calculate severity ratios only for result categories
+        categories_ratio = self.calculate_category_ratios(result_categories)
+        for category in result_categories:
+            # Save severity ratio only for result categorise
             ResultCategory.objects.create(test_result=test_result,
-                                          category=result_category)
-            for item in Item.objects.filter(category=result_category):
+                                          category=category,
+                                          severity_ratio=categories_ratio[category])
+            for item in Item.objects.filter(category=category):
+                # Create ResultItem object only for the first user's TestResult
+                # for easy return information about given item
                 try:
                     user_item = ItemUser.objects.get(item=item,
                                                      user=self.user)
@@ -402,17 +409,48 @@ class TestSession(models.Model):
 
     def calculate_result_categories(self):
         """
-        Calculates categories weights
+        Calculates categories weights and severity ratios
         :return: list of categories with max weight
         """
-        categories_weights = {category: category.start_weight for category in Category.objects.filter(test=self.test)}
-        for response in Response.objects.filter(test_session=self):
-            for answer_category in AnswerCategory.objects.filter(answer=response.answer):
-                categories_weights[answer_category.category] += answer_category.weight
-        max_weight = max(categories_weights.values())
+        test_categories = Category.objects.filter(test=self.test)
 
-        result_categories = [category for category, weight in categories_weights.items() if weight == max_weight]
+        # Calculate categories weights
+        # [IMPORTANT] Category start weight may not be equal to 0
+        categories_weights = {category: category.start_weight for category in test_categories}
+        for response in Response.objects.filter(test_session=self):
+            answer_categories = AnswerCategory.objects.filter(answer=response.answer)
+            # Answer may not have AnswerCategory object associated with it
+            for answer_category in answer_categories:
+                categories_weights[answer_category.category] += answer_category.weight
+
+        # Calculate max category weight
+        # Filter categories with max weight
+        max_weight = max(categories_weights.values())
+        result_categories = [category for category in categories_weights if category.weight == max_weight]
+
         return result_categories
+
+    def calculate_category_ratios(self, categories):
+        """
+        Calculates severity ratio for each category of tested categories
+        :return: dict of categories with calculated severity ratio
+        """
+
+        # Calculate categories severity ratios
+        categories_ratio = {}
+        for category in categories:
+            # Get all AnswerCategory objects which adds weight to category
+            answer_categories = AnswerCategory.objects.filter(category=category)
+            # Calculate maximum count of answers, which will adds weight to category
+            # [IMPORTANT] Answer adds weight to category, not question
+            max_answers_count = answer_categories.count()
+            # Get list of answers and user responses which add weight to category
+            answers = answer_categories.values("answer")
+            responses_count = Response.objects.filter(test_session=self, answer__in=answers).count()
+            # Calculate severity ratio
+            categories_ratio[category] = responses_count / max_answers_count
+
+        return categories_ratio
 
     def dict(self):
         """
@@ -468,6 +506,15 @@ class ResultCategory(models.Model):
         verbose_name=_("Категория"),
         help_text=_("Категория, определённая в тесте")
     )
+    severity_ratio = models.FloatField(
+        verbose_name=_("Степень выраженности"),
+        help_text=_("Степерь выраженности категории у пользователя")
+    )
+    show_severity_ratio = models.BooleanField(
+        default=False,
+        verbose_name=_("Считать степень выраженности"),
+        help_text=_("Считать степень выраженности категории у пользователя")
+    )
 
     class Meta:
         verbose_name = "Определённая категория"
@@ -476,6 +523,16 @@ class ResultCategory(models.Model):
     def __str__(self):
         return " - ".join([str(self.test_result), str(self.category)])
 
+    def get_severity_ratio_interpretation(self):
+        """
+        Interprets severity ratio depends on test severity scale
+        :return: str interpretation of severity ratio
+        """
+        # TODO: write interpretation depends on ration interval
+        severity_ratio_interpretation = self.severity_ratio
+
+        return severity_ratio_interpretation
+
     def dict(self):
         """
         Returns info about ResultCategory
@@ -483,8 +540,12 @@ class ResultCategory(models.Model):
         """
         result_category = {
             "id": self.id,
-            "category": self.category.dict()
+            "category": self.category.dict(),
         }
+
+        if self.show_severity_ratio:
+            result_category["severity_ratio"]: self.get_severity_ratio_interpretation()
+
         return result_category
 
 
