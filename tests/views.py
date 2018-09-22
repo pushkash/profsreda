@@ -183,7 +183,8 @@ def save_response(request, test_session_id, question_id):
                     test_session.count_answered_questions += 1
                     test_session.last_answered_question = question
                     try:
-                        test_session.next_question_to_answer = Question.objects.get(id=question.id + 1)
+                        test_session.next_question_to_answer = Question.objects.get(test=test_session.test,
+                                                                                    id__gt=question.id).first()
                     except Question.DoesNotExist:
                         test_session.next_question_to_answer = None
 
