@@ -181,6 +181,11 @@ class Answer(models.Model):
         verbose_name=_("Вопрос"),
         help_text=_("Соответствующий варианту ответа вопрос")
     )
+    is_liar_checking = models.BooleanField(
+        default=False,
+        verbose_name=_("Определяет лживость"),
+        help_text=_("Определяет лживость пользователя")
+    )
 
     class Meta:
         verbose_name = "Вариант ответа"
