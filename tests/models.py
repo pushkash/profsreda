@@ -433,13 +433,8 @@ class TestSession(models.Model):
                     user_item = ItemUser.objects.create(item=item,
                                                         user=self.user)
 
+        # Pointing if test result is reliable
         test_result.is_reliable = self.is_reliable()
-
-    def is_reliable(self):
-        lying_critical_value = self.test.lying_critical_value
-        lying_answers_count = Response.objects.filter(answer__is_liar_checking=True).count()
-
-        return lying_answers_count >= lying_critical_value
 
     def calculate_result_categories(self):
         """
@@ -485,6 +480,12 @@ class TestSession(models.Model):
             categories_ratio[category] = responses_count / max_answers_count
 
         return categories_ratio
+
+    def is_reliable(self):
+        lying_critical_value = self.test.lying_critical_value
+        lying_answers_count = Response.objects.filter(answer__is_liar_checking=True).count()
+        # Comparing actual lying answers with their critical count
+        return lying_answers_count >= lying_critical_value
 
     def dict(self):
         """
