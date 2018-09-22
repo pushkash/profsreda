@@ -415,12 +415,12 @@ class TestSession(models.Model):
 
         result_categories = self.calculate_result_categories()
         # Calculate severity ratios only for result categories
-        categories_ratio = self.calculate_category_ratios(result_categories)
+        category_ratios = self.calculate_category_ratios(result_categories)
         for category in result_categories:
             # Save severity ratio only for result categorise
             ResultCategory.objects.create(test_result=test_result,
                                           category=category,
-                                          severity_ratio=categories_ratio[category])
+                                          severity_ratio=category_ratios[category])
             for item in Item.objects.filter(category=category):
                 # Create ResultItem object only for the first user's TestResult
                 # for easy return information about given item
@@ -432,6 +432,14 @@ class TestSession(models.Model):
                                               item=item)
                     user_item = ItemUser.objects.create(item=item,
                                                         user=self.user)
+
+        test_result.is_reliable = self.is_reliable()
+
+    def is_reliable(self):
+        lying_critical_value = self.test.lying_critical_value
+        lying_answers_count = Response.objects.filter(answer__is_liar_checking=True).count()
+
+        return lying_answers_count >= lying_critical_value
 
     def calculate_result_categories(self):
         """
