@@ -565,10 +565,12 @@ class ResultCategory(models.Model):
         Interprets severity ratio depends on test severity scale
         :return: str interpretation of severity ratio
         """
-        # TODO: write interpretation depends on ration interval
-        severity_ratio_interpretation = self.severity_ratio
+        severity_intervals = SeverityScaleInterval.objects.filter(category=self.category)
+        for severity_interval in severity_intervals:
+            if severity_interval.min_value <= self.severity_ratio <= severity_interval.max_value:
+                return severity_interval.interpretation
 
-        return severity_ratio_interpretation
+        return "Уровень выраженности не определён"
 
     def dict(self):
         """
@@ -649,3 +651,40 @@ class TestGradeInterval(models.Model):
             raise ValidationError(_("Некорректное значение: Самый старший класс"))
         if self.min_grade > self.max_grade:
             raise ValidationError(_("Некорректное значение: Самый младший класс больше Самого старшего"))
+
+
+class SeverityScaleInterval(models.Model):
+    category = models.ForeignKey(
+        "tests.Category",
+        verbose_name=_("Категория"),
+        help_text=_("Категория, к которой относится интервал"),
+        on_delete=models.CASCADE
+    )
+    min_value = models.FloatField(
+        verbose_name=_("Меньшая граница"),
+        help_text=_("Меньшая граница промежутка")
+    )
+    max_value = models.FloatField(
+        verbose_name=_("Большая граница"),
+        help_text=_("Большая граница промежутка")
+    )
+    interpretation = models.CharField(
+        max_length=100,
+        verbose_name=_("Интерпретация"),
+        help_text=_("Строковая интерпретация интервала")
+    )
+
+    class Meta:
+        verbose_name = "Интервал шкалы выраженности"
+        verbose_name_plural = "Интервалы шкалы выраженности"
+
+    def __str__(self):
+        return "_".join([str(self.category), str(self.min_value), str(self.max_value)])
+
+    def clean(self, *args, **kwargs):
+        if self.min_value < 0 or self.min_value > 1:
+            raise ValidationError(_("Некорректное значение: Меньшая граница"))
+        if self.max_value < 0 or self.max_value > 1:
+            raise ValidationError(_("Некорректное значение: Большая граница"))
+        if self.min_value > self.max_value:
+            raise ValidationError(_("Некорректное значение: Меньшая граница больше Большей границы"))
