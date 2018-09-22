@@ -28,6 +28,18 @@ class Test(models.Model):
         verbose_name=_("Количество определяемых категорий"),
         help_text=_("Количество определяемых категорий")
     )
+    detect_lying = models.BooleanField(
+        default=False,
+        verbose_name=_("Определять лживость"),
+        help_text=_("Определять лживость пользователя при прохождении")
+    )
+    lying_critical_value = models.PositiveSmallIntegerField(
+        blank=True,
+        null=True,
+        verbose_name=_("Допустимое количество лживых ответов"),
+        help_text=_("Допустимое количество лживых ответов, которые может сделать пользователь, "
+                    "чтобы результат теста считался валидным")
+    )
 
     class Meta:
         verbose_name = "Тест"
@@ -169,6 +181,11 @@ class Answer(models.Model):
         verbose_name=_("Вопрос"),
         help_text=_("Соответствующий варианту ответа вопрос")
     )
+    is_liar_checking = models.BooleanField(
+        default=False,
+        verbose_name=_("Определяет лживость"),
+        help_text=_("Определяет лживость пользователя")
+    )
 
     class Meta:
         verbose_name = "Вариант ответа"
@@ -265,6 +282,10 @@ class TestResult(models.Model):
         on_delete=models.DO_NOTHING,
         verbose_name=_("Тест сессия"),
         help_text=_("Тест сессия, которой соответствует результат")
+    )
+    is_reliable = models.BooleanField(
+        verbose_name=_("Достоверный"),
+        help_text=_("Является ли результат теста достоверным, либо пользователь лжёт")
     )
 
     class Meta:
@@ -394,12 +415,12 @@ class TestSession(models.Model):
 
         result_categories = self.calculate_result_categories()
         # Calculate severity ratios only for result categories
-        categories_ratio = self.calculate_category_ratios(result_categories)
+        category_ratios = self.calculate_category_ratios(result_categories)
         for category in result_categories:
             # Save severity ratio only for result categorise
             ResultCategory.objects.create(test_result=test_result,
                                           category=category,
-                                          severity_ratio=categories_ratio[category])
+                                          severity_ratio=category_ratios[category])
             for item in Item.objects.filter(category=category):
                 # Create ResultItem object only for the first user's TestResult
                 # for easy return information about given item
@@ -411,6 +432,9 @@ class TestSession(models.Model):
                                               item=item)
                     user_item = ItemUser.objects.create(item=item,
                                                         user=self.user)
+
+        # Pointing if test result is reliable
+        test_result.is_reliable = self.is_reliable()
 
     def calculate_result_categories(self):
         """
@@ -456,6 +480,12 @@ class TestSession(models.Model):
             categories_ratio[category] = responses_count / max_answers_count
 
         return categories_ratio
+
+    def is_reliable(self):
+        lying_critical_value = self.test.lying_critical_value
+        lying_answers_count = Response.objects.filter(answer__is_liar_checking=True).count()
+        # Comparing actual lying answers with their critical count
+        return lying_answers_count >= lying_critical_value
 
     def dict(self):
         """
