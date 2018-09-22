@@ -430,8 +430,8 @@ class TestSession(models.Model):
 
         # Calculate max category weight
         # Filter categories with max weight
-        max_weight = max(categories_weights.values())
-        result_categories = [category for category in categories_weights if categories_weights[category] == max_weight]
+        max_weights = sorted(list(set(categories_weights.values())), reverse=True)[:self.test.top_categories_count]
+        result_categories = [category for category in categories_weights if categories_weights[category] in max_weights]
 
         return result_categories
 
