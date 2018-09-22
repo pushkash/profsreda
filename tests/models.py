@@ -426,7 +426,7 @@ class TestSession(models.Model):
         # Calculate max category weight
         # Filter categories with max weight
         max_weight = max(categories_weights.values())
-        result_categories = [category for category in categories_weights if category.weight == max_weight]
+        result_categories = [category for category in categories_weights if categories_weights[category] == max_weight]
 
         return result_categories
 
