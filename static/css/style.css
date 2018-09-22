@@ -79,8 +79,13 @@ body {
 }
 
 .test-header {
-	padding: 10pt;
-	border-bottom: 1pt solid #f23333
+	padding: 5px;
+	border-bottom: 1pt solid #f23333;
+	height: 65px;
+}
+
+.test-header h2 {
+	font-size: 1.5em
 }
 
 .page-content > div {
@@ -104,8 +109,9 @@ body {
 	cursor: pointer;
 }
 
+
 #test-view button {
-	min-width: 96px;
+	min-width: 80px;
 	background: #eee;
 	font-weight: bold;
 	display: inline-block;
@@ -117,25 +123,40 @@ body {
 	line-height: 2em;
 }
 
+.question-number {
+	width: 100%;
+	text-align: center;
+	color: #666666;
+}
+
 #test-progress .progress {
-	margin-top: 20px;
+	margin-top: 5px;
+	margin: 5px 30px 30px 30px;
+	height: 5px
 }
 
 #progress-avatar-container {
 	width:100%;
-	height: 100px;
+	height: 80px;
 }
 
 #progress-avatar {
 	height: 100%;
 	display: inline-block;
-	/* background: grey; */
 	position: relative;
 	transition: margin 0.6s ease;
+	/* border: 1px solid black */
 }
 
 #progress-avatar-img {
 	height:100%
+}
+
+#test-question {
+	width: 100%;
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: 600;
 }
 
 

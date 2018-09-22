@@ -248,11 +248,11 @@ class ProgressAvatar {
 	}
 
 	move(question_number) {
-		let length = document.getElementById('progress-avatar-container').offsetWidth;
+		let length = document.getElementById('progress-bar').offsetWidth;
 		let width = document.getElementById('progress-avatar').offsetWidth;
-		let left = question_number / this.questions_count  * (length - width) - width/2
+		let left = (question_number - 1) / this.questions_count  * length
 		document.getElementById('progress-avatar').style.marginLeft = `${left}px`
-	}
+	} 
 
 	update(question_number) {
 		this.change_frame(question_number)
