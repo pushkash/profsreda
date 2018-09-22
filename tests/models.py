@@ -23,6 +23,11 @@ class Test(models.Model):
         verbose_name=_("Обложка"),
         help_text=_("Обложка теста")
     )
+    top_categories_count = models.PositiveSmallIntegerField(
+        default=1,
+        verbose_name=_("Количество определяемых категорий"),
+        help_text=_("Количество определяемых категорий")
+    )
 
     class Meta:
         verbose_name = "Тест"
