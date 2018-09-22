@@ -284,6 +284,7 @@ class TestResult(models.Model):
         help_text=_("Тест сессия, которой соответствует результат")
     )
     is_reliable = models.BooleanField(
+        default=True,
         verbose_name=_("Достоверный"),
         help_text=_("Является ли результат теста достоверным, либо пользователь лжёт")
     )
@@ -434,7 +435,8 @@ class TestSession(models.Model):
                                                         user=self.user)
 
         # Pointing if test result is reliable
-        test_result.is_reliable = self.is_reliable()
+        if self.test.detect_lying:
+            test_result.is_reliable = self.is_reliable()
 
     def calculate_result_categories(self):
         """
