@@ -544,7 +544,7 @@ class ResultCategory(models.Model):
         }
 
         if self.show_severity_ratio:
-            result_category["severity_ratio"]: self.get_severity_ratio_interpretation()
+            result_category["severity_ratio"] = self.get_severity_ratio_interpretation()
 
         return result_category
 
