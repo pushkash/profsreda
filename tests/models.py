@@ -565,10 +565,12 @@ class ResultCategory(models.Model):
         Interprets severity ratio depends on test severity scale
         :return: str interpretation of severity ratio
         """
-        # TODO: write interpretation depends on ration interval
-        severity_ratio_interpretation = self.severity_ratio
+        severity_intervals = SeverityScaleInterval.objects.filter(category=self.category)
+        for severity_interval in severity_intervals:
+            if severity_interval.min_value <= self.severity_ratio <= severity_interval.max_value:
+                return severity_interval.interpretation
 
-        return severity_ratio_interpretation
+        return "Уровень выраженности не определён"
 
     def dict(self):
         """
