@@ -283,6 +283,10 @@ class TestResult(models.Model):
         verbose_name=_("Тест сессия"),
         help_text=_("Тест сессия, которой соответствует результат")
     )
+    is_reliable = models.BooleanField(
+        verbose_name=_("Достоверный"),
+        help_text=_("Является ли результат теста достоверным, либо пользователь лжёт")
+    )
 
     class Meta:
         verbose_name = "Результат теста"
