@@ -387,12 +387,17 @@ class TestSession(models.Model):
         self.save()
         test_result = TestResult.objects.create(test_session=self)
 
-        result_categories, categories_ratio = self.calculate_result_categories()
+        result_categories = self.calculate_result_categories()
+        # Calculate severity ratios only for result categories
+        categories_ratio = self.calculate_category_ratios(result_categories)
         for category in result_categories:
+            # Save severity ratio only for result categorise
             ResultCategory.objects.create(test_result=test_result,
                                           category=category,
                                           severity_ratio=categories_ratio[category])
             for item in Item.objects.filter(category=category):
+                # Create ResultItem object only for the first user's TestResult
+                # for easy return information about given item
                 try:
                     user_item = ItemUser.objects.get(item=item,
                                                      user=self.user)
@@ -404,34 +409,48 @@ class TestSession(models.Model):
 
     def calculate_result_categories(self):
         """
-        Calculates categories weights
+        Calculates categories weights and severity ratios
         :return: list of categories with max weight
         """
         test_categories = Category.objects.filter(test=self.test)
 
         # Calculate categories weights
+        # [IMPORTANT] Category start weight may not be equal to 0
         categories_weights = {category: category.start_weight for category in test_categories}
         for response in Response.objects.filter(test_session=self):
-            answer_category = AnswerCategory.objects.get(answer=response.answer)
-            categories_weights[answer_category.category] += answer_category.weight
+            answer_categories = AnswerCategory.objects.filter(answer=response.answer)
+            # Answer may not have AnswerCategory object associated with it
+            for answer_category in answer_categories:
+                categories_weights[answer_category.category] += answer_category.weight
 
         # Calculate max category weight
-        max_weight = max(categories_weights.values())
         # Filter categories with max weight
+        max_weight = max(categories_weights.values())
         result_categories = [category for category in categories_weights if category.weight == max_weight]
+
+        return result_categories
+
+    def calculate_category_ratios(self, categories):
+        """
+        Calculates severity ratio for each category of tested categories
+        :return: dict of categories with calculated severity ratio
+        """
 
         # Calculate categories severity ratios
         categories_ratio = {}
-        for category in test_categories:
-            # Question affects category, not answer
-            max_responses_count = AnswerCategory.objects.filter(category=category).distinct("answer__question").count()
-            # Get count responses which affect this category
-            possible_answers = AnswerCategory.objects.filter(category=category).values("answer").count()
-            responses_count = Response.objects.filter(test_session=self, answer__in=possible_answers)
-            # Calculate ratio
-            categories_ratio[category] = responses_count / max_responses_count
+        for category in categories:
+            # Get all AnswerCategory objects which adds weight to category
+            answer_categories = AnswerCategory.objects.filter(category=category)
+            # Calculate maximum count of answers, which will adds weight to category
+            # [IMPORTANT] Answer adds weight to category, not question
+            max_answers_count = answer_categories.count()
+            # Get list of answers and user responses which add weight to category
+            answers = answer_categories.values("answer")
+            responses_count = Response.objects.filter(test_session=self, answer__in=answers).count()
+            # Calculate severity ratio
+            categories_ratio[category] = responses_count / max_answers_count
 
-        return result_categories, categories_ratio
+        return categories_ratio
 
     def dict(self):
         """
