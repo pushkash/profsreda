@@ -28,6 +28,18 @@ class Test(models.Model):
         verbose_name=_("Количество определяемых категорий"),
         help_text=_("Количество определяемых категорий")
     )
+    detect_lying = models.BooleanField(
+        default=False,
+        verbose_name=_("Определять лживость"),
+        help_text=_("Определять лживость пользователя при прохождении")
+    )
+    lying_critical_value = models.PositiveSmallIntegerField(
+        blank=True,
+        null=True,
+        verbose_name=_("Допустимое количество лживых ответов"),
+        help_text=_("Допустимое количество лживых ответов, которые может сделать пользователь, "
+                    "чтобы результат теста считался валидным")
+    )
 
     class Meta:
         verbose_name = "Тест"
