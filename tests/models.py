@@ -28,6 +28,11 @@ class Test(models.Model):
         verbose_name=_("Количество определяемых категорий"),
         help_text=_("Количество определяемых категорий")
     )
+    show_severity_ratio = models.BooleanField(
+        default=False,
+        verbose_name=_("Считать степень выраженности"),
+        help_text=_("Считать степень выраженности категории у пользователя")
+    )
     detect_lying = models.BooleanField(
         default=False,
         verbose_name=_("Определять лживость"),
@@ -546,11 +551,6 @@ class ResultCategory(models.Model):
     severity_ratio = models.FloatField(
         verbose_name=_("Степень выраженности"),
         help_text=_("Степерь выраженности категории у пользователя")
-    )
-    show_severity_ratio = models.BooleanField(
-        default=False,
-        verbose_name=_("Считать степень выраженности"),
-        help_text=_("Считать степень выраженности категории у пользователя")
     )
 
     class Meta:
