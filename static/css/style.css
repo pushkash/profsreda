@@ -2,6 +2,21 @@
 /* layout styles */
 /* ----- */
 
+@media (min-width: 992px) {
+	.col-md-1-10 {
+		width: 10%;
+		float: left;
+	}
+	.col-md-3-10 {
+		width: 30%;
+		float: left;
+	}
+	.col-md-4-10 {
+		width: 40%;
+		float: left;
+	}
+}
+
 @font-face {
     font-family: logo-font;
     src: url(../fonts/PTM55FT.ttf);
@@ -29,6 +44,10 @@ body {
 
 #footer {
 	flex: 0 0 auto
+}
+
+#header {
+	border-bottom: 1px solid #999999;
 }
 
 .h_divider {
@@ -97,11 +116,8 @@ body {
 	padding-top: 30px;
 }
 
-
-
 .test-text {
-	display: inline-block;
-	
+	display: inline-block;	
 	text-align: left;
 	line-height: 2;
 }
@@ -282,12 +298,22 @@ body {
 
 .result-header {
 	margin-top: 24px;
-	margin-bottom: 32px;
-	text-align: center;
+	margin-bottom: 24px;
+}
+
+.category-severity-ratio {
+	font-size: 0.8em;
+	font-weight: bold;
+	color: #999999;
+}
+
+.category-severity-ratio > span {
+	color: black;
 }
 
 .result-categories{
 	margin-bottom: 40px;
+	padding-left: 20px
 }
 .result-categories > div{
 	line-height: 1.8em;

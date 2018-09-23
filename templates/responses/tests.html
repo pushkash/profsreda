@@ -17,33 +17,7 @@
                 </div>
                     
                     {% for test in tests %}
-                        
-                        <div class="col-md-4 col-sm-6 col-xs-6">
-                            <div class="test-card">
-                                <div class="test-card-img">
-                                    <img src="{{ test.image.url }}" alt="/media/test_images/course01.jpg">
-
-                                    <div class='course-floated'>
-                                    <a href="/tests/views/test_view/{{ test.id }}/" class='course-btn'>
-                                        <span >Начать тест</span>
-                                    </a>
-                                    {% if test.result%}
-                                    <br>
-                                    <a href="/tests/views/test_result/{{ test.result.id }}/result/" class='course-btn' >
-                                        <span >Результаты</span>
-                                    </a>
-                                    {% endif %}
-                                    </div>
-                                </div>
-                                <div class="course">
-                                    <div class="test-details">
-                                        <span class="course-category">{{ test.name }}</span>
-                                    </div>
-                                </div>
-
-                                <!--<div class='card-btn text-center'><button class='main-button'>Начать тест</button></div>-->
-                            </div>
-                        </div>
+                        {% include 'partials/test-card.html' %}                            
                     {% endfor %}
             </div>
         </div>

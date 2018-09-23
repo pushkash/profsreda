@@ -23,25 +23,24 @@
     <div class="container">
 
         <!-- header -->
-        <div class="text-center">
-            <h2>Результаты теста <br/> {{ test.name }}</h2>
-            <hr class='h_divider'/>
+        <div class="test-header text-center">
+            <h2>{{ test.name }}</h2>
         </div>
 
         <div class="result-view">
 
             <div class='result-header'>
-                {% if result_categories|length > 1 %}
-                    <h4>Невероятно! Вы многогранная личность. Ваши результаты: </h4>
-                {% else %}
-                    <h4>Ваш результат:</h4>
-                {% endif %}
+                <h4>Ваш результат:</h4>
             </div>
 
             <div class='result-categories'>
                 {% for category in result_categories %}
                 <div class='result-category'>
                     <span class='category-name'>{{category.category.name}}</span>
+                    {% if category.severity_ratio %}
+                        <span class='category-severity-ratio'>Степень выраженности: <span>{{category.severity_ratio}}</span> - <span>средняя</span></span>
+                        <br>
+                    {% endif %}
                     <span class='short-description'>{{category.category.short_description}}</span>
                     <div class='long-description'>{{category.category.long_description}}</div>
                 </div>
@@ -77,30 +76,7 @@
 
                 <div class='row course'>
                 {% for test in tests %}
-
-
-
-                    <div class="col-md-4 col-sm-6 col-xs-6">
-                        <div class="test-card">
-                            <div class="test-card-img"> <!-- course-img -->
-                                <img src="{{ test.image.url }}" alt="/media/test_images/course01.jpg">
-
-                                <div class='course-floated'>
-                                <a href="/tests/views/test_view/{{ test.id }}/" class='course-btn'>
-                                    <span >Начать тест</span>
-                                </a>
-
-                                </div>
-                            </div>
-                            <div class="course">
-                                <div class="test-details">
-                                    <span class="course-category"> {{ test.name }}</span>
-                                </div>
-                            </div>
-
-                            <!--<div class='card-btn text-center'><button class='main-button'>Начать тест</button></div>-->
-                        </div>
-                    </div>
+                    {% include 'partials/test-card.html' %}
                 {% endfor %}
                 <div class='row'>
 
