@@ -40,7 +40,7 @@
                 <div class='result-category'>
                     <span class='category-name'>{{category.category.name}}</span>
                     {% if test.show_severity_ratio %}
-                        <span class='category-severity-ratio'>Степень выраженности: <span>{{category.severity_ratio}}</span> - <span>средняя</span></span>
+                        <span class='category-severity-ratio'>Степень выраженности: <span>{{category.severity_ratio_interpretation}}</span> - <span>средняя</span></span>
                         <br>
                     {% endif %}
                     <span class='short-description'>{{category.category.short_description|linebreaks}}</span>

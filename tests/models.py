@@ -424,9 +424,11 @@ class TestSession(models.Model):
         category_ratios = self.calculate_category_ratios(result_categories)
         for category in result_categories:
             # Save severity ratio only for result categorise
-            ResultCategory.objects.create(test_result=test_result,
-                                          category=category,
-                                          severity_ratio=category_ratios[category])
+            result_category = ResultCategory.objects.create(test_result=test_result,
+                                                            category=category,
+                                                            severity_ratio=category_ratios[category])
+            result_category.severity_ratio_interpretation = result_category.get_severity_ratio_interpretation()
+            result_category.save()
             for item in Item.objects.filter(category=category):
                 # Create ResultItem object only for the first user's TestResult
                 # for easy return information about given item
@@ -549,8 +551,15 @@ class ResultCategory(models.Model):
         help_text=_("Категория, определённая в тесте")
     )
     severity_ratio = models.FloatField(
+        blank=True,
         verbose_name=_("Степень выраженности"),
         help_text=_("Степерь выраженности категории у пользователя")
+    )
+    severity_ratio_interpretation = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("Интерпретация степени выраженности"),
+        help_text=_("Строковая интерпретация числового представления степени выраженности")
     )
 
     class Meta:
@@ -583,7 +592,7 @@ class ResultCategory(models.Model):
         }
 
         if self.category.test.show_severity_ratio:
-            result_category["severity_ratio"] = self.get_severity_ratio_interpretation()
+            result_category["severity_ratio"] = self.severity_ratio_interpretation
 
         return result_category
 
