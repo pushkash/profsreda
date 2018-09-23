@@ -16,22 +16,7 @@
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="{% static  'css/bootstrap.min.css' %}"/>
-    <style>
-        @media (min-width: 992px) {
-            .col-md-1-10 {
-                width: 10%;
-                float: left;
-            }
-            .col-md-3-10 {
-                width: 30%;
-                float: left;
-            }
-            .col-md-4-10 {
-                width: 40%;
-                float: left;
-            }
-        }
-    </style>
+    
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" >
 
@@ -57,13 +42,13 @@
 </head>
 <body>
     <div class='page-wrapper'>
-        {% include 'navbar.html' %}
+        {% include 'partials/navbar.html' %}
         <div class='page-content'>
             {% block content %}
             {% endblock %}
         </div>
 
-        {% include 'footer.html' %}
+        {% include 'partials/footer.html' %}
     </div>
 
     <!-- preloader -->
