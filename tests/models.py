@@ -149,7 +149,7 @@ class Question(models.Model):
         Returns related answer-category objects
         :return: QuerySet of related answer-category objects
         """
-        return Answer.objects.filter(question=self).order_by("-id")
+        return Answer.objects.filter(question=self).order_by("id")
 
     def get_answer(self, answer_text):
         """
