@@ -58,7 +58,7 @@
                         {% for item in result_items %}
                         <div class='col-md-3'>
                             <div class="item-card">
-                                <img class="item-icon media-object img-responsive full-width" src='{% static item.item.icon %}'>
+                                <img class="item-icon media-object img-responsive full-width" src='{{ item.item.icon.url }}'>
                                 <div class="item-title">
                                     {{ item.item.name }}
                                 </div>
