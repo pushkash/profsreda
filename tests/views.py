@@ -259,7 +259,7 @@ def get_all_tests_view(request):
     for i in range(len(tests)):
         setattr(tests[i], 'result', test_results[i])
 
-    return render(request, "responses/tests.html", {"tests": tests,
+    return render(request, "tests/tests.html", {"tests": tests,
                                                     "test_results": test_results})
 
 
@@ -277,7 +277,7 @@ def test_view(request, test_id):
         test_session = TestSession.objects.filter(test=test,
                                                   user=user).last()
         test_result = test.get_user_result(user)
-        return render(request, "responses/tester.html", {"test": test,
+        return render(request, "tests/tester.html", {"test": test,
                                                          "test_session": test_session,
                                                          "test_result": test_result})
     except Test.DoesNotExist:
@@ -305,7 +305,7 @@ def result_view_by_test(request, test_id):
     tests = [test for test in Test.objects.all() if test.check_grade(user)]
     test_results = [test.get_user_result(user) for test in tests]
 
-    return render(request, "responses/results.html", {"test": test,
+    return render(request, "tests/results.html", {"test": test,
                                                       "test_result": test_result,
                                                       "result_categories": result_categories,
                                                       "result_items": result_items,
@@ -331,7 +331,7 @@ def result_view_by_test_result(request, test_result_id):
     tests = [test for test in Test.objects.all() if test.check_grade(user)]
     test_results = [test.get_user_result(user) for test in tests]
 
-    return render(request, "responses/results.html", {"test": test,
+    return render(request, "tests/results.html", {"test": test,
                                                       "test_result": test_result,
                                                       "result_categories": result_categories,
                                                       "result_items": result_items,
