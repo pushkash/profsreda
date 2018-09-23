@@ -63,15 +63,16 @@ body {
 /* ------ */
 
 #test-body {
-
-	padding-top: 20px
+	padding-top: 20px;
+	display: flex;
+	flex-direction: column;
 }
 
 #test-body > div {
-
 	max-width: 800px;
+	width: 100%;
 	margin: auto;
-	
+	flex: 1 0 auto;
 }
 
 #test-body > div > div{

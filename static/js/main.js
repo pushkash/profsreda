@@ -112,6 +112,7 @@ class TestController {
 			if (!session.test_session.is_finished)
 				return this.showQuestion(session.test_session.next_question_to_answer.id)
 			else {
+				this.view.update_progress_bar(this.test.question_count + 1)
 				this.view.show_result(this.test_id)
 			}
 		})
@@ -245,11 +246,11 @@ class ProgressAvatar {
 		return {type: type_move, frame: frame_number}
 	}
 
-	get_view(question_number) {
-		let view = document.createElement('div')
-		view.classList.add('progress-avatar-img')
-		return view
-	}
+	// get_view(question_number) {
+	// 	let view = document.createElement('div')
+	// 	view.classList.add('progress-avatar-img')
+	// 	return view
+	// }
 
 	move(question_number) {
 		let length = document.getElementById('progress-bar').offsetWidth;
