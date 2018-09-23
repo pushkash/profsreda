@@ -176,17 +176,21 @@ class TestView {
 			let btn = document.createElement('button')
 			btn.classList.add('btn', 'btn-default', 'btn-lg', 'answer-btn')
 			btn.innerHTML = answer.text
+			btns.push(btn)
 			btn.addEventListener('click', (e) => {
 				answer_callback(data.id, answer.id)
+				btn.classList.add('btn-danger')
+				btns.forEach((b) => {b.disabled = true})
+				// this.answers_container
 			})
 			this.answers_container.appendChild(btn)
-			btns.push(btn)
+			
+
 			if (max_width < btn.offsetWidth) max_width = btn.offsetWidth
 		});
 		btns.forEach((btn) => {
 			btn.style.width = `${max_width}px`
 		})
-
 	}
 
 	show_error_view() {

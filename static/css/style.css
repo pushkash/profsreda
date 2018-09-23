@@ -112,7 +112,7 @@ body {
 
 #test-view button {
 	min-width: 80px;
-	background: #eee;
+	/* background: #eee; */
 	font-weight: bold;
 	display: inline-block;
 	margin-bottom: 8px
