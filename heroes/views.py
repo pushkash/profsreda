@@ -71,7 +71,7 @@ def profile(request):
     head, body, right_hand, left_hand, legs = user_profile.get_putted_on_items_images()
 
     items_results = get_content_name_result_test(items, request.user)
-    return render(request, 'heroes/account.html', locals())
+    return render(request, 'heroes/profile.html', locals())
 
 
 def profile_random(request):

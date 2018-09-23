@@ -33,6 +33,8 @@
                 <h4>Ваш результат:</h4>
             </div>
 
+
+
             <div class='result-categories'>
                 {% for category in result_categories %}
                 <div class='result-category'>
@@ -41,8 +43,8 @@
                         <span class='category-severity-ratio'>Степень выраженности: <span>{{category.severity_ratio}}</span> - <span>средняя</span></span>
                         <br>
                     {% endif %}
-                    <span class='short-description'>{{category.category.short_description}}</span>
-                    <div class='long-description'>{{category.category.long_description}}</div>
+                    <span class='short-description'>{{category.category.short_description|linebreaks}}</span>
+                    <div class='long-description'>{{category.category.long_description|linebreaks}}</div>
                 </div>
                 {% endfor %}
             </div>
@@ -71,9 +73,7 @@
 
             <div>
                 <div class="col-md-10 col-md-offset-1 tests">
-
                 <h4>Другие тесты</h4>
-
                 <div class='row course'>
                 {% for test in tests %}
                     {% include 'partials/test-card.html' %}

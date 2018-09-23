@@ -230,7 +230,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '{% url 'share_avatar' %}',
+                url: '{% url "share_avatar" %}',
                 dataType: 'text',
                 success: function (response) {
                     var link = 'http://pushka.pythonanywhere.com/static/img/share_avatars/' + response;
