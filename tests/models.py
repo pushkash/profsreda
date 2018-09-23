@@ -53,14 +53,14 @@ class Test(models.Model):
         Returns related questions
         :return: QuerySet of related questions
         """
-        return Question.objects.filter(test=self.id)
+        return Question.objects.filter(test=self)
 
     def get_categories(self):
         """
         Returns related categories
         :return: QuerySet of related categories
         """
-        return Category.objects.filter(test=self.id)
+        return Category.objects.filter(test=self)
 
     def get_user_result(self, user):
         """
@@ -144,7 +144,7 @@ class Question(models.Model):
         Returns related answer-category objects
         :return: QuerySet of related answer-category objects
         """
-        return Answer.objects.filter(question=self.id)
+        return Answer.objects.filter(question=self)
 
     def get_answer(self, answer_text):
         """
@@ -152,7 +152,7 @@ class Question(models.Model):
         :param answer_text: key to find answer-category object
         :return: AnswerCategory with given answer text
         """
-        return Answer.objects.filter(question=self.id,
+        return Answer.objects.filter(question=self,
                                      answer_text=answer_text)
 
     def dict(self):
@@ -160,11 +160,11 @@ class Question(models.Model):
         Returns all info about question
         :return: dict with all info about question
         """
-        answer_categories = [answer_category.dict() for answer_category in self.get_answers()]
+        answers = [answer.dict() for answer in self.get_answers()]
         question = {
             "id": self.id,
             "text": self.text,
-            "answers": answer_categories
+            "answers": answers
         }
         return question
 
@@ -392,7 +392,7 @@ class TestSession(models.Model):
         Returns all session responses
         :return: QuerySet of session responses
         """
-        return Response.objects.filter(test_session=self.id)
+        return Response.objects.filter(test_session=self)
 
     def check_is_finished(self):
         """
