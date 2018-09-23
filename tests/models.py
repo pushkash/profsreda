@@ -428,6 +428,7 @@ class TestSession(models.Model):
                                                             category=category,
                                                             severity_ratio=category_ratios[category])
             result_category.severity_ratio_interpretation = result_category.get_severity_ratio_interpretation()
+            result_category.save()
             for item in Item.objects.filter(category=category):
                 # Create ResultItem object only for the first user's TestResult
                 # for easy return information about given item
