@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    {% if error %}
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
+                <div class="text-center">
+                    <h2>Результаты теста <br/> {{ questionnaire.name }} не удалось загрузить</h2>
+                    <a href="../../../../../tests/views/all_tests/">
+                        <button class="main-button">Другие тесты</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- header -->
+        <div class="test-header text-center">
+            <h2>{{ test.name }}</h2>
+        </div>
+
+        <div class="result-view">
+
+            <div class='result-header'>
+                <h4>Ваш результат:</h4>
+            </div>
+
+            <div class='result-categories'>
+                {% for category in result_categories %}
+                <div class='result-category'>
+                    <span class='category-name'>{{category.category.name}}</span>
+                    {% if category.severity_ratio %}
+                        <span class='category-severity-ratio'>Степень выраженности: <span>{{category.severity_ratio}}</span> - <span>средняя</span></span>
+                        <br>
+                    {% endif %}
+                    <span class='short-description'>{{category.category.short_description}}</span>
+                    <div class='long-description'>{{category.category.long_description}}</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Loot -->
+            <div>
+                {% if result_items|length > 0 %}
+                    <h4>Ваша награда:</h4>
+
+                    <div class='result-items row'>
+                        {% for item in result_items %}
+                        <div class='col-md-3'>
+                            <div class="item-card">
+                                <img class="item-icon media-object img-responsive full-width" src='{% static item.item.icon %}'>
+                                <div class="item-title">
+                                    {{ item.item.name }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            </div>
+
+            <div>
+                <div class="col-md-10 col-md-offset-1 tests">
+
+                <h4>Другие тесты</h4>
+
+                <div class='row course'>
+                {% for test in tests %}
+                    {% include 'partials/test-card.html' %}
+                {% endfor %}
+                <div class='row'>
+
+            </div>
+
+
+
+        </div>
+        </div>
+    </div>
+
+    <script>
+        let cards = document.getElementsByClassName('test-details')
+        let max_height = 0;
+        for (let i = 0; i < cards.length; i++) {
+            if (max_height < cards[i].clientHeight) max_height = cards[i].clientHeight
+        }
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].style.height = max_height + 'px'
+        }
+    </script>
+
+    {% endif %}
+{% endblock %}
