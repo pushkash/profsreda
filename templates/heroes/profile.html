@@ -233,7 +233,8 @@
                 url: '{% url "share_avatar" %}',
                 dataType: 'text',
                 success: function (response) {
-                    var link = '../../static/img/share_avatars/' + response;
+                    console.log(response)
+                    var link = '../static/img/share_avatars/' + response;
 
                     var tmp = document.createElement('div');
                     tmp.setAttribute('id', 'hidden_div');
