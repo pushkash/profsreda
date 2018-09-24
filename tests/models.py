@@ -497,10 +497,13 @@ class TestSession(models.Model):
         return categories_ratio
 
     def is_reliable(self):
-        lying_critical_value = self.test.lying_critical_value
-        lying_answers_count = Response.objects.filter(answer__is_liar_checking=True).count()
-        # Comparing actual lying answers with their critical count
-        return lying_answers_count >= lying_critical_value
+        if self.test.detect_lying:
+            lying_critical_value = self.test.lying_critical_value
+            lying_answers_count = Response.objects.filter(answer__is_liar_checking=True).count()
+            # Comparing actual lying answers with their critical count
+            return lying_answers_count >= lying_critical_value
+        else:
+            return True
 
     def dict(self):
         """

@@ -28,13 +28,10 @@
         </div>
 
         <div class="result-view">
-
+            {% if test_result.is_reliable %}
             <div class='result-header'>
                 <h4>Ваш результат:</h4>
             </div>
-
-
-
             <div class='result-categories'>
                 {% for category in result_categories %}
                 <div class='result-category'>
@@ -69,22 +66,32 @@
                 {% endif %}
             </div>
 
-            </div>
-
-            <div>
-                <div class="col-md-10 col-md-offset-1 tests">
+            <div class="tests">
                 <h4>Другие тесты</h4>
                 <div class='row course'>
-                {% for test in tests %}
-                    {% include 'partials/test-card.html' %}
-                {% endfor %}
-                <div class='row'>
-
+                    {% for test in tests %}
+                        {% include 'partials/test-card.html' %}
+                    {% endfor %}
+                </div>
             </div>
 
+            {% else %}
+                <div class='row lie-result'>
+                    <div class='col-md-3'>
+                        <img class='lie-img center' src="{% static "img/icon-lie.png" %} "/>
+                    </div>
+                    <div class='col-md-9'> 
+                        <h4> <span class='category-name'>Кажется, некоторые ответы противоречат друг другу.</span></h4>
+                        <p>Сейчас невозможно достоверно определить ваши результаты. 
+                        Попробуйте пройти тест снова и отвечать честно, не задумываясь.</p>
+                        <a href="../../../../../tests/views/test_view/{{test.id}}">
+                            <button class="main-button">Пройти тест заново</button>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
 
-
-        </div>
+            
         </div>
     </div>
 
