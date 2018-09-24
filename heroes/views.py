@@ -65,7 +65,7 @@ def profile(request):
     items = [i.item for i in items]
     user_profile = Profile.objects.get(user=request.user)
 
-    head, body, right_hand, left_hand, legs = user_profile.get_putted_on_items_images()
+    head, body, right_hand, left_hand, legs = user_profile.get_items_urls()
 
     items_results = get_content_name_result_test(items, request.user)
     return render(request, 'heroes/profile.html', locals())
@@ -140,23 +140,7 @@ def update_user_profile(request):
 
 def profile_share_avatar(request):
     user_profile = Profile.objects.get(user=request.user)
-    head, body, right_hand, left_hand, legs = user_profile.get_putted_on_items_images()
-
-    head = os.path.join(BASE_DIR,
-                        "static/img/game/avatar/{}/01.png".format(user_profile.sex)) if head is None \
-        else os.path.join(BASE_DIR, head.strip("/"))
-    body = os.path.join(BASE_DIR,
-                        "static/img/game/avatar/{}/02.png".format(user_profile.sex)) if body is None \
-        else os.path.join(BASE_DIR, body.strip("/"))
-    right_hand = os.path.join(BASE_DIR,
-                              "static/img/game/avatar/{}/03.png".format(user_profile.sex)) if right_hand is None \
-        else os.path.join(BASE_DIR, right_hand.strip("/"))
-    left_hand = os.path.join(BASE_DIR,
-                             "static/img/game/avatar/{}/04.png".format(user_profile.sex)) if left_hand is None \
-        else os.path.join(BASE_DIR, left_hand.strip("/"))
-    legs = os.path.join(BASE_DIR,
-                        "static/img/game/avatar/{}/05.png".format(user_profile.sex)) if legs is None \
-        else os.path.join(BASE_DIR, legs.strip("/"))
+    head, body, right_hand, left_hand, legs = user_profile.get_items_urls()
 
     return HttpResponse(update_share_image(user_profile,
                                            [head, body, right_hand, left_hand, legs]))
@@ -225,7 +209,7 @@ def create_share_image(items, image):
 
     image_name = str(uuid.uuid4()).replace('-', '') + '.png'
 
-    share_img_path = os.path.join(BASE_DIR, "static/img/share_avatars")
+    share_img_path = os.path.join(BASE_DIR, "/media/img/share_avatars")
 
     if not os.path.isdir(share_img_path):
         os.mkdir(share_img_path)
