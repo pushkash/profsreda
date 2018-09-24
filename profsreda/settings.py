@@ -161,18 +161,19 @@ MODE = 'prod'
 if MODE == 'dev':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# if MODE == 'prod':
-#     EMAIL_USE_TLS = True
-#     EMAIL_HOST_USER = priv_vals.email_user
-#     EMAIL_HOST_PASSWORD = priv_vals.email_password
-#     EMAIL_HOST = priv_vals.email_host
-#     EMAIL_PORT = priv_vals.email_port
-#
-#     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#     DEFAULT_FROM_EMAIL = priv_vals.email_user
-#
-#     ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-#     ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+if MODE == 'prod':
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+
+    EMAIL_HOST_USER = EMAIL_USER
+    EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
+    EMAIL_HOST = EMAIL_HOST
+    EMAIL_PORT = EMAIL_PORT
+
+    DEFAULT_FROM_EMAIL = EMAIL_USER
+
+    ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+    ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
