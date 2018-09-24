@@ -287,7 +287,7 @@ class PromiseRequest {
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", url, true)
 			xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-			xhr.setRequestHeader('X-CSRFToken', csrfcookie());
+			xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4) {
 					if (xhr.status == "200" || xhr.status == "201") {
