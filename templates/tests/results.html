@@ -23,16 +23,21 @@
     <div class="container">
 
         <!-- header -->
-        <div class="test-header text-center">
+        <div class="test-header text-center printable-area">
             <h2>{{ test.name }}</h2>
         </div>
 
         <div class="result-view">
             {% if test_result.is_reliable %}
-            <div class='result-header'>
-                <h4>Ваш результат:</h4>
+            <div class='result-header row'>
+                <div class='col-md-9'>
+                    <h4 class='printable-area'>Ваш результат:</h4>
+                </div>
+                <div class='col-md-3'>
+                    <button class='btn btn-default' id='print-result-btn'>Распечатать результат</button>
+                </div>
             </div>
-            <div class='result-categories'>
+            <div class='result-categories printable-area'>
                 {% for category in result_categories %}
                 <div class='result-category'>
                     <span class='category-name'>{{category.category.name}}</span>
@@ -96,14 +101,12 @@
     </div>
 
     <script>
-        let cards = document.getElementsByClassName('test-details')
-        let max_height = 0;
-        for (let i = 0; i < cards.length; i++) {
-            if (max_height < cards[i].clientHeight) max_height = cards[i].clientHeight
-        }
-        for (let i = 0; i < cards.length; i++) {
-            cards[i].style.height = max_height + 'px'
-        }
+        makeSameElementsHeight(document.getElementsByClassName('test-details'))
+
+        document.getElementById('print-result-btn').addEventListener('click', (e) => {
+            window.print();
+        })
+        
     </script>
 
     {% endif %}
