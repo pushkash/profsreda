@@ -145,16 +145,20 @@ def profile_share_avatar(request):
     user_profile = Profile.objects.get(user=request.user)
     head, body, right_hand, left_hand, legs = user_profile.get_putted_on_items_images()
 
-    head = os.path.join(BASE_DIR, "static/img/game/avatar/{}/01.png".format(user_profile.sex)) if head is None \
+    head = os.path.join(BASE_DIR,
+                        "static/img/game/avatar/{}/01.png".format(user_profile.sex)) if head is None \
         else os.path.join(BASE_DIR, head.strip("/"))
-    body = os.path.join(BASE_DIR, "static/img/game/avatar/{}/02.png".format(user_profile.sex)) if body is None \
+    body = os.path.join(BASE_DIR,
+                        "static/img/game/avatar/{}/02.png".format(user_profile.sex)) if body is None \
         else os.path.join(BASE_DIR, body.strip("/"))
     right_hand = os.path.join(BASE_DIR,
                               "static/img/game/avatar/{}/03.png".format(user_profile.sex)) if right_hand is None \
         else os.path.join(BASE_DIR, right_hand.strip("/"))
-    left_hand = os.path.join(BASE_DIR, "static/img/game/avatar/{}/04.png".format(user_profile.sex)) if left_hand is None \
+    left_hand = os.path.join(BASE_DIR,
+                             "static/img/game/avatar/{}/04.png".format(user_profile.sex)) if left_hand is None \
         else os.path.join(BASE_DIR, left_hand.strip("/"))
-    legs = os.path.join(BASE_DIR, "static/img/game/avatar/{}/05.png".format(user_profile.sex)) if legs is None \
+    legs = os.path.join(BASE_DIR,
+                        "static/img/game/avatar/{}/05.png".format(user_profile.sex)) if legs is None \
         else os.path.join(BASE_DIR, legs.strip("/"))
 
     return HttpResponse(update_share_image(user_profile,

@@ -260,7 +260,7 @@ def get_all_tests_view(request):
         setattr(tests[i], 'result', test_results[i])
 
     return render(request, "tests/tests.html", {"tests": tests,
-                                                    "test_results": test_results})
+                                                "test_results": test_results})
 
 
 def test_view(request, test_id):
@@ -278,8 +278,8 @@ def test_view(request, test_id):
                                                   user=user).last()
         test_result = test.get_user_result(user)
         return render(request, "tests/tester.html", {"test": test,
-                                                         "test_session": test_session,
-                                                         "test_result": test_result})
+                                                     "test_session": test_session,
+                                                     "test_result": test_result})
     except Test.DoesNotExist:
         return HttpResponse(
             status=status.HTTP_404_NOT_FOUND,
@@ -306,11 +306,11 @@ def result_view_by_test(request, test_id):
     test_results = [test.get_user_result(user) for test in tests]
 
     return render(request, "tests/results.html", {"test": test,
-                                                      "test_result": test_result,
-                                                      "result_categories": result_categories,
-                                                      "result_items": result_items,
-                                                      "tests": tests,
-                                                      "test_results": test_results})
+                                                  "test_result": test_result,
+                                                  "result_categories": result_categories,
+                                                  "result_items": result_items,
+                                                  "tests": tests,
+                                                  "test_results": test_results})
 
 
 def result_view_by_test_result(request, test_result_id):
@@ -332,8 +332,8 @@ def result_view_by_test_result(request, test_result_id):
     test_results = [test.get_user_result(user) for test in tests]
 
     return render(request, "tests/results.html", {"test": test,
-                                                      "test_result": test_result,
-                                                      "result_categories": result_categories,
-                                                      "result_items": result_items,
-                                                      "tests": tests,
-                                                      "test_results": test_results})
+                                                  "test_result": test_result,
+                                                  "result_categories": result_categories,
+                                                  "result_items": result_items,
+                                                  "tests": tests,
+                                                  "test_results": test_results})

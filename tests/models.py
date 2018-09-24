@@ -149,7 +149,7 @@ class Question(models.Model):
         Returns related answer-category objects
         :return: QuerySet of related answer-category objects
         """
-        return Answer.objects.filter(question=self)
+        return Answer.objects.filter(question=self).order_by("id")
 
     def get_answer(self, answer_text):
         """
@@ -157,8 +157,8 @@ class Question(models.Model):
         :param answer_text: key to find answer-category object
         :return: AnswerCategory with given answer text
         """
-        return Answer.objects.filter(question=self,
-                                     answer_text=answer_text)
+        return Answer.objects.get(question=self,
+                                  answer_text=answer_text)
 
     def dict(self):
         """
