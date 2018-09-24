@@ -289,7 +289,7 @@ class AnswerCategory(models.Model):
 class TestResult(models.Model):
     test_session = models.ForeignKey(
         "tests.TestSession",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         verbose_name=_("Тест сессия"),
         help_text=_("Тест сессия, которой соответствует результат")
     )
@@ -358,7 +358,7 @@ class TestSession(models.Model):
         "tests.Question",
         blank=True,
         null=True,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         verbose_name=_("Последний отвеченный вопрос"),
         help_text=_("Последний вопрос, на который ответил пользователь")
     )
@@ -366,7 +366,7 @@ class TestSession(models.Model):
         "tests.Question",
         blank=True,
         null=True,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         verbose_name=_("Следующий вопрос"),
         help_text=_("Следующий вопрос, на который нужно ответить"),
         related_name="next_answer"

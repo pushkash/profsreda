@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from profsreda.settings import BASE_DIR
 
 from heroes.forms import CustomUserCreationForm, UpdateUserProfile
-from heroes.models import ItemUser, Profile, ShareProfileAvatar, ProfileItem
+from heroes.models import ItemUser, Profile, ShareProfileAvatar
 from tests.models import ResultItem
 
 
@@ -56,11 +56,11 @@ def custom_profile_creation(request):
             try:
                 send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
                           fail_silently=False, html_message=message_html)
-            except BadHeaderError:
+            except:
                 pass
             return redirect("account_profile")
         else:
-            return rBadHeaderErrorender(request, "signup.html", {"form": form})
+            return render(request, "signup.html", {"form": form})
 
 
 def profile(request):
