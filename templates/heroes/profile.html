@@ -23,68 +23,44 @@
             <div id='avatar-block' class="col-md-3">
                 <div class="media">
                     <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
-                        {% if head %}
-                            <img src="{{ head }}" class="media-object img-responsive full-width">
-                        {% else %}
-                            <img src="{% static "img/game/avatar/M/01.png" %}"
-                                 class="media-object img-responsive full-width">
-                        {% endif %}
+                        <img src="{{ head }}" class="media-object img-responsive full-width">
                     </div>
                     <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
-                        {% if body %}
-                            <img src="{{ body }}" class="media-object img-responsive full-width">
-                        {% else %}
-                            <img src="{% static "img/game/avatar/M/02.png" %}"
-                                 class="media-object img-responsive full-width">
-                        {% endif %}
+                        <img src="{{ body }}" class="media-object img-responsive full-width">
                     </div>
                     <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
-                        {% if right_hand %}
-                            <img src="{{ right_hand }}" class="media-object img-responsive full-width">
-                        {% else %}
-                            <img src="{% static "img/game/avatar/M/03.png" %}"
-                                 class="media-object img-responsive full-width">
-                        {% endif %}
+                        <img src="{{ right_hand }}" class="media-object img-responsive full-width">
                     </div>
                     <div class="col-md-6 col-xs-6" style="padding: 0px; margin: 0px;">
-                        {% if left_hand %}
-                            <img src="{{ left_hand }}" class="media-object img-responsive full-width">
-                        {% else %}
-                            <img src="{% static "img/game/avatar/M/04.png" %}"
-                                 class="media-object img-responsive full-width">
-                        {% endif %}
+                        <img src="{{ left_hand }}" class="media-object img-responsive full-width">
                     </div>
                     <div class="col-md-12 col-xs-12" style="padding: 0px; margin: 0px;">
-                        {% if legs %}
-                            <img src="{{ legs }}" class="media-object img-responsive full-width">
-                        {% else %}
-                            <img src="{% static "img/game/avatar/M/05.png" %}"
-                                 class="media-object img-responsive full-width">
-                        {% endif %}
+                        <img src="{{ legs }}" class="media-object img-responsive full-width">
                     </div>
                 </div>
 
-                {% comment %} <div align="center">
-                    <!--<a href="{% url 'share_avatar' %}" style="display: inline-block;text-decoration: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><span style="position: relative;padding: 0;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><img src="http://vk.com/images/vk32.png"></span></a>-->
-                    <table cellspacing="0" cellpadding="0"
-                           style="position: relative; cursor: pointer; width: auto; line-height: normal; border: 0; direction: ltr;"
-                           id="vk_mock">
-                        <tbody>
-                        <tr style="line-height: normal;">
-                            <td style="vertical-align: middle;font: 400 12px Arial, Helvetica, sans-serif;letter-spacing: 0.1px;text-shadow: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;">
-                                <a onmouseup="this._btn=event.button;this.blur();"
-                                   style="border: 0px; display: block; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 2px 0px 0px 2px; padding: 2px 6px 4px; box-sizing: content-box; color: rgb(255, 255, 255);">
-                                    <div style="background-size: 19px 59px;background-image: url('https://vk.com/images/icons/like_widget_2x.png');height: 8px;width: 14px;margin: 4px 0 3px;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"></div>
-                                </a>
-                            </td>
-                            <td style="vertical-align: middle;font: 400 12px Arial, Helvetica, sans-serif;letter-spacing: 0.1px;text-shadow: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;">
-                                <a onmouseup="this._btn=event.button;this.blur();"
-                                   style="color: rgb(255, 255, 255); text-decoration: none; border: 0px; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 0px 2px 2px 0px; font: 400 12px/16px Arial, Helvetica, sans-serif; letter-spacing: 0.1px; text-shadow: none; display: block; padding: 2px 6px 4px 0px; height: 15px; box-sizing: content-box;">Поделиться</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div> {% endcomment %}
+                {% comment %}
+                    <div align="center">
+                        <!--<a href="{% url 'share_avatar' %}" style="display: inline-block;text-decoration: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><span style="position: relative;padding: 0;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"><img src="http://vk.com/images/vk32.png"></span></a>-->
+                        <table cellspacing="0" cellpadding="0"
+                               style="position: relative; cursor: pointer; width: auto; line-height: normal; border: 0; direction: ltr;"
+                               id="vk_mock">
+                            <tbody>
+                            <tr style="line-height: normal;">
+                                <td style="vertical-align: middle;font: 400 12px Arial, Helvetica, sans-serif;letter-spacing: 0.1px;text-shadow: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;">
+                                    <a onmouseup="this._btn=event.button;this.blur();"
+                                       style="border: 0px; display: block; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 2px 0px 0px 2px; padding: 2px 6px 4px; box-sizing: content-box; color: rgb(255, 255, 255);">
+                                        <div style="background-size: 19px 59px;background-image: url('https://vk.com/images/icons/like_widget_2x.png');height: 8px;width: 14px;margin: 4px 0 3px;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;"></div>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: middle;font: 400 12px Arial, Helvetica, sans-serif;letter-spacing: 0.1px;text-shadow: none;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;">
+                                    <a onmouseup="this._btn=event.button;this.blur();"
+                                       style="color: rgb(255, 255, 255); text-decoration: none; border: 0px; background: rgb(98, 135, 174); transition: background 200ms linear; border-radius: 0px 2px 2px 0px; font: 400 12px/16px Arial, Helvetica, sans-serif; letter-spacing: 0.1px; text-shadow: none; display: block; padding: 2px 6px 4px 0px; height: 15px; box-sizing: content-box;">Поделиться</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div> {% endcomment %}
 
                 <div id='vk_share_button' class='btn btn-primary'>
                     Поделиться ВК
@@ -189,104 +165,104 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 Подготовка изображения
-                <img id='avatar-sharing-img' />
+                <img id='avatar-sharing-img'/>
                 <div id='vk-btn-container'>
+                </div>
             </div>
         </div>
-    </div>
 
 
-    <script>
-    
-        document.addEventListener("DOMContentLoaded", (e) => { 
-            makeSameElementsHeight(document.getElementsByClassName('item-title'))
-        })
+        <script>
 
-       
-        document.getElementById('vk_share_button').addEventListener('click', (e) => {
-            console.log('click vk button')
-            $('#sharing-modal').modal()
-            var xhr = new XMLHttpRequest();
-			xhr.overrideMimeType("application/json");
-			xhr.open('GET', '{% url "share_avatar" %}', true); 
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState == 4) {
-					if (xhr.status == "200") {
-                        let link = location.hostname + `/static/img/share_avatars/${xhr.responseText}`
-                        document.getElementById('avatar-sharing-img').src = link;
-                        console.log(link)
-                        let share_btn = document.getElementById('vk-btn-container');
-                        let vk = VK.Share.button({
-                            url: 'http://profsreda.com',
-                            title: 'Профсреда. Портал профиориентации',
-                            image: link,
-                            noparse: false
-                        });
-                        share_btn.innerHTML = `${vk}`;
-                        // console.log(share_btn)
-                        // share_btn.click();
-					} else {
-                        console.log(xhr.responseText)
-						// reject({
-						// 	code: xhr.status,
-						// 	error_message: xhr.responseText
-						// })
-					}
-				} 
-			};
-			xhr.send(null);  
+            document.addEventListener("DOMContentLoaded", (e) => {
+                makeSameElementsHeight(document.getElementsByClassName('item-title'))
+            })
 
 
-            // $.get(
-            //     {
+            document.getElementById('vk_share_button').addEventListener('click', (e) => {
+                console.log('click vk button')
+                $('#sharing-modal').modal()
+                var xhr = new XMLHttpRequest();
+                xhr.overrideMimeType("application/json");
+                xhr.open('GET', '{% url "share_avatar" %}', true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == "200") {
+                            let link = location.hostname + `/static/img/share_avatars/${xhr.responseText}`
+                            document.getElementById('avatar-sharing-img').src = link;
+                            console.log(link)
+                            let share_btn = document.getElementById('vk-btn-container');
+                            let vk = VK.Share.button({
+                                url: 'http://profsreda.com',
+                                title: 'Профсреда. Портал профиориентации',
+                                image: link,
+                                noparse: false
+                            });
+                            share_btn.innerHTML = `${vk}`;
+                            // console.log(share_btn)
+                            // share_btn.click();
+                        } else {
+                            console.log(xhr.responseText)
+                            // reject({
+                            // 	code: xhr.status,
+                            // 	error_message: xhr.responseText
+                            // })
+                        }
+                    }
+                };
+                xhr.send(null);
+
+
+                // $.get(
+                //     {
+                //         url: '{% url "share_avatar" %}',
+                //         dataType: 'text',
+                //         success: (resp) => {
+                //             let link = location.host + '/static/img/share_avatars/' + response;
+                //             console.log(link)
+                //         }
+                //     }
+                // )
+            })
+
+            // document.getElementById('vk_share_button').onclick = function () {
+            //     $.ajax({
+            //         type: 'POST',
             //         url: '{% url "share_avatar" %}',
             //         dataType: 'text',
-            //         success: (resp) => {
-            //             let link = location.host + '/static/img/share_avatars/' + response;
+            //         success: function (response) {
+            //             console.log(response)
+            //             var link = location.host + '/static/img/share_avatars/' + response;
             //             console.log(link)
+            //             var tmp = document.createElement('div');
+            //             tmp.setAttribute('id', 'hidden_div');
+            //             document.body.appendChild(tmp);
+
+
+            //             tmp.innerHTML = VK.Share.button({
+            //                 url: 'http://profsreda.com',
+            //                 title: 'Профсреда. Портал профиориентации',
+            //                 image: link,
+            //                 noparse: true
+            //             });
+            //             var table_id = document.getElementById('hidden_div').getElementsByTagName("*")[0].getAttribute('id')
+
+            //             var tab_query_selector = '#' + table_id + ' > tbody';
+            //             var tab_a_query_selector = '#' + table_id + " > tbody > tr > td:nth-child(2) > a";
+
+            //             var tab = document.querySelectorAll(tab_query_selector);
+
+            //             tab[0].style.display = 'none';
+            //             var a_s = document.querySelectorAll(tab_a_query_selector);
+            //             console.log(a_s)
+            //             a_s[0].click();
+            //             // document.body.removeChild(tmp);
             //         }
-            //     }
-            // )
-        })
+            //     })
+            // };
 
-        // document.getElementById('vk_share_button').onclick = function () {
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '{% url "share_avatar" %}',
-        //         dataType: 'text',
-        //         success: function (response) {
-        //             console.log(response)
-        //             var link = location.host + '/static/img/share_avatars/' + response;
-        //             console.log(link)
-        //             var tmp = document.createElement('div');
-        //             tmp.setAttribute('id', 'hidden_div');
-        //             document.body.appendChild(tmp);
+        </script>
 
-
-        //             tmp.innerHTML = VK.Share.button({
-        //                 url: 'http://profsreda.com',
-        //                 title: 'Профсреда. Портал профиориентации',
-        //                 image: link,
-        //                 noparse: true
-        //             });
-        //             var table_id = document.getElementById('hidden_div').getElementsByTagName("*")[0].getAttribute('id')
-
-        //             var tab_query_selector = '#' + table_id + ' > tbody';
-        //             var tab_a_query_selector = '#' + table_id + " > tbody > tr > td:nth-child(2) > a";
-
-        //             var tab = document.querySelectorAll(tab_query_selector);
-
-        //             tab[0].style.display = 'none';
-        //             var a_s = document.querySelectorAll(tab_a_query_selector);
-        //             console.log(a_s)
-        //             a_s[0].click();
-        //             // document.body.removeChild(tmp);
-        //         }
-        //     })
-        // }; 
-
-    </script>
-
-    {% block script %} {% endblock %}
+        {% block script %} {% endblock %}
 
 {% endblock %}
