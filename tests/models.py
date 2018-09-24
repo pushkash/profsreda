@@ -425,6 +425,10 @@ class TestSession(models.Model):
         self.save()
         test_result = TestResult.objects.create(test_session=self)
 
+        # Pointing if test result is reliable
+        if self.test.detect_lying:
+            test_result.is_reliable = self.is_reliable()
+
         result_categories = self.calculate_result_categories()
         # Calculate severity ratios only for result categories
         category_ratios = self.calculate_category_ratios(result_categories)
@@ -436,20 +440,17 @@ class TestSession(models.Model):
             result_category.severity_ratio_interpretation = result_category.get_severity_ratio_interpretation()
             result_category.save()
             for item in Item.objects.filter(category=category):
-                # Create ResultItem object only for the first user's TestResult
-                # for easy return information about given item
-                try:
-                    user_item = ItemUser.objects.get(item=item,
-                                                     user=self.user)
-                except ItemUser.DoesNotExist:
-                    ResultItem.objects.create(test_result=test_result,
-                                              item=item)
-                    user_item = ItemUser.objects.create(item=item,
-                                                        user=self.user)
-
-        # Pointing if test result is reliable
-        if self.test.detect_lying:
-            test_result.is_reliable = self.is_reliable()
+                if not self.test.detect_lying or self.test.detect_lying and test_result.is_reliable:
+                    # Create ResultItem object only for the first user's TestResult
+                    # for easy return information about given item
+                    try:
+                        user_item = ItemUser.objects.get(item=item,
+                                                         user=self.user)
+                    except ItemUser.DoesNotExist:
+                        ResultItem.objects.create(test_result=test_result,
+                                                  item=item)
+                        user_item = ItemUser.objects.create(item=item,
+                                                            user=self.user)
 
     def calculate_result_categories(self):
         """
