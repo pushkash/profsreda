@@ -139,7 +139,33 @@
                                         </a>
                                     </div>
                                 {% endif %}
-                                
+                                <script>
+
+
+                                        $("[id=item_{{ k }}]").popover({
+                                            trigger: 'manual',
+                                            html: true,
+                                            animation: false,
+                                            placement: 'auto right',
+                                            container: 'body'
+                                        })
+                                            .on("mouseenter", function () {
+                                                var _this = this;
+                                                $(this).popover('show');
+                                                $('.popover').on('mouseleave', function () {
+                                                    $(_this).popover('hide');
+                                                })
+                                            }).on("mouseleave", function () {
+                                            var _this = this;
+                                            setTimeout(function () {
+                                                if (!$(".popover:hover").length) {
+                                                    $(_this).popover("hide");
+                                                }
+                                            }, 50);
+                                        });
+        
+        
+                                    </script>
                             {% endfor %}
                         {% empty %}               
                         Пока что в вашем инвентаре пусто. <a href='../tests/views/all_tests'>Пройдите тесты</a> чтобы получить новые предметы!
@@ -164,30 +190,31 @@
 
         <script>
 
-            $(".item_card").popover({
-                trigger: 'manual',
-                html: true,
-                animation: false,
-                placement: 'auto right',
-                container: 'body'
-            })
-            .on("mouseenter", function () {
-                var _this = this;
-                $(this).popover('show');
-                $('.popover').on('mouseleave', function () {
-                    $(_this).popover('hide');
-                })
-            }).on("mouseleave", function () {
-            var _this = this;
-            setTimeout(function () {
-                if (!$(".popover:hover").length) {
-                    $(_this).popover("hide");
-                }
-            }, 50);
-            });
+            // $(".item_card").popover({
+            //     trigger: 'manual',
+            //     html: true,
+            //     animation: false,
+            //     placement: 'auto right',
+            //     container: 'body'
+            // })
+            // .on("mouseenter", function () {
+            //     var _this = this;
+            //     $(this).popover('show');
+            //     $('.popover').on('mouseleave', function () {
+            //         $(_this).popover('hide');
+            //     })
+            // }).on("mouseleave", function () {
+            // var _this = this;
+            // setTimeout(function () {
+            //     if (!$(".popover:hover").length) {
+            //         $(_this).popover("hide");
+            //     }
+            // }, 50);
+            // });
 
             document.addEventListener("DOMContentLoaded", (e) => {
                 makeSameElementsHeight(document.getElementsByClassName('item-title'))
+                makeSameElementsHeight(document.getElementsByClassName('item-icon'))
             })
 
 
