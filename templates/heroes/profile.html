@@ -62,9 +62,9 @@
                         </table>
                     </div> {% endcomment %}
 
-                <div id='vk_share_button' class='btn btn-primary'>
+                <!-- <div id='vk_share_button' class='btn btn-primary'>
                     Поделиться ВК
-                </div>
+                </div> -->
 
                 <a href="/profile/random/">
                     <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px; margin-top: 10px;">
@@ -88,8 +88,20 @@
                     </div>
 
                     <div>
-                        <p>Пол: {{ user_profile.sex }}</p>
-                        <p>Класс: {{ user_profile.grade }}</p>
+                        <div>
+                            <span class='info-label'> Пол: </span>
+                            <span class='info-value'>
+                                {% if user_profile.sex == 'M' %}
+                                    Мужской
+                                {% elif user_profile.sex == 'F'%}
+                                    Женский
+                                {% else %}
+                                    Не определен
+                                {% endif %}
+                            </span>
+                            
+                        </div>
+                        <div><span class='info-label'>Класс: </span> <span class='info-value'>{{ user_profile.grade }}</span></div>
                     </div>
 
                     <br>
@@ -170,6 +182,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
         <script>

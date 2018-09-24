@@ -350,6 +350,10 @@ body {
 
 /* INVENTORY */
 
+.info-value {
+	font-weight: bold
+}
+
 .item-card {
 	border-radius: 4px;
 	border: #ffaaaa 2px solid;
