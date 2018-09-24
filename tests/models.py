@@ -335,7 +335,8 @@ class TestResult(models.Model):
         test_result = {
             "id": self.id,
             "categories": result_categories,
-            "items": result_items
+            "items": result_items,
+            "is_reliable": self.is_reliable
         }
         return test_result
 
