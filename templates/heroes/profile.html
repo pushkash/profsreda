@@ -118,8 +118,10 @@
                         <div class="section-header" style="margin-top: 15px;">
                             <span class="lead">Предметы в наличии</span>
                         </div>
-                        {% for item in items %}
-                            {% for k, v in items_results.items %}
+                        
+                        
+                        {% for k, v in items_results.items %}
+                            {% for item in items %}
                                 {% if k == item.id %}
                                     <div class='col-md-3'>
                                         <a href="/accounts/profile/item/{{ item.id }}" id="item_{{ item.id }}"
@@ -137,35 +139,10 @@
                                         </a>
                                     </div>
                                 {% endif %}
+                                
                             {% endfor %}
-
-                            <script>
-
-
-                                $("[id=item_{{ item.id }}]").popover({
-                                    trigger: 'manual',
-                                    html: true,
-                                    animation: false,
-                                    placement: 'auto right',
-                                    container: 'body'
-                                })
-                                    .on("mouseenter", function () {
-                                        var _this = this;
-                                        $(this).popover('show');
-                                        $('.popover').on('mouseleave', function () {
-                                            $(_this).popover('hide');
-                                        })
-                                    }).on("mouseleave", function () {
-                                    var _this = this;
-                                    setTimeout(function () {
-                                        if (!$(".popover:hover").length) {
-                                            $(_this).popover("hide");
-                                        }
-                                    }, 50);
-                                });
-
-
-                            </script>
+                        {% empty %}               
+                        Пока что в вашем инвентаре пусто. <a href='../tests/views/all_tests'>Пройдите тесты</a> чтобы получить новые предметы!
                         {% endfor %}
                     </div>
                 </div>
@@ -186,6 +163,28 @@
 
 
         <script>
+
+            $(".item_card").popover({
+                trigger: 'manual',
+                html: true,
+                animation: false,
+                placement: 'auto right',
+                container: 'body'
+            })
+            .on("mouseenter", function () {
+                var _this = this;
+                $(this).popover('show');
+                $('.popover').on('mouseleave', function () {
+                    $(_this).popover('hide');
+                })
+            }).on("mouseleave", function () {
+            var _this = this;
+            setTimeout(function () {
+                if (!$(".popover:hover").length) {
+                    $(_this).popover("hide");
+                }
+            }, 50);
+            });
 
             document.addEventListener("DOMContentLoaded", (e) => {
                 makeSameElementsHeight(document.getElementsByClassName('item-title'))
