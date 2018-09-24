@@ -1,6 +1,10 @@
+import os
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+
+from profsreda.settings import BASE_DIR
 
 
 class Profile(models.Model):
@@ -82,6 +86,31 @@ class Profile(models.Model):
             right_hand = right_hand.item.right_hand_female.url if right_hand is not None else None
             left_hand = left_hand.item.left_hand_female.url if left_hand is not None else None
             legs = legs.item.legs_female.url if legs is not None else None
+
+        return head, body, right_hand, left_hand, legs
+
+    def get_items_urls(self):
+        head, body, right_hand, left_hand, legs = self.get_putted_on_items_images()
+
+        print(self.sex)
+
+        head = "/media/img/game/avatar/{}/01.png".format(self.sex) if head is None \
+            else head
+        print(self.sex)
+        body = "/media/img/game/avatar/{}/02.png".format(self.sex) if body is None \
+            else body
+        print(self.sex)
+        right_hand = "/media/img/game/avatar/{}/03.png".format(self.sex) if right_hand is None \
+            else right_hand
+        print(self.sex)
+        left_hand = "/media/img/game/avatar/{}/04.png".format(self.sex) if left_hand is None \
+            else left_hand
+        print(self.sex)
+        legs = "/media/img/game/avatar/{}/05.png".format(self.sex) if legs is None \
+            else legs
+        print(self.sex)
+
+        print(head, body, right_hand, left_hand, legs)
 
         return head, body, right_hand, left_hand, legs
 
