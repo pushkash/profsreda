@@ -122,6 +122,11 @@ class Test(models.Model):
             "categories": categories,
         }
         return test
+    
+    def clean(self, *args, **kwargs):
+        # Critical lying value should be entered if detect_lying is True
+        if self.detect_lying and self.lying_critical_value is None:
+            raise ValidationError(_("Введите допустимое количество лживых ответов"))
 
 
 class Question(models.Model):
