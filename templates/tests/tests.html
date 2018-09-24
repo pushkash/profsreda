@@ -1,21 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-
-
-    <!-- container -->
     <div class="container">
-
-        <!-- row -->
         <div class="row">
-
             <div class="col-md-10 col-md-offset-1 tests">
-
                 <div class="text-center">
                     <h2>Тесты</h2>
                     <p class="lead">Узнай свои сильные стороны</p>
                 </div>
-                    
                     {% for test in tests %}
                         {% include 'partials/test-card.html' %}                            
                     {% endfor %}
@@ -24,16 +16,8 @@
     </div>
 
     <script>
-        let cards = document.getElementsByClassName('test-details')
-        let max_height = 0;
-        for (let i = 0; i < cards.length; i++) {
-            if (max_height < cards[i].clientHeight) max_height = cards[i].clientHeight
-        }
-
-        for (let i = 0; i < cards.length; i++) {
-            cards[i].style.height = max_height + 'px'
-        }
+        document.addEventListener("DOMContentLoaded", (e) => { 
+            makeSameElementsHeight(document.getElementsByClassName('test-details'))
+        })
     </script>
-
-
 {% endblock %}
