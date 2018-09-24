@@ -55,9 +55,9 @@ def custom_profile_creation(request):
 
             send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
                       fail_silently=False, html_message=message_html)
-        return redirect("account_profile")
-    else:
-        return render(request, "signup.html", {"form": form})
+            return redirect("account_profile")
+        else:
+            return render(request, "signup.html", {"form": form})
 
 
 def profile(request):
