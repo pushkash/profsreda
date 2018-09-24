@@ -56,7 +56,7 @@ def custom_profile_creation(request):
             try:
                 send_mail(subject, message_text, "info.profsreda@gmail.com", [to],
                           fail_silently=False, html_message=message_html)
-            except BadHeaderError:
+            except:
                 pass
             return redirect("account_profile")
         else:
