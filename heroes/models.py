@@ -92,25 +92,11 @@ class Profile(models.Model):
     def get_items_urls(self):
         head, body, right_hand, left_hand, legs = self.get_putted_on_items_images()
 
-        print(self.sex)
-
-        head = "/media/img/game/avatar/{}/01.png".format(self.sex) if head is None \
-            else head
-        print(self.sex)
-        body = "/media/img/game/avatar/{}/02.png".format(self.sex) if body is None \
-            else body
-        print(self.sex)
-        right_hand = "/media/img/game/avatar/{}/03.png".format(self.sex) if right_hand is None \
-            else right_hand
-        print(self.sex)
-        left_hand = "/media/img/game/avatar/{}/04.png".format(self.sex) if left_hand is None \
-            else left_hand
-        print(self.sex)
-        legs = "/media/img/game/avatar/{}/05.png".format(self.sex) if legs is None \
-            else legs
-        print(self.sex)
-
-        print(head, body, right_hand, left_hand, legs)
+        head = "/media/img/game/avatar/{}/01.png".format(self.sex) if head is None else head
+        body = "/media/img/game/avatar/{}/02.png".format(self.sex) if body is None else body
+        right_hand = "/media/img/game/avatar/{}/03.png".format(self.sex) if right_hand is None else right_hand
+        left_hand = "/media/img/game/avatar/{}/04.png".format(self.sex) if left_hand is None else left_hand
+        legs = "/media/img/game/avatar/{}/05.png".format(self.sex) if legs is None else legs
 
         return head, body, right_hand, left_hand, legs
 
