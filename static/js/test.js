@@ -184,6 +184,7 @@ class TestView {
 class ProgressAvatar {
 	constructor(questions_count) {
 		this.frames_count_by_type = [4,3,2,4,4,4]
+		this.preload_frame_images()
 		this.questions_count = questions_count
 		this.rules = [1, 6, 16]
 		if (questions_count > 50) {
@@ -240,7 +241,11 @@ class ProgressAvatar {
 	} 
 
 	set_base_frame() {
-		document.getElementById("progress-avatar-img").src=`../../../../static/img/game/sprite/base.png`;
+		console.log('set base')
+		let base_img = new Image();
+		base_img.src = `../../../../static/img/game/sprite/base.png`
+		document.getElementById("progress-avatar").innerHTML=''
+		document.getElementById("progress-avatar").appendChild(base_img)
 	}
 
 	change_frame(question_number) {
@@ -248,15 +253,29 @@ class ProgressAvatar {
 		document.getElementById("progress-avatar-img").src=`../../../../static/img/game/sprite/${frame_info.type}/${frame_info.frame}.png`;
 	}
 
-	change_frame2(type, frame) {
-		let frame_info = this.get_frame_info(question_number)
-		document.getElementById("progress-avatar-img").src=`../../../../static/img/game/sprite/${type}/${frame}.png`;
+	change_frame2(type, frame) {			
+		let frame_box = document.getElementById("progress-avatar")
+		frame_box.innerHTML = '';
+		frame_box.appendChild(this.frames[type-1][frame-1])
 	}
 
 	update(question_number) {
 		//this.change_frame(question_number)
 		this.start_animation(question_number)
 		this.move(question_number)
+	}
+
+	preload_frame_images() {
+		this.frames = [];
+		for (let type = 0; type < this.frames_count_by_type.length; type++) {
+			let images = []
+			for (let frame = 0; frame < this.frames_count_by_type[type]; frame++) {
+				let image = new Image();
+				image.src = `../../../../static/img/game/sprite/${type + 1}/${frame + 1}.png`
+				images.push(image)
+			}
+			this.frames.push(images)
+		}
 	}
 }
 

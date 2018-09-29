@@ -170,6 +170,10 @@ body {
 	height:100%
 }
 
+#progress-avatar img {
+	height:100%
+}
+
 #test-question {
 	width: 100%;
 	text-align: center;
