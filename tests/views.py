@@ -313,6 +313,7 @@ def result_view_by_test(request, test_id):
                                                   "test_results": test_results})
 
 
+@csrf_exempt
 def result_view_by_test_result(request, test_result_id):
     """
     Renders test result template
