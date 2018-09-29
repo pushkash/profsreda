@@ -62,9 +62,9 @@
                         </table>
                     </div> {% endcomment %}
 
-                <!-- <div id='vk_share_button' class='btn btn-primary'>
+                <div id='vk_share_button' class='btn btn-primary'>
                     Поделиться ВК
-                </div> -->
+                </div>
 
                 <a href="/profile/random/">
                     <button class="btn-block btn-danger" style="height: 90px; border-radius: 4px; margin-top: 10px;">
@@ -190,28 +190,6 @@
 
         <script>
 
-            // $(".item_card").popover({
-            //     trigger: 'manual',
-            //     html: true,
-            //     animation: false,
-            //     placement: 'auto right',
-            //     container: 'body'
-            // })
-            // .on("mouseenter", function () {
-            //     var _this = this;
-            //     $(this).popover('show');
-            //     $('.popover').on('mouseleave', function () {
-            //         $(_this).popover('hide');
-            //     })
-            // }).on("mouseleave", function () {
-            // var _this = this;
-            // setTimeout(function () {
-            //     if (!$(".popover:hover").length) {
-            //         $(_this).popover("hide");
-            //     }
-            // }, 50);
-            // });
-
             document.addEventListener("DOMContentLoaded", (e) => {
                 makeSameElementsHeight(document.getElementsByClassName('item-title'))
                 makeSameElementsHeight(document.getElementsByClassName('item-icon'))
@@ -238,8 +216,6 @@
                                 noparse: false
                             });
                             share_btn.innerHTML = `${vk}`;
-                            // console.log(share_btn)
-                            // share_btn.click();
                         } else {
                             console.log(xhr.responseText)
                             // reject({
